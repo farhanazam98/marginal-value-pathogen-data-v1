@@ -2,6 +2,22 @@
 
 **Objective:** Measuring whether removing sequences >90% identical to the SARS-CoV-2 RBD changes PSSM's ability to predict the Starr 2020 ACE2 binding assay, across cumulative database snapshots from 2010 to 2025, with a depth-matched control.
 
+## Setup
+
+All scripts are pure-Python stdlib; the one external dependency is the
+[`ncbi-datasets-cli`](https://www.ncbi.nlm.nih.gov/datasets/docs/v2/command-line-tools/download-and-install/)
+(`datasets` / `dataformat` binaries), distributed via conda. On a fresh machine (e.g. a new
+EC2 instance):
+
+```bash
+./setup.sh
+conda activate marginal-value-pathogen-data
+```
+
+`setup.sh` installs Miniconda if it isn't already present, accepts the conda channel
+Terms of Service (required non-interactively), and creates/updates the
+`marginal-value-pathogen-data` environment from `environment.yml`. Re-running it is safe
+and just updates the existing environment.
 
 ## Milestones:
 ### Monday
