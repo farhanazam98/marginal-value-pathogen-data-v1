@@ -1,0 +1,18 @@
+# Downloaded/regenerable snapshot data (can be 100s of MB per protein.faa) --
+# rebuild with scripts/build_temporal_snapshots.py rather than committing.
+data/snapshots/
+
+# PSSM pipeline checkpoints (regenerable via scripts/pssm_pipeline/*.py)
+data/pssm_pipeline/
+
+# Large sequence/archive formats, wherever they end up
+*.faa
+*.fna
+*.zip
+
+# Python
+__pycache__/
+*.pyc
+
+# macOS
+.DS_Store

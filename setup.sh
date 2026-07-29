@@ -2,8 +2,8 @@
 # Bootstraps everything this repo needs on a fresh machine (e.g. a new EC2 instance):
 # installs Miniconda if missing, accepts the conda channel Terms of Service (required
 # non-interactively before any install), then creates/updates the `marginal-value-pathogen-data`
-# conda environment from environment.yml, which provides the `datasets` / `dataformat`
-# CLI (ncbi-datasets-cli) used by scripts/build_temporal_snapshots.py and friends.
+# conda environment from environment.yml, which provides the Python/matplotlib toolchain
+# used by the analysis scripts under scripts/.
 set -euo pipefail
 
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -55,11 +55,6 @@ else
   echo "Creating '${ENV_NAME}' environment..."
   "$CONDA_BIN" env create -f "$REPO_ROOT/environment.yml"
 fi
-
-echo
-echo "Verifying installed CLI tools..."
-"$CONDA_BIN" run -n "$ENV_NAME" datasets version
-"$CONDA_BIN" run -n "$ENV_NAME" dataformat --help >/dev/null && echo "dataformat OK"
 
 echo
 echo "Setup complete. Activate with:"

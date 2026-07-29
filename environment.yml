@@ -3,4 +3,9 @@ channels:
   - conda-forge
 dependencies:
   - python=3.11
-  - ncbi-datasets-cli
+  - matplotlib
+  - numpy
+  - pandas
+  - scipy
+  - requests
+  - biopython

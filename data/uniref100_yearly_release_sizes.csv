@@ -1,0 +1,18 @@
+year,release,uniref_archive_size_raw,archive_modified_date,uniref100_cluster_count,cluster_count_source
+2010,release-2010_01,5.7G,2010-03-23 15:45,NA,NA
+2011,release-2011_01,6.9G,2011-02-08 15:02,11659891,uniref100.release_note
+2012,release-2012_01,9.3G,2012-02-22 15:08,15688962,uniref100.release_note
+2013,release-2013_01,12G,2013-02-06 15:30,20491136,uniref100.release_note
+2014,release-2014_01,21G,2014-02-19 11:54,33613081,uniref100.release_note
+2015,release-2015_01,33G,2015-02-04 14:06,50371270,uniref100.release_note
+2016,release-2016_01,42G,2016-02-17 12:45,72946704,uniref100.release_note
+2017,release-2017_01,54G,2017-02-15 11:24,94756963,uniref100.release_note
+2018,release-2018_01,78G,2018-02-28 12:42,133853533,uniref100.release_note
+2019,release-2019_01,98G,2019-02-13 11:38,172327164,uniref100.release_note
+2020,release-2020_01,121G,2020-04-22 11:08,216491817,uniref100.release_note
+2021,release-2021_01,147G,2021-04-07 11:38,262115656,uniref100.release_note
+2022,release-2022_01,167G,2022-05-17 21:45,297827854,uniref100.release_note
+2023,release-2023_01,193G,2023-04-21 09:17,342650445,uniref100.release_note
+2024,release-2024_01,218G,2024-03-13 12:06,390790959,uniref100.release_note
+2025,release-2025_01,248G,2025-04-04 23:11,453950711,uniref100.release_note
+2026,release-2026_01,250G,2026-05-21 11:25,475217233,uniref100.release_note
