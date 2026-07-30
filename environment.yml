@@ -1,6 +1,7 @@
 name: marginal-value-pathogen-data
 channels:
   - conda-forge
+  - bioconda
 dependencies:
   - python=3.11
   - matplotlib
@@ -9,3 +10,4 @@ dependencies:
   - scipy
   - requests
   - biopython
+  - hmmer=3.4

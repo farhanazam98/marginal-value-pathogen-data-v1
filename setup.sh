@@ -3,7 +3,8 @@
 # installs Miniconda if missing, accepts the conda channel Terms of Service (required
 # non-interactively before any install), then creates/updates the `marginal-value-pathogen-data`
 # conda environment from environment.yml, which provides the Python/matplotlib toolchain
-# used by the analysis scripts under scripts/.
+# and the HMMER 3.4 suite (hmmscan, hmmsearch, phmmer, etc.) used by the analysis
+# scripts under scripts/.
 set -euo pipefail
 
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"

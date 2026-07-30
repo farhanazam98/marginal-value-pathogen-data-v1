@@ -314,7 +314,56 @@ For SARS-COV-2, define the sweeps that we want to run to illustrate the relation
 
 *Deliverable: A CSV file with runs defined, and the compute cost in terms of CPU hours + RAM for each run*
 
+## Compute breakdown: calibration results
 
+Two measured calibration points now anchor the whole cost model: XML-to-FASTA conversion (Phase 1) and a single `jackhmmer` iteration (Phase 2), both run against the 2010 UniRef100 release (9,808,438 sequences, 3.414 Gaa, 4.08 GB FASTA).
+
+### Headline
+
+**Search is not the bottleneck. Data acquisition and conversion are.** The full six-protein, seventeen-year grid is roughly 28 job-hours of search, about 56 with a 2x margin for later-iteration cost growth. Against that, downloading the archive is 840 GB at minimum and converting it is 15.9 single-threaded core-hours. The compute ask for this project is small.
+
+### Measured
+
+| Quantity | Value |
+|---|---|
+| Conversion, 2010 | 180.8 s, 99.4 percent single-core, 12 MB peak RSS |
+| Sequence count check | 9,808,438 vs 9,808,438 published, exact |
+| Search, one iteration, 2010 | 10.59 s wall at `--cpu 4` or `--cpu 10` |
+| Search throughput | 322 Maa/s, equivalently 385 MB/s of FASTA per job |
+| Peak RSS, search | 30 to 145 MB, scaling with `--cpu` buffers, not database size |
+| Threshold sensitivity | 0.1 bits/res 10.59 s (246 hits) vs 0.5 bits/res 10.85 s (81 hits) |
+
+### The four findings that matter
+
+**`jackhmmer` does not scale past about two cores on this workload.** Requesting 1, 4, or 10 threads all consumed 21.6 to 21.9 CPU-seconds and kept only 1.8 to 2.3 cores busy. The per-job rate of 385 MB/s is close to a single-threaded FASTA parse ceiling, which suggests the master thread reading and parsing the database starves the workers. Consequence for instance selection: parallelism must come from running many independent (protein, year) jobs concurrently, not from giving one job a large `--cpu`. There are 102 such jobs and they are fully independent.
+
+**Per-protein threshold changes are free.** Raising the threshold fivefold changed wall clock by 2.5 percent, inside run-to-run noise, while cutting retained hits from 246 to 81. The full database scan happens regardless of threshold, so tuning the threshold per protein carries no compute cost.
+
+**Memory is a non-issue at every stage.** Conversion peaked at 12 MB against a 14 GB input, search at 145 MB. Neither scales with database size. RAM should be selected for page-caching the database, not for the processes.
+
+**Storage throughput, not cores, is the EC2 risk.** The 385 MB/s per-job rate exceeds default gp3 EBS baseline of 125 MB/s by roughly 3x, and six concurrent jobs would demand about 2.3 GB/s aggregate. The Mac benchmark hid this entirely because the 4.08 GB database sits in page cache. On EC2 the year's FASTA must be page-cached or on local NVMe, or search becomes I/O-bound and roughly 3x slower than measured.
+
+### Projections to the full study
+
+Derived constants: 0.4159 GB FASTA per million sequences, 18.43 s conversion per million sequences, compressed-XML to FASTA byte ratio 1.53, search throughput 322 Maa/s per job.
+
+| Quantity | Projection |
+|---|---|
+| Total sequences, 17 archived years | 3,096 M |
+| Total residues | 1,078 Gaa |
+| Total FASTA if all years retained | 1.29 TB |
+| Compressed download, uniref100 only | 840 GB |
+| Conversion, all years, single-threaded | 15.9 h (parallel across years: about 2.4 h) |
+| Search, 6 proteins x 17 years x 5 iterations | 28 job-hours, 56 with margin |
+| Largest single year (2026) | 180 to 198 GB FASTA, 0.78 h search per protein |
+
+Size model validated independently against UR100P at 0.4082 GB per million sequences, a 1.9 percent deviation.
+
+### Open risks
+
+The archive appears to publish combined UniRef tarballs rather than standalone `uniref100.xml.gz` for historical years. UniRef100 is a measured 43.5 percent of the tarball, so if the whole tarball must be pulled, download rises from 840 GB to 1.93 TB for data that is 57 percent unused. This is now the largest single cost lever in the project and is the first task of Phase 3.
+
+The two-core ceiling was measured on Apple Silicon with a bioconda arm64 build. Whether it reproduces on EC2 should be confirmed with one short validation run before the instance type is finalised.
 
 
 

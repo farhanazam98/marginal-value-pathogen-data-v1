@@ -10,6 +10,11 @@ data/pssm_pipeline/
 *.fna
 *.zip
 
+# UniRef100 snapshots: multi-GB, rebuildable from the XML archive
+# (deliberately NOT a blanket *.fasta -- data/protein.fasta is tracked)
+data/uniref100_*.fasta
+data/*.xml.gz
+
 # Python
 __pycache__/
 *.pyc
