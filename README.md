@@ -233,16 +233,7 @@ that alignment column versus how often the wild-type does. This treats the
 alignment as a record of an experiment natural selection already ran --
 amino acids tolerated at a position accumulate there in rough proportion to
 how little they hurt fitness, so a higher relative frequency is a cheap
-proxy for a milder effect. Before scoring anything, every DMS-stated
-wild-type residue has to be checked against `query.fasta` at that position,
-because DMS papers frequently number in mature-protein coordinates while the
-alignment query can be in precursor coordinates -- a silent offset would
-score every mutation against the wrong column while still producing a
-plausible-looking number. Positions Step 2's gap filter dropped (no
-surviving MSA column) get imputed with the mean predicted score across the
-rest of the protein (Methods A.3.5): this keeps the evaluated variant set
-identical across different alignment-based models and contributes an entry
-with no rank signal, rather than an optimistic or pessimistic bias.
+proxy for a milder effect. 
 
 Run: `python scripts/pssm_pipeline/05_score.py`
 
@@ -277,8 +268,49 @@ Results:
 All sanity checks passed. Wrote `data/pssm_pipeline/predictions.csv` and
 `data/pssm_pipeline/predictions_meta.json`.
 
+### Step 6 — `scripts/pssm_pipeline/06_evaluate.py`
+
+Spearman's rho is Pearson correlation computed on *ranks* rather than raw
+values: it asks whether the ordering by predicted score and the ordering by
+DMS score move together, ignoring the actual scale of either. That's the
+right tool here since the log-odds predicted scores and the DMS's binding
+measurement aren't on comparable units -- only their relative order is meant
+to carry information. Ties (e.g. Step 5's pseudocount-floor ties) get the
+average of the ranks they span, scipy's default and the standard convention.
+
+Run: `python scripts/pssm_pipeline/06_evaluate.py` (needs the project conda
+env -- scipy isn't on the system `python3`)
+
+Results:
+- Join on (position, wt_aa, mut_aa): 3802/3802 variants matched, 0 dropped
+  in either direction -- expected, since `predictions.csv` was built from
+  this same DMS file in Step 5, so this join is mostly a consistency check
+- **Spearman rho = 0.248** (p=2.5e-54), 95% bootstrap CI [0.217, 0.279] over
+  10,000 resamples -- lands within the 0.2-0.5 plausible range flagged
+  above, on the lower end
+- rho excluding the 95 imputed variants: 0.245 (barely moves) -- confirms
+  the imputed variants are contributing close to zero rank signal, as
+  designed, rather than propping up or dragging down the headline number
+- The scatter plot (`data/pssm_pipeline/scatter.png`) shows the expected
+  wedge shape: variants with a high (near-zero) predicted score cluster
+  tightly near DMS score 0 (tolerated, as expected for WT-like
+  substitutions), while variants at the pseudocount floor (predicted score
+  ~-6, "never observed in the alignment") span nearly the *entire* DMS
+  range, from tolerated to severely deleterious -- absence from a
+  comparatively shallow natural alignment is a weak signal on its own,
+  consistent with PSSM being the least informative of the alignment-based
+  models
+
+All sanity checks passed. Wrote `data/pssm_pipeline/scatter.png` and
+`data/pssm_pipeline/evaluate_meta.json`.
+
+Pipeline steps 0-6 now run end-to-end for one bit-score threshold (0.3
+bits/residue). Per the deferred TODO, the next step is re-running Step 1
+across the full threshold sweep and applying EVEREST's alignment-selection
+heuristic instead of this single hardcoded threshold.
+
 ### Thursday
-For SARS-COV-2, define the sweeps that we want to run to illustrate the relationship between spearman coefficient and time (via database snapshots). This should include the compute cost, both in terms of space. 
+For SARS-COV-2, define the sweeps that we want to run to illustrate the relationship between performance on mutation effect prediction and time (via database snapshots). This should include the compute cost, both in terms of space. 
 
 *Deliverable: A CSV file with runs defined, and the compute cost in terms of CPU hours + RAM for each run*
 
