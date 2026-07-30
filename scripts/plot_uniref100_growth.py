@@ -5,8 +5,8 @@ import csv
 
 import matplotlib.pyplot as plt
 
-CSV_PATH = "data/uniref100_yearly_release_sizes.csv"
-OUTPUT_PATH = "data/uniref100_growth.png"
+CSV_PATH = "data/uniprotref_yearly_archive_sizes.csv"
+OUTPUT_PATH = "data/uniprotref_archive_growth.png"
 
 SUFFIX_TO_GB = {"K": 1 / 1024 / 1024, "M": 1 / 1024, "G": 1, "T": 1024}
 

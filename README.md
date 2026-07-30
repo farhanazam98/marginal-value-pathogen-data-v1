@@ -30,9 +30,9 @@ Find databases needed for SARS-COV-2 multiple sequence alignment (MSA), segmente
 
 As a proxy for overall database growth (and download time), here's the size of
 UniProt's combined UniRef50+90+100 [archive](https://ftp.uniprot.org/pub/databases/uniprot/previous_major_releases/release-2011_01/uniref/) across the first release of each year from 
-2010–2026 (`see data/uniref100_yearly_release_sizes.csv`). Note that this is the size for the compressed file, which may be ~7-8x as large when uncompressed. 
+2010–2026 (`see data/uniprotref_yearly_archive_sizes.csv`). Note that this is the size for the compressed file, which may be ~7-8x as large when uncompressed. 
 
-![UniProt UniRef archive growth, 2010-2026](data/uniref100_growth.png)
+![UniProt UniRef archive growth, 2010-2026](data/uniprotref_archive_growth.png)
 
 ### Wednesday
 For SARS-COV-2, build MSA using JackHMMER, fit a PSSM, and compare against DMS, calculating Spearman Coefficient
