@@ -1,9 +1,12 @@
 # Downloaded/regenerable snapshot data (can be 100s of MB per protein.faa) --
 # rebuild with scripts/build_temporal_snapshots.py rather than committing.
-data/snapshots/
+# No trailing slash: also matches when this path is a symlink (e.g. to scratch disk).
+data/snapshots
+data/snapshots/**
 
 # PSSM pipeline checkpoints (regenerable via scripts/pssm_pipeline/*.py)
-data/pssm_pipeline/
+data/pssm_pipeline
+data/pssm_pipeline/**
 
 # Large sequence/archive formats, wherever they end up
 *.faa
