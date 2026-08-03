@@ -21,3 +21,6 @@ __pycache__/
 
 # macOS
 .DS_Store
+
+# Private cost/planning reference, not for the public paper repo
+COMPUTE_COSTS.md

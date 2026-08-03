@@ -361,11 +361,75 @@ Size model validated independently against UR100P at 0.4082 GB per million seque
 
 ### Open risks
 
-The archive appears to publish combined UniRef tarballs rather than standalone `uniref100.xml.gz` for historical years. UniRef100 is a measured 43.5 percent of the tarball, so if the whole tarball must be pulled, download rises from 840 GB to 1.93 TB for data that is 57 percent unused. This is now the largest single cost lever in the project and is the first task of Phase 3.
+The archive publishes combined UniRef tarballs rather than standalone `uniref100.xml.gz` for historical years, on both mirrors (confirmed in Phase 3). UniRef100 is a measured 43.5 percent of the tarball, but it is always the first member in the tar stream, so a streaming extract that aborts once it clears that member avoids downloading the rest. See [Phase 3: acquisition study](#phase-3-acquisition-study) below — the 840 GB figure stands, the 1.93 TB worst case does not happen.
 
 The two-core ceiling was measured on Apple Silicon with a bioconda arm64 build. Whether it reproduces on EC2 should be confirmed with one short validation run before the instance type is finalised.
 
+## Phase 3: acquisition study
 
+Phase 1/2 established that search is cheap and acquisition is the real cost driver. Phase 3 resolved the two open acquisition risks flagged above (standalone-file availability, tarball size) and locked in the year set and retention policy for Phase 4.
 
+### Headline
 
+**The 1.93 TB worst case does not happen.** UniRef100 is never published standalone in an archived release, on either mirror, but it is always the first member inside the combined tarball, so a streaming extract that aborts once it clears that member transfers only the uniref100 share of the archive. Total download across all 17 archived years: **829 GB**, matching the original 840 GB estimate. **Year set: Option 2** (13 years, dense 2010–2018, sparse 2020–2026, 21.3 h download). **Retention: S3 Standard**, $29/month for the full corpus, chosen over local EBS ($102/month for identical data) and over deleting outright (free, but hours to re-pull a year from the public mirror versus an estimated few minutes from same-region S3).
+
+### Measured (2026-07-31, live against both mirrors)
+
+| Quantity | Value |
+|---|---|
+| Standalone `uniref100.xml.gz`, any archived release | Not available, either mirror (checked 2011, 2018, 2025/2026) |
+| uniref100 member position in combined tar | First (confirmed: 2011 tarball, tar header read from a truncated stream) |
+| uniref100 fraction of combined tarball | 43.47 percent (2011, byte-exact), consistent with prior 43.5 percent (2010/2011) |
+| Download throughput, UniProt, sustained | 6.45 MB/s, single connection |
+| Download throughput, EBI, sustained | 6.18 MB/s, single connection |
+| Aggregate throughput, 3 parallel connections | 7.41 MB/s (+15 percent, not +3x — bandwidth-capped, not server-throttled) |
+| Combined-tarball total, all 17 years, byte-exact via HTTP HEAD | 1,829.8 GB (supersedes the earlier back-calculated 1.93 TB) |
+
+### Decisions
+
+**Year set: Option 2 (13 years)** — 2010–2018 every year, then 2020, 2022, 2024, 2026. 21.3 h download / 495 GB, versus 35.7 h / 829 GB for the full 17-year grid. Every included-year gap is capped at 2 years. A cheaper 10-year skeleton considered alongside it had a 3-year gap sitting exactly where the corpus is largest and a saturation point is most plausible, which was reason enough to reject it.
+
+**Retention: S3 Standard for all acquired years' FASTA.** $29/month for the full 1.27 TB corpus. Rejected local EBS retention ($102/month for identical data, and it ties the corpus to a kept-around instance/volume) and rejected delete-after-search (free, but a protein added after the fact means re-pulling affected years from the public mirror at 6.45 MB/s — hours per year, versus an estimated few minutes per year to re-pull the same data from same-region S3). Given the marginal monthly cost, retention is worth buying as insurance against the protein set changing.
+
+**Protein set locked by 2026-08-03**, ahead of Phase 4 execution. This is a hard constraint of the acquire-once/search-everything/then-decide economics: once a year's FASTA is deleted, adding a protein later means paying the re-acquisition cost again for every year that wasn't retained.
+
+### Open risk carried into Phase 4
+
+**Download throughput is unverified for EC2.** The 6.45 MB/s figure, and the fact that parallel connections didn't scale (7.41 MB/s aggregate at 3x), were both measured from a sandboxed dev environment, not EC2, and look like a client-side bandwidth ceiling rather than a mirror-side limit. Every download-hours figure in Phase 3 is downstream of this number and should be re-measured on the actual instance before the Phase 4 schedule is finalised — it could move by an order of magnitude in either direction. This is the one number in Phase 3 worth re-checking before trusting the schedule; nothing else here is expected to move it materially.
+
+(S3-to-EC2 retrieval speed and the exact AWS region are still open, but low-stakes: both get settled as a byproduct of picking an instance type in Phase 4, and neither is expected to change the retention or year-set decisions above.)
+
+Full per-year, per-option, and per-retention-tier numbers, each tagged with an evidence source (`measured`/`listed`/`extrapolated`/`assumed`), are in `storage_costs.csv`.
+
+## Phase 4: instance, cost, and schedule
+
+Feasibility is settled. This phase picks hardware, prices the project, and puts a schedule with off-ramps against it. The recommendation, cost, and top risks are summarized below.
+
+### Recommendation
+
+Run one `m8gd.4xlarge` in us-east-1, 16 vCPU, 64 GiB, 950 GB NVMe instance store, $0.923 per hour on demand. Acquisition and conversion fuse into a single stream: pull the tarball, abort after the uniref100 member, decompress and parse in flight, write only FASTA. Compressed XML never touches disk. That drops peak local storage from 408 GB to 250 GB, and it makes conversion disappear from the schedule entirely, because one parse worker sustains 14.73 MB/s of compressed input against a 6.45 MB/s arrival rate and so sits 44 percent busy on a single core. The rule if bandwidth turns out higher is `workers = ceil(observed_MBps / 14.73)`, with the caveat that six concurrent search jobs already consume 12.7 of the 16 vCPUs, leaving parse headroom for only about 29 MB/s; above that, acquisition and search should be staggered rather than overlapped.
+
+Local NVMe rather than more RAM is the position. A single search job streams FASTA at 385 MB/s and six want 2.3 GB/s, which exceeds gp3's 1 GB/s ceiling; provisioning gp3 to that ceiling costs $52 per month, more than the entire instance bill, while `m8gd.4xlarge` bundles the NVMe free. The memory-heavy alternative (`r8g.8xlarge`, 256 GiB, enough to page-cache the largest year) costs $1.89 per hour to solve a problem that is worth hours, not days, so it is not worth buying. Zero GPUs: HMMER's kernel is hand-written CPU SIMD with no GPU path, and nothing else in the pipeline is a neural network.
+
+### Cost
+
+$58 in month one, then $17 per month to retain. That is 39.3 instance-hours at $0.923 ($36), a 50 GB gp3 root ($4), and S3 Standard on 758 GB of FASTA ($17 per month). With a 2x allowance for re-runs and first-time debugging, budget $120. Minimum viable is $26: `c8g.2xlarge`, the 10-year skeleton, gp3, delete after searching. The frontier is flat in protein count, because acquisition does not depend on the protein set and search wall time stays at 2.7 hours whether one protein runs alone or six run concurrently. Within any plausible budget the protein count never constrains the year count, and even the full 17-year grid comes in at $83.
+
+### Schedule
+
+Five weeks, symposium Tuesday 2026-09-01, poster time protected. The schedule is built as a thin vertical slice first rather than stage by stage, so that a complete scientific result exists early and everything after it is breadth rather than validity.
+
+Acquisition splits into two tiers because cost is so unevenly distributed. Tier A is 2010 through 2018, which is 120 GB and 5.2 hours of download, 24 percent of the budget, and yields 9 of the 13 curve points. Tier B is 2020 through 2026, which is 375 GB and 16.1 hours for the remaining 4 points. Week 5 provisions the instance, runs the validation protocol, acquires Tier A, and produces a 9-point rho-versus-year curve for Spike across all three arms. Week 6 acquires Tier B and completes the 13-point single-protein curve, which is the first presentable result and also the fallback for everything downstream. Week 7 scales to 6 proteins and computes the full rho surface. Week 8 is cross-protein analysis and a poster draft frozen by 2026-08-28. Week 9 is print and present. A 2.5x inexperience multiplier is applied to every human task and 1.0x to machine time, since bandwidth does not care who is driving.
+
+The protein set no longer has to hard-lock before acquisition. That constraint applied to the delete-after-search policy; S3 retention was bought instead, so adding a protein later re-reads FASTA from S3 in minutes rather than re-pulling from the public mirror in hours. Only the lead protein is needed on day one, and the full set can be chosen in week 6 once the analysis is understood on one protein.
+
+The schedule does not branch meaningfully on bandwidth, which is the surprising result. At the sandbox rate acquisition is 21.3 hours, one unattended overnight run. At a plausible 50 MB/s it is 2.8 hours, and at 200 MB/s it is 42 minutes, at which point parse and then search become the binding stages instead. No branch requires cutting scope. Scope cuts are triggered by debugging overrun, not by the network, and the fallback ladder runs cheapest first: drop 2026, then 2024, then fall back to the 10-year skeleton, then reduce the protein count, then a cross-shaped design of one protein across all years plus one year across all proteins.
+
+### Top three risks
+
+Download bandwidth on EC2 is still unmeasured and remains the dominant uncertainty, spanning a 31x plausible range. It is also nearly harmless: across that entire range plus a 0.33x to 3x band on search throughput, total pipeline wall clock moves between 21.3 hours and 0.9 hours, and neither endpoint threatens a five-week schedule. Step 1 of the validation protocol collapses it in five minutes, and search throughput only starts to matter above 50 MB/s, where it overtakes download as the binding stage.
+
+The two-core search ceiling was measured on Apple Silicon and the concurrency plan assumes it transfers to Graviton4. Step 2 of the protocol tests it directly; if `--cpu 8` delivers more than about 2.5 effective cores, the right shape is fewer and fatter jobs and the vCPU budget needs recomputing before bulk acquisition.
+
+Inexperience is the real schedule risk. Machine time is roughly a day and the human build is roughly four weeks, so every slip is a human slip. The gate that matters is week 5: if the 2010 reproduction has not passed by Friday 2026-08-07, start the fallback ladder rather than compressing weeks 7 and 8.
 
