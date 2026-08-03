@@ -1,5 +1,5 @@
 # Downloaded/regenerable snapshot data (can be 100s of MB per protein.faa) --
-# rebuild with scripts/build_temporal_snapshots.py rather than committing.
+# regenerable from source, not for committing.
 # No trailing slash: also matches when this path is a symlink (e.g. to scratch disk).
 data/snapshots
 data/snapshots/**
