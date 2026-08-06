@@ -56,8 +56,8 @@ Query: `data/protein.fasta`, full-length Spike (1273 aa), precursor numbering
 (Starr 2020 ACE2 binding assay, positions 331-531), which uses this same
 numbering — no coordinate offset needed between query and DMS.
 
-Caveats to keep in mind throughout: the EBI HMMER service databases won't
-exactly reproduce the paper's UniRef100 pipeline in all details, and only one
+Caveats to keep in mind throughout: the search runs against a single dated
+UniRef100 snapshot rather than the paper's full pipeline, and only one
 bit-score threshold is used here instead of the paper's eighteen alignment
 variants, so this will not reproduce EVEREST's reported numbers. PSSM is also
 the weakest of the alignment-based models in the paper (avg rho ~0.38 vs 0.44
@@ -82,34 +82,53 @@ All sanity checks passed.
 
 ### Step 1 — `scripts/pssm_pipeline/01_jackhmmer_search.py`
 
-Submits the query to EBI's jackhmmer web service, which iteratively searches
-a sequence database for homologs (sequences descended from a common
-ancestor). Each iteration builds a profile from the hits found so far and
-re-searches with it, so distantly related sequences that a single-pass search
-would miss can still be detected. The inclusion threshold controls how
-distant a homolog can be before it's excluded; EVEREST length-normalizes it
-(bits/residue x L) so long and short proteins get comparably strict cutoffs.
-This step fixes the homolog set that every later step depends on.
+Runs `jackhmmer` (HMMER suite) locally against a local UniRef100 FASTA
+snapshot (`data/uniref100_2010.fasta`), which iteratively searches the
+database for homologs (sequences descended from a common ancestor). Each
+iteration builds a profile from the hits found so far and re-searches with it,
+so distantly related sequences that a single-pass search would miss can still
+be detected. The inclusion threshold controls how distant a homolog can be
+before it's excluded; EVEREST length-normalizes it (bits/residue x L) so long
+and short proteins get comparably strict cutoffs. This step fixes the homolog
+set that every later step depends on.
+
+This replaces the earlier EBI HMMER web-service version. The web service runs
+the same `jackhmmer` binary, but its databases have no UniRef100 option, so it
+fell back to `uniprot`; running locally lets us search the actual UniRef100
+release the paper uses, and collapses the whole submit/poll/download HTTP dance
+into a single subprocess call (jackhmmer writes the alignment straight to disk
+with `-A`). The four API bit-score parameters map directly to CLI flags:
+`T`/`incT`/`domT`/`incdomT` -> `-T`/`--incT`/`--domT`/`--incdomT`. Requires the
+HMMER suite on PATH (`conda activate marginal-value-pathogen-data`).
 
 Run: `python scripts/pssm_pipeline/01_jackhmmer_search.py`
 
-Results:
+Results (0.3 bits/residue, UniRef100 2010 snapshot):
 - Threshold: 0.3 bits/residue x L=1273 = 381.9 bits (bitscore mode, not
-  e-value mode, to match EVEREST's length-normalized threshold directly)
-- Converged after 1 iteration (3202 gained, 0 dropped, 0 lost hits between
-  iterations -- stable on the first pass)
-- 3202 significant hits; 3379 rows in the downloaded Stockholm alignment
-  (small discrepancy between the paginated hit-list count and the alignment
-  row count -- noted for now, will revisit if Step 2's filtered counts look
-  off)
-- Top 10 hits: bit scores ~2965-2967, e-value 0, all annotated "Spike
-  glycoprotein"
-- Query sequence found verbatim in the alignment (UniProt accession
-  A0A6G7K2L4 is a 100% match)
+  e-value mode: a bit score is database-size-independent, whereas an e-value
+  cutoff would silently tighten as the 2010->2026 snapshots grow -- so a fixed
+  bits/residue keeps hit quality constant across snapshots). Configure
+  `BITSCORE_PER_RESIDUE` per protein.
+- Effectively stable but not formally converged within the 5-iteration cap:
+  new targets per round were 322 -> 216 -> 1 -> 12 -> 1. jackhmmer only prints
+  CONVERGED when a round adds exactly 0 new targets, so it hits the -N 5 cap
+  while oscillating around 1; a slightly higher -N would likely tip it to a
+  formal convergence.
+- 549 significant hits; 553 rows in the Stockholm alignment.
+- Top 10 hits: bit scores ~1835-1837, e-value 0, all annotated "Spike
+  glycoprotein" (SARS-CoV-1 and related coronaviruses -- the pre-pandemic
+  homologs available in 2010).
+- No verbatim database match for the query -- expected, since SARS-CoV-2
+  post-dates the 2010 snapshot. The one query-identical alignment row is the
+  jackhmmer *seed* itself (named `my_protein`, not a `UniRef100_` accession):
+  jackhmmer's output MSA is by construction "the query aligned with its
+  homologs", so the query is always present as a row regardless of whether a
+  matching database entry exists. Step 2's find-the-query-row step relies only
+  on this seed row.
 
-All sanity checks passed. Wrote `data/pssm_pipeline/msa_raw.sto` (alignment)
-and `data/pssm_pipeline/msa_raw_api_response.json` (raw API responses, for
-debugging).
+Wrote `data/pssm_pipeline/msa_raw.sto` (alignment, consumed by Step 2),
+`data/pssm_pipeline/msa_raw_hits.tbl` (per-sequence hit table), and
+`data/pssm_pipeline/msa_raw_run_meta.json` (run summary / debug info).
 
 ### Step 2 — `scripts/pssm_pipeline/02_clean_msa.py`
 
@@ -134,16 +153,16 @@ mean exactly what they say regardless of filter order.
 Run: `python scripts/pssm_pipeline/02_clean_msa.py`
 
 Results:
-- Columns: 1273 -> 936 (337 dropped for >50% gaps)
-- Sequences: 3379 -> 2525 (854 dropped for <50% query coverage)
-- Final matrix shape: (2525, 936)
+- Columns: 1273 -> 844 (429 dropped for >50% gaps)
+- Sequences: 553 -> 451 (102 dropped for <50% query coverage)
+- Final matrix shape: (451, 844)
 - Query row: 0 gaps, matches `data/query.fasta` exactly at every one of the
-  936 kept positions
-- Of the DMS's 201 RBD positions (331-531), only 5 were dropped by the column
-  filter -- so Step 5 will only need to impute a small number of variants
-- Column gap-fraction distribution is bimodal: most columns sit below ~0.25
-  gaps, then a second cluster climbs from ~0.57 up to ~0.71 at the
-  worst-covered columns (likely alignment ends / variable loops)
+  844 kept positions
+- 429 of 1273 columns dropped means many RBD positions (331-531) don't
+  survive, so Step 5 imputes a large share of DMS variants (1254/3802)
+- Column gap-fraction distribution (p50=0.16, p75=0.55) is bimodal: most
+  columns are well-covered, with a second cluster above ~0.55 at the
+  worst-covered columns (alignment ends / variable loops)
 
 All sanity checks passed. Wrote `data/pssm_pipeline/msa_clean.npy` and
 `data/pssm_pipeline/msa_clean_meta.json`.
@@ -167,23 +186,19 @@ position to fit a reliable per-column frequency estimate.
 Run: `python scripts/pssm_pipeline/03_weights.py`
 
 Results:
-- N=2525, Neff=467.79 at theta=0.01 (99% identity clustering) -- only ~19%
-  of the raw sequences count as independent evidence once near-duplicates
-  are collapsed
-- **Neff/L = 0.500, below EVEREST's depth floor of 1.0.** Under EVEREST's own
+- N=451, Neff=212.66 at theta=0.01 (99% identity clustering) -- ~47% of the
+  raw sequences count as independent evidence once near-duplicates collapse
+- **Neff/L = 0.252, below EVEREST's depth floor of 1.0.** Under EVEREST's own
   selection heuristic this alignment would not be selected for downstream
-  modeling. This isn't a bug -- it's a real consequence of using `uniprot`
-  (chosen in Step 1 specifically to preserve near-duplicate strains) against
-  a virus sequenced hundreds of thousands of times: the 5 largest clusters
-  are sizes 979, 974, 973, 971, 970, meaning roughly 40% of all 2525
-  sequences sit in just a handful of near-identical clusters. 343/2525
-  sequences are singletons (unique even at 99% identity), so real diversity
-  exists, it's just swamped.
-- Neff @ 90% identity (Methods A.6.1 reliability metric) = 86.40, which
+  modeling. Not a bug: unlike the old `uniprot` run (flooded with SARS-CoV-2
+  near-duplicates), this alignment is simply *shallow* -- the 2010 snapshot
+  predates the virus, so only 451 distant coronavirus homologs are found. The
+  5 largest clusters are just 53/52/51/49/46 and 157/451 sequences are
+  singletons, so redundancy is modest; there just aren't many sequences.
+- Neff @ 90% identity (Methods A.6.1 reliability metric) = 58.56, which
   **clears** the paper's threshold of 30
-- Continuing the pipeline as planned, but the depth-floor failure is a real
-  caveat for interpreting the final Spearman correlation, not just a
-  formality
+- The depth-floor failure is a real caveat for interpreting the final
+  Spearman correlation, not just a formality
 
 All sanity checks passed. Wrote `data/pssm_pipeline/weights.npy` and
 `data/pssm_pipeline/weights_meta.json`.
@@ -191,7 +206,7 @@ All sanity checks passed. Wrote `data/pssm_pipeline/weights.npy` and
 ### Step 4 — `scripts/pssm_pipeline/04_pssm.py`
 
 A PSSM (position-specific scoring matrix) is a per-column amino-acid
-frequency table: for each of the 936 surviving alignment columns, how often
+frequency table: for each of the 844 surviving alignment columns, how often
 does each of the 20 amino acids show up, once each sequence's vote is scaled
 by its Step-3 weight so that a cluster of near-duplicates doesn't get to vote
 once per member. This is the "site-independent" approximation: it captures
@@ -205,20 +220,19 @@ Run: `python scripts/pssm_pipeline/04_pssm.py`
 Results:
 - Every column's 20 frequencies sum to 1 (verified)
 - Query row still gap-free (0 gaps), as it must be after Step 2
-- WT (wild-type) residue -- the amino acid actually present at that position
-  in our query sequence, as opposed to a mutant substitution -- is the single
-  most frequent amino acid in 891/936 columns (95.2%); the 45 exceptions
-  (4.8%) are plausible variable-but-tolerant sites rather than a sign of a
-  coordinate-mapping bug
-- Per-column entropy ranges from 0.40 to 3.18 bits (max possible for 20
-  amino acids is log2(20) = 4.32 bits), mean 1.63 bits
-- The 10 most-conserved columns include several cysteines (positions 617,
-  649, 840) at freq=0.961 -- consistent with structurally load-bearing
-  disulfide-bonded residues, which tolerate almost no substitution
-- The 10 least-conserved columns include position 681, immediately adjacent
-  to the well-known furin cleavage site (PRRAR) at the spike S1/S2 boundary
-  -- a real hypervariable, functionally flexible loop (this is the position
-  mutated in the Alpha and Omicron variants, P681H/R), not noise
+- WT (wild-type) residue -- the amino acid present at that position in our
+  query, as opposed to a mutant substitution -- is the single most frequent
+  amino acid in only 310/844 columns (36.7%), far below the old `uniprot`
+  run's 95%. The 2010 homologs are distant coronaviruses whose consensus
+  often differs from SARS-CoV-2's residue; WT reconciliation still passes
+  100% (Step 5), so this reflects real cross-species divergence, not a bug.
+- Per-column entropy ranges from 0.76 to 3.72 bits (max = log2(20) = 4.32),
+  mean 2.31 bits -- higher than the old run, i.e. a more diverse homolog set
+- The 10 most-conserved columns are cysteines (e.g. positions 538, 590, 738,
+  749) at freq ~0.92 -- structurally load-bearing disulfide-bonded residues
+- The 10 least-conserved columns cluster in the RBD (e.g. positions 436, 460,
+  489, 492, 501, 502, 506, 507) -- the most variable region across
+  coronaviruses, not noise
 
 All sanity checks passed. Wrote `data/pssm_pipeline/pssm.npy` and
 `data/pssm_pipeline/pssm_meta.json`.
@@ -239,31 +253,19 @@ Run: `python scripts/pssm_pipeline/05_score.py`
 
 Results:
 - WT-residue reconciliation: 3802/3802 (100%) match -- the DMS's `mutant`
-  column and `query.fasta` turn out to already share the same full-spike,
-  1-indexed coordinates, so no offset correction was needed
-- 3707/3802 variants scored directly; 95/3802 (5 positions: 334, 347, 458,
-  459, 460) fell outside the 936 surviving MSA columns and were imputed with
-  the mean predicted score across the scored variants (-4.55)
-- WT->WT sanity check passed: all 196 covered positions score exactly 0.0
-- The score distribution skews strongly negative -- mean -4.55, median
-  -5.12, 99.9% of scored variants negative. This is more extreme than a mild
-  skew, so it was worth checking directly rather than taking at face value:
-  it traces back to the Step 3 finding that Neff/L = 0.50 is below EVEREST's
-  depth floor. With a comparatively shallow alignment, many of the DMS's
-  tested substitutions were never observed even once among the 2525
-  weighted homologs, so they land on the pseudocount floor for their
-  column -- every unobserved amino acid at a given column gets the *same*
-  score. Confirmed directly: all 10 most-deleterious predictions are tied at
-  -6.03, all substitutions at position 531 (88.6% conserved threonine)
-  where the mutant amino acid's raw weighted count is exactly 0. Not a bug,
-  but it compresses ranking resolution among "never observed" variants going
-  into Step 6.
-- The 10 most-deleterious predictions all sit at position 531, entropy 0.898
-  bits -- well below the 1.63-bit alignment-wide mean, i.e. a conserved
-  position, as expected
-- The 10 least-deleterious predictions have entropy 1.49-2.46 bits, all
-  above the alignment-wide mean -- variable, mutation-tolerant positions, as
-  expected
+  column and `query.fasta` already share full-spike, 1-indexed coordinates,
+  so no offset correction was needed
+- 2548/3802 variants scored directly; 1254/3802 (33%) fell outside the 844
+  surviving MSA columns and were imputed with the mean predicted score across
+  scored variants (-1.69). The large imputed share is a direct consequence of
+  the shallow 2010 alignment dropping many RBD columns in Step 2.
+- WT->WT sanity check passed: all 135 covered positions score exactly 0.0
+- Score distribution: mean -1.69, median -1.92, min -4.85, max 3.73; 80.7% of
+  scored variants negative (deleterious-leaning)
+- The 10 most-deleterious predictions all sit at position 523 (a conserved
+  threonine), tied at -4.85 where the mutant amino acid's weighted count is 0
+- The 10 least-deleterious predictions (e.g. A475G at +3.73) are variable,
+  mutation-tolerant positions, as expected
 
 All sanity checks passed. Wrote `data/pssm_pipeline/predictions.csv` and
 `data/pssm_pipeline/predictions_meta.json`.
@@ -285,21 +287,18 @@ Results:
 - Join on (position, wt_aa, mut_aa): 3802/3802 variants matched, 0 dropped
   in either direction -- expected, since `predictions.csv` was built from
   this same DMS file in Step 5, so this join is mostly a consistency check
-- **Spearman rho = 0.248** (p=2.5e-54), 95% bootstrap CI [0.217, 0.279] over
-  10,000 resamples -- lands within the 0.2-0.5 plausible range flagged
-  above, on the lower end
-- rho excluding the 95 imputed variants: 0.245 (barely moves) -- confirms
-  the imputed variants are contributing close to zero rank signal, as
-  designed, rather than propping up or dragging down the headline number
+- **Spearman rho = 0.175** (p=1.4e-27), 95% bootstrap CI [0.142, 0.209] over
+  10,000 resamples -- real signal (far from 0), at the low edge of the
+  0.2-0.5 plausible range
+- rho excluding the 1254 imputed variants: 0.204 (n=2548) -- higher than the
+  all-variant number, i.e. the large imputed block dilutes the headline rho
+  (unlike the old run's 95 imputed, which barely moved it)
 - The scatter plot (`data/pssm_pipeline/scatter.png`) shows the expected
-  wedge shape: variants with a high (near-zero) predicted score cluster
-  tightly near DMS score 0 (tolerated, as expected for WT-like
-  substitutions), while variants at the pseudocount floor (predicted score
-  ~-6, "never observed in the alignment") span nearly the *entire* DMS
-  range, from tolerated to severely deleterious -- absence from a
-  comparatively shallow natural alignment is a weak signal on its own,
-  consistent with PSSM being the least informative of the alignment-based
-  models
+  wedge shape: variants with a high (near-zero) predicted score cluster near
+  DMS score 0 (tolerated), while variants at the pseudocount floor span nearly
+  the *entire* DMS range -- absence from a shallow 2010 alignment is a weak
+  signal on its own, consistent with PSSM being the least informative of the
+  alignment-based models
 
 All sanity checks passed. Wrote `data/pssm_pipeline/scatter.png` and
 `data/pssm_pipeline/evaluate_meta.json`.
