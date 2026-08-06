@@ -1,76 +1,65 @@
 #!/usr/bin/env python3
-"""Step 1: submit the query to EBI's jackhmmer web service, poll to completion,
-download the alignment of significant hits, and print sanity checks.
+"""Step 1: run jackhmmer locally to iteratively search the query against a
+local UniRef100 FASTA snapshot, write the alignment of significant hits, and
+print sanity checks.
 
-API reference (verified live, 2026-07-29, not from memory):
-  Submit:   POST https://www.ebi.ac.uk/Tools/hmmer/api/v1/search/jackhmmer
-  Poll:     GET  https://www.ebi.ac.uk/Tools/hmmer/api/v1/result/{job_id}
-            jackhmmer runs as a *chain* of iteration jobs. While queued this
-            endpoint can 500 with an HTML error page instead of returning
-            JSON -- that is normal "not ready yet" behavior for this
-            endpoint/algo combination, not a fatal error. Once ready it
-            returns a JSON array, one entry per iteration completed so far;
-            the last entry's own "id" (not the original submission id) is
-            the id used for downloads.
-  Downloads: POST https://www.ebi.ac.uk/Tools/hmmer/api/v1/download/{iteration_id}/{format}
-             triggers async generation (204, no body). Then poll
-             GET https://www.ebi.ac.uk/Tools/hmmer/api/v1/download/{iteration_id}
-             until the entry for that format has status "AVAILABLE", which
-             includes a direct static "url" to the gzipped file.
-  Valid database ids (checked live via GET .../search/databases): pfam (hmm),
-  refprot, swissprot, uniprot, pdb, rp15, rp35, rp55, rp75, mgnify30_c2,
-  mgnify30_c5_fl, mgnify30_c5_ppfam. UniRef100 is NOT offered by this API.
+This runs the *same* algorithm the EBI HMMER web service ran -- jackhmmer from
+the HMMER suite -- but pointed at our own on-disk UniRef100 snapshot instead of
+EBI's hosted databases. Doing it locally is both simpler (one subprocess call,
+no submit/poll/download HTTP dance) and more faithful to the paper: the EBI API
+has no UniRef100 option, so the web-service version fell back to `uniprot`;
+here we search the actual UniRef100 release.
+
+Threshold: EVEREST length-normalizes the inclusion cutoff as
+bits/residue x L, passed here as a raw bit-score threshold (-T), not an E-value
+threshold. A bit score is an absolute, database-size-independent measure of
+alignment quality; an E-value is not -- it scales with database size, so the
+*same* E-value cutoff would silently get stricter as the 2010->2026 snapshots
+grow. A fixed bits/residue cutoff keeps "how good must a hit be" constant
+across snapshots, which is the whole point of comparing across them.
+
+Requires the HMMER suite on PATH: `conda activate marginal-value-pathogen-data`.
 """
 
-import gzip
 import json
+import shutil
+import subprocess
 import time
+from pathlib import Path
 
-import requests
 from Bio import SeqIO
 
 QUERY_FASTA = "data/pssm_pipeline/query.fasta"
-OUT_ALIGNMENT = "data/pssm_pipeline/msa_raw.sto"
-OUT_RAW_RESPONSE = "data/pssm_pipeline/msa_raw_api_response.json"
+SEQ_DB = "data/uniref100_2010.fasta"  # the local UniRef100 snapshot to search
+OUT_ALIGNMENT = "data/pssm_pipeline/msa_raw.sto"  # consumed by Step 2
+OUT_TABLE = "data/pssm_pipeline/msa_raw_hits.tbl"  # per-sequence hit table
+OUT_RUN_META = "data/pssm_pipeline/msa_raw_run_meta.json"  # run summary / debug
 
-BASE = "https://www.ebi.ac.uk/Tools/hmmer/api/v1"
-DATABASE = "uniprot"  # closest available analog to UniRef100 (see README) -- EBI HMMER API has no UniRef100 option
-BITSCORE_PER_RESIDUE = 0.3
-
-POLL_START_DELAY = 10.0
-POLL_MAX_DELAY = 60.0
-POLL_BACKOFF = 1.3
-POLL_TIMEOUT_SECONDS = 60 * 60  # 1 hour ceiling; full UniProt + iteration is slow
+BITSCORE_PER_RESIDUE = 0.3  # configure per protein: lower = more permissive (deeper, noisier MSA)
+MAX_ITERATIONS = 5  # jackhmmer's default; it stops early once the hit set converges
+CPU = 4  # per README benchmark, jackhmmer doesn't scale past ~2 cores on this workload
 
 
-def poll_until(fetch_fn, is_done_fn, label):
-    """Poll fetch_fn() with backoff until is_done_fn(response) is True. Returns the final parsed response."""
-    start = time.monotonic()
-    delay = POLL_START_DELAY
-    while True:
-        elapsed = time.monotonic() - start
-        if elapsed > POLL_TIMEOUT_SECONDS:
-            raise TimeoutError(f"{label}: exceeded {POLL_TIMEOUT_SECONDS}s without completing")
-        parsed = fetch_fn()
-        if parsed is not None:
-            done, status_desc = is_done_fn(parsed)
-            print(f"  [{elapsed:6.0f}s] {label}: {status_desc}")
-            if done:
-                return parsed
-        else:
-            print(f"  [{elapsed:6.0f}s] {label}: not ready yet")
-        time.sleep(delay)
-        delay = min(delay * POLL_BACKOFF, POLL_MAX_DELAY)
+def parse_tblout(path):
+    """Parse jackhmmer --tblout rows into the fields we report on.
 
-
-def fetch_result(job_id):
-    resp = requests.get(f"{BASE}/result/{job_id}", headers={"Accept": "application/json"})
-    if resp.status_code != 200:
-        return None
-    try:
-        return resp.json()
-    except ValueError:
-        return None
+    The format is whitespace-delimited with 18 fixed columns followed by a
+    free-text description. For the full-sequence hit we want the target name
+    (col 0), E-value (col 4) and bit score (col 5), plus the description.
+    """
+    hits = []
+    with open(path) as f:
+        for line in f:
+            if line.startswith("#") or not line.strip():
+                continue
+            parts = line.split(None, 18)
+            hits.append({
+                "name": parts[0],
+                "evalue": float(parts[4]),
+                "score": float(parts[5]),
+                "description": parts[18].strip() if len(parts) > 18 else "",
+            })
+    return hits
 
 
 def main():
@@ -79,105 +68,89 @@ def main():
     L = len(seq)
     T = BITSCORE_PER_RESIDUE * L
 
+    if shutil.which("jackhmmer") is None:
+        raise SystemExit(
+            "jackhmmer not found on PATH. Activate the env first:\n"
+            "  conda activate marginal-value-pathogen-data"
+        )
+    if not Path(SEQ_DB).exists():
+        raise SystemExit(f"Sequence database not found: {SEQ_DB}")
+
     print(f"Query length L = {L}")
     print(f"BITSCORE_PER_RESIDUE = {BITSCORE_PER_RESIDUE}")
     print(f"Absolute inclusion threshold T = {BITSCORE_PER_RESIDUE} x {L} = {T} bits")
-    print(f"Database = {DATABASE}")
+    print(f"Database = {SEQ_DB}")
 
-    fasta_text = f">{record.id}\n{seq}\n"
-    payload = {
-        "input": fasta_text,
-        "database": DATABASE,
-        "threshold": "bitscore",
-        "T": T,
-        "incT": T,
-        "domT": T,
-        "incdomT": T,
-    }
+    # jackhmmer <opts> <query.fasta> <seqdb.fasta>
+    #   -T/--incT/--domT/--incdomT : the four bit-score thresholds the EBI
+    #       payload set -- report-seq, include-seq, report-domain, include-domain.
+    #   -A       : write the hit alignment (Stockholm) -- this is what Step 2 reads.
+    #   --tblout : per-sequence hit table, parsed for the score/e-value prints.
+    #   --noali  : keep stdout small (the alignment still goes to the -A file).
+    cmd = [
+        "jackhmmer",
+        "-N", str(MAX_ITERATIONS),
+        "--cpu", str(CPU),
+        "-T", str(T), "--incT", str(T),
+        "--domT", str(T), "--incdomT", str(T),
+        "-A", OUT_ALIGNMENT,
+        "--tblout", OUT_TABLE,
+        "--noali",
+        QUERY_FASTA, SEQ_DB,
+    ]
+    print("\nRunning:", " ".join(cmd))
+    t0 = time.monotonic()
+    result = subprocess.run(cmd, capture_output=True, text=True)
+    elapsed = time.monotonic() - t0
+    if result.returncode != 0:
+        raise SystemExit(f"jackhmmer failed (exit {result.returncode}):\n{result.stderr}")
+    print(f"jackhmmer finished in {elapsed:.0f}s")
 
-    print("\nSubmitting jackhmmer search...")
-    submit_resp = requests.post(
-        f"{BASE}/search/jackhmmer",
-        headers={"Content-Type": "application/json", "Accept": "application/json"},
-        json=payload,
-    )
-    submit_resp.raise_for_status()
-    submit_json = submit_resp.json()
-    job_id = submit_json["id"]
-    print(f"Job ID: {job_id}")
+    # jackhmmer prints one "@@"-prefixed block per round summarizing what was
+    # included and whether it converged; that's the useful signal in the log.
+    # Round 1 (the initial phmmer pass) has no "@@ Round:" header -- only rounds
+    # 2..K do -- so the number of rounds actually run is that count plus one.
+    round_log = [ln.rstrip() for ln in result.stdout.splitlines() if ln.startswith("@@")]
+    n_rounds = sum(1 for ln in round_log if ln.startswith("@@ Round:")) + 1
+    converged = any("CONVERGED" in ln for ln in round_log)
+    print(f"\nRounds run: {n_rounds}   Converged: {converged}")
+    if not converged:
+        print(f"  WARNING: did not converge within -N {MAX_ITERATIONS}; the hit set was still "
+              "growing when it stopped. Consider a stricter threshold or more iterations.")
 
-    def is_search_done(parsed):
-        if not isinstance(parsed, list) or not parsed:
-            return False, "waiting for first iteration"
-        last = parsed[-1]
-        status = last["status"]
-        desc = f"iteration {last['iteration']}, status={status}, convergence_stats={last['convergence_stats']}"
-        if status == "SUCCESS":
-            return True, desc
-        if status in ("FAILURE", "ERROR"):
-            raise RuntimeError(f"jackhmmer job failed: {last}")
-        return False, desc
-
-    iteration_array = poll_until(lambda: fetch_result(job_id), is_search_done, "search")
-    final_iteration = iteration_array[-1]
-    iteration_id = final_iteration["id"]
-    n_iterations = len(iteration_array)
-    print(f"\nConverged/finished after {n_iterations} iteration(s) (server iteration index {final_iteration['iteration']})")
-    print(f"Final convergence stats: {final_iteration['convergence_stats']}")
-
-    job_details = requests.get(f"{BASE}/search/{job_id}").json()
-    full_result = requests.get(f"{BASE}/result/{iteration_id}", params={"page_size": 10000}).json()
-    hits = full_result["result"]["hits"]
-    print(f"\nNumber of hits returned: {len(hits)}")
+    hits = parse_tblout(OUT_TABLE)
+    hits.sort(key=lambda h: h["score"], reverse=True)
+    print(f"Number of significant hits: {len(hits)}")
 
     print("\nTop 10 hit descriptions:")
     for h in hits[:10]:
-        desc = h.get("metadata", {}).get("description") if isinstance(h.get("metadata"), dict) else None
-        print(f"  score={h['score']:8.1f}  evalue={h['evalue']:.2e}  {h.get('name')}  {desc or ''}")
+        print(f"  score={h['score']:8.1f}  evalue={h['evalue']:.2e}  {h['name']}  {h['description']}")
 
-    print("\nTriggering alignment (Stockholm) generation...")
-    gen_resp = requests.post(f"{BASE}/download/{iteration_id}/stockholm")
-    if gen_resp.status_code not in (200, 204):
-        print(f"  WARNING: generate request returned {gen_resp.status_code}: {gen_resp.text[:200]}")
+    aligned_records = list(SeqIO.parse(OUT_ALIGNMENT, "stockholm"))
 
-    def fetch_downloads_list():
-        resp = requests.get(f"{BASE}/download/{iteration_id}")
-        if resp.status_code != 200:
-            return None
-        return resp.json()
-
-    def is_download_ready(parsed):
-        entry = next((d for d in parsed if d["format"] == "stockholm"), None)
-        if entry is None:
-            return False, "stockholm format entry not present yet"
-        return entry["status"] == "AVAILABLE", f"stockholm status={entry['status']}"
-
-    downloads_list = poll_until(fetch_downloads_list, is_download_ready, "download generation")
-    sto_entry = next(d for d in downloads_list if d["format"] == "stockholm")
-    print(f"\nDownloading alignment from {sto_entry['url']} ({sto_entry['size']} bytes gzipped)")
-    gz_bytes = requests.get(sto_entry["url"]).content
-    sto_text = gzip.decompress(gz_bytes).decode("utf-8")
-    with open(OUT_ALIGNMENT, "w") as f:
-        f.write(sto_text)
-
-    with open(OUT_RAW_RESPONSE, "w") as f:
+    with open(OUT_RUN_META, "w") as f:
         json.dump(
             {
-                "payload_sent": payload,
-                "submit_response": submit_json,
-                "job_details": job_details,
-                "iteration_array": iteration_array,
-                "full_result_stats": full_result["result"]["stats"],
-                "downloads_list": downloads_list,
+                "command": cmd,
+                "database": SEQ_DB,
+                "bitscore_per_residue": BITSCORE_PER_RESIDUE,
+                "query_length": L,
+                "threshold_bits": T,
+                "elapsed_seconds": round(elapsed, 1),
+                "n_hits": len(hits),
+                "n_alignment_rows": len(aligned_records),
+                "rounds": n_rounds,
+                "converged": converged,
+                "round_log": round_log,
             },
             f,
             indent=2,
         )
-    print(f"Wrote raw API response/debug info to {OUT_RAW_RESPONSE}")
-    print(f"Wrote alignment to {OUT_ALIGNMENT}")
+    print(f"\nWrote alignment to {OUT_ALIGNMENT}")
+    print(f"Wrote hit table to {OUT_TABLE}")
+    print(f"Wrote run metadata to {OUT_RUN_META}")
 
     print("\nSanity checks:")
-    aligned_records = list(SeqIO.parse(OUT_ALIGNMENT, "stockholm"))
     print(f"  Sequences in downloaded alignment: {len(aligned_records)}")
 
     exact_self_hits = [r for r in aligned_records if str(r.seq).replace("-", "").replace(".", "").upper() == seq.upper()]
@@ -186,9 +159,10 @@ def main():
         print(f"    e.g. {exact_self_hits[0].id}")
     else:
         print("    WARNING: query sequence itself was not found verbatim among the hits.")
-        print("    (Top hit below should still be near-identical if this is a known reference protein.)")
-        top = hits[0]
-        print(f"    Top hit: score={top['score']:.1f} evalue={top['evalue']:.2e} name={top.get('name')}")
+        print("    (Expected when the query post-dates the snapshot, e.g. SARS-CoV-2 vs a 2010 DB.)")
+        if hits:
+            top = hits[0]
+            print(f"    Top hit: score={top['score']:.1f} evalue={top['evalue']:.2e} name={top['name']}")
 
 
 if __name__ == "__main__":
