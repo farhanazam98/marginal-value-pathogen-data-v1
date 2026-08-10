@@ -59,6 +59,7 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 
 import requests
+import urllib3
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 XML_TO_FASTA = Path(__file__).resolve().parent / "xml_to_fasta.py"
@@ -78,6 +79,21 @@ CLUSTER_COUNT_FALLBACK = {2010: 9_808_438}
 CONNECT_TIMEOUT = 10
 READ_TIMEOUT = 30
 MAX_RECONNECT_ATTEMPTS = 8
+
+# Reading via response.raw (rather than requests' iter_content) means urllib3
+# exceptions reach us unwrapped -- requests only translates urllib3 errors
+# into requests.exceptions.* at the iter_content layer. A bare
+# urllib3.exceptions.ProtocolError (e.g. "Connection reset by peer" mid-tar)
+# is what actually killed a prior run: it isn't a subclass of the builtin
+# ConnectionError, so it slipped past a narrower catch tuple. HTTPError is
+# the common base for ProtocolError/IncompleteRead/ReadTimeoutError/etc.
+TRANSIENT_NETWORK_ERRORS = (
+    requests.exceptions.ChunkedEncodingError,
+    requests.exceptions.ConnectionError,
+    requests.exceptions.Timeout,
+    urllib3.exceptions.HTTPError,
+    ConnectionError,
+)
 
 
 def release_for_year(year):
@@ -125,17 +141,22 @@ class ResilientHTTPStream:
                 chunk = self._response.raw.read(amt)
                 self.pos += len(chunk)
                 return chunk
-            except (requests.exceptions.ChunkedEncodingError,
-                    requests.exceptions.ConnectionError,
-                    requests.exceptions.Timeout,
-                    ConnectionError) as exc:
+            except TRANSIENT_NETWORK_ERRORS as exc:
                 last_err = exc
                 backoff = min(2 ** attempt, 60)
                 print(f"  ... connection error at byte {self.pos} ({exc}), "
                       f"retrying in {backoff}s", file=sys.stderr, flush=True)
                 time.sleep(backoff)
                 self.close()
-                self._connect()
+                try:
+                    self._connect()
+                except TRANSIENT_NETWORK_ERRORS as reconnect_exc:
+                    # The reconnect itself hit the same kind of transient
+                    # error -- count it as this attempt and let the loop
+                    # retry with backoff, rather than propagating and
+                    # killing the whole batch.
+                    last_err = reconnect_exc
+                    continue
         raise RuntimeError(f"exceeded {MAX_RECONNECT_ATTEMPTS} reconnect attempts: {last_err}")
 
     def close(self):
