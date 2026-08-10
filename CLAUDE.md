@@ -37,10 +37,22 @@ sequences there, so we may switch to a different protein.
   already recorded in `README.md`'s Step 6 to three decimal places, and is
   consistent with the ~0.17 the same local-jackhmmer pipeline produced on
   the Mac checkout — confirming the pipeline is deterministic and gives
-  the same result across machines, not machine-dependent. Only 2010 has
-  been tested so far; the actual "curve across years" goal still needs the
-  same run repeated against the other downloaded Tier A years
-  (2011-2018).
+  the same result across machines, not machine-dependent. This is the 2010
+  point of the curve below.
+- **Tier A sweep complete** (2011-2018 run 2026-08-10; 2010 from an earlier
+  probe). 9/9 years DONE, no errors. Per-year results in
+  `data/sweep_results.csv` (columns documented in
+  `data/sweep_results_dictionary.md`), logs in `logs/sweep/`, driver in
+  `scripts/sweep/`.
+- **rho declines as the snapshot grows**: 0.175 (2010, 4.1 GB) to 0.100
+  (2018, 58.8 GB), despite alignment depth rising monotonically
+  (Neff 213 to 732). More homologs, worse DMS correlation.
+- Caveat: the 95% CIs overlap heavily (2010 [0.142, 0.208] vs 2018
+  [0.065, 0.133]) and `imputed_frac` swings 0.17-0.42 across years,
+  tracking rho — imputed variants all take one constant value, so they
+  enter the Spearman as a tied block. Check `spearman_rho_excl_imputed`
+  (a shallower 0.203 to 0.141) before plotting, and state which column any
+  chart shows.
 
 This repo is checked out on two machines (a local Mac and an EC2 instance),
 each with its own downloaded snapshots and `data/snapshots` layout —
