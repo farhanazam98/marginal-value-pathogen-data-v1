@@ -27,3 +27,4 @@ __pycache__/
 
 # Private cost/planning reference, not for the public paper repo
 COMPUTE_COSTS.md
+/logs/
