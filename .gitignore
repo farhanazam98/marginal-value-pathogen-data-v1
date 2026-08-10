@@ -28,3 +28,6 @@ __pycache__/
 # Private cost/planning reference, not for the public paper repo
 COMPUTE_COSTS.md
 /logs/
+
+# Machine-specific agent notes (paths/state differ per checkout, e.g. Mac vs EC2)
+CLAUDE.local.md
