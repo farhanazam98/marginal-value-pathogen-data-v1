@@ -10,6 +10,26 @@ preserve when modifying the pipeline. Keep the two in sync when either
 changes — don't duplicate README content here; add to it only what a human
 README wouldn't carry (agent-facing notes, in-flight state).
 
+## Working conventions
+
+**Keep changes as simple as reasonably possible.** Prefer the smallest change
+that does the job. Don't add abstraction, configuration, options, or new files
+that aren't needed yet. When editing docs, prefer cutting over reorganizing,
+and don't restate the same fact in two places — put it where a reader would
+look for it and link to it from elsewhere.
+
+**Explain esoteric concepts in plain terms.** Assume the reader has no strong
+biology background. Domain jargon (PSSM, MSA, `Neff`, bit-score threshold,
+DMS, imputation, homolog) gets a plain-English gloss at first use, and prose
+should say what a number *means*, not just report it. Prefer a concrete
+example over a definition where one fits.
+
+**Verify the user's understanding before committing anything, especially
+prose.** Do not commit until they have confirmed they follow what changed and
+why. Walk through the change in plain terms and wait for a response — an
+absent objection is not confirmation. This applies to documentation and
+written explanations as much as to code.
+
 ## Current status
 
 **Goal:** get a curve of PSSM's mutation-effect-prediction performance versus
@@ -47,12 +67,15 @@ sequences there, so we may switch to a different protein.
 - **rho declines as the snapshot grows**: 0.175 (2010, 4.1 GB) to 0.100
   (2018, 58.8 GB), despite alignment depth rising monotonically
   (Neff 213 to 732). More homologs, worse DMS correlation.
-- Caveat: the 95% CIs overlap heavily (2010 [0.142, 0.208] vs 2018
-  [0.065, 0.133]) and `imputed_frac` swings 0.17-0.42 across years,
-  tracking rho — imputed variants all take one constant value, so they
-  enter the Spearman as a tied block. Check `spearman_rho_excl_imputed`
-  (a shallower 0.203 to 0.141) before plotting, and state which column any
-  chart shows.
+- Caveat: the endpoint CIs are disjoint (2010 [0.142, 0.208] vs 2018
+  [0.065, 0.133]), so 2010-vs-2018 is real, but adjacent years overlap and
+  2016 breaks the trend upward — a trend, not a smooth curve.
+- Caveat: `imputed_frac` swings 0.17-0.42 across years. Imputed variants
+  all take one constant value, so they enter the Spearman as a tied block
+  carrying no rank information. The fraction is set by `L_final` (872-875
+  in the low-imputation years, 818-844 in the high ones), so part of the
+  year-to-year rho movement is coverage, not prediction quality. Database
+  size and column retention are not cleanly separable in these 9 points.
 
 This repo is checked out on two machines (a local Mac and an EC2 instance),
 each with its own downloaded snapshots and `data/snapshots` layout —
