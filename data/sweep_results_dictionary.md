@@ -1,4 +1,4 @@
-# `sweep_results.csv` — data dictionary and interpretation notes
+# `sweep_results.csv` — data dictionary
 
 One row per UniRef100 snapshot year. Produced by `scripts/sweep/collect.py`,
 which re-derives the table from the per-year pipeline checkpoints under
@@ -14,6 +14,38 @@ pipeline (`scripts/pssm_pipeline/00_*.py` … `06_*.py`) against SARS-CoV-2 Spik
 and Spearman-correlate the predicted mutation effects against the Starr 2020
 ACE2-binding DMS. Every year uses an identical pipeline and an identical
 bit-score threshold (0.3 bits/residue); **the snapshot is the only variable.**
+
+---
+
+## Terms
+
+No biology background assumed.
+
+- **Homolog** — a protein in another organism descended from a shared
+  ancestor. Here: spike proteins of other coronaviruses.
+- **MSA (multiple sequence alignment)** — homologs stacked so equivalent
+  positions line up in columns, with gaps inserted where lengths differ.
+- **jackhmmer** — the search tool that finds homologs in a snapshot. The
+  **bit-score threshold** is the bar for "related enough to include"; a raw
+  bit score, held at 0.3/residue for every year so the filter never moves.
+- **PSSM (position-specific scoring matrix)** — the model. For each position,
+  count how often each amino acid appears there across the aligned homologs.
+  Rare substitution at a well-conserved position → predicted damaging.
+- **`Neff`** — homolog count corrected for redundancy. Databases hold many
+  near-identical copies of heavily-sequenced organisms, so sequences ≥99%
+  identical are clustered and each cluster counted once: "how many genuinely
+  distinct relatives."
+- **`L_final`** — alignment columns surviving the gap filter. Columns >50%
+  gaps are too sparse to learn from and get dropped.
+- **DMS (deep mutational scanning)** — the ground truth. Starr et al. built
+  ~3800 single RBD mutations and measured ACE2 binding for each.
+- **Imputation** — filling a missing value with a stand-in. A variant whose
+  column was dropped has no prediction, so it receives the mean prediction.
+- **Spearman rho** — rank correlation: did the model order the mutations
+  correctly, not were its numbers right. 1 = perfect, 0 = no relationship.
+- **Bootstrap CI** — resample the 3802 variants 10,000 times, recompute rho
+  each time, keep the middle 95%. Wide or overlapping intervals mean two
+  years cannot be called different.
 
 ---
 
@@ -33,7 +65,7 @@ bit-score threshold (0.3 bits/residue); **the snapshot is the only variable.**
 | `bitscore_per_residue` | Inclusion threshold in bits per residue. **0.3 for every row** — held constant by design. |
 | `query_length` | 1273 (full-length Spike, precursor numbering). Constant. |
 | `threshold_bits` | `bitscore_per_residue × query_length` = 381.9. Constant. A raw bit score, not an E-value, so the cutoff does not silently tighten as snapshots grow. |
-| `jackhmmer_elapsed_s` | Wall-clock seconds. **See the compute-cost warning below — do not treat as a clean benchmark.** |
+| `jackhmmer_elapsed_s` | Wall-clock seconds. **Not a clean benchmark** — runs were executed six-at-a-time on a 16-vCPU box (measured contention inflation: 1.80×), and concurrency thinned as short years finished. Do not quote as a per-year compute cost; `README.md` has isolated measurements. |
 | `jackhmmer_rounds` | Iterations used (cap is 5). |
 | `jackhmmer_converged` | True only if a round added exactly 0 new targets. Commonly false at the 5-round cap while oscillating around ~1 new target; not a failure. |
 | `n_hits` | Significant hits found. |
@@ -52,7 +84,7 @@ bit-score threshold (0.3 bits/residue); **the snapshot is the only variable.**
 | `theta` | 0.01 → cluster at 99% identity. Constant. |
 | `Neff` | Effective sequence count: sum of weights, where each sequence's weight is 1/(size of its ≥99%-identity cluster). Corrects for databases oversampling intensively-sequenced lineages. |
 | `Neff_over_L` | `Neff / L_final`. The standard alignment-depth statistic. |
-| `clears_depth_floor` | Whether `Neff_over_L ≥ 1.0`, EVEREST's selection threshold. **Expected False throughout — see caveats.** |
+| `clears_depth_floor` | Whether `Neff_over_L ≥ 1.0`, EVEREST's selection threshold. **False for every year** — under EVEREST's own heuristic these alignments would not be selected for downstream modeling, which limits how much weight the absolute rho values can bear. |
 | `Neff_at_90pct_identity` | Reliability metric from Methods A.6.1; paper's threshold is 30. |
 | `clears_reliability` | Whether that threshold is met. |
 | `n_singleton_sequences` | Sequences in a cluster of one — a redundancy indicator. |
@@ -100,102 +132,9 @@ bit-score threshold (0.3 bits/residue); **the snapshot is the only variable.**
 (`Neff_over_L` 0.252 → 0.893). The 2010 and 2018 CIs are disjoint. The decline is
 not monotone: 2016 breaks it upward.
 
-**The decline is substantially a coverage effect, not a quality effect.** See
-caveat 7 — `L_final` is the confound, and `spearman_rho_excl_imputed` behaves
-differently enough that the two columns support different conclusions. Do not
-report the rho curve alone.
-
----
-
-## Interpretation caveats
-
-**1. Every snapshot here is pre-pandemic.** SARS-CoV-2 emerged in late 2019; the
-available years are 2010–2018. The query sequence therefore appears in *none* of
-these databases. What accumulates across the series is other coronaviruses
-(SARS-CoV-1, MERS from 2012, bat/civet relatives), not the query's own lineage.
-**A flat, weakly-rising, or declining curve is a legitimate scientific result**,
-not a broken pipeline — it would say the marginal value of pre-pandemic
-sequencing for this specific target is small or negative, which is precisely the
-question the project asks. Do not present such a curve as a failure, and do not
-stretch axes to manufacture a trend.
-
-The observed curve declines (see Headline result). Read together with caveat 7,
-the defensible reading is that growth in these pre-pandemic databases recruits
-increasingly distant homologs, which degrades alignment *coverage* of the RBD
-faster than it improves the substitution statistics — so the marginal value of
-this data for this target is at best zero and plausibly negative.
-
-**2. `spearman_rho` vs `spearman_rho_excl_imputed` measure different things.**
-Imputed variants all receive one constant value, which carries zero rank
-information, so they dilute the headline rho toward 0. `spearman_rho` is the
-honest end-to-end number and is comparable across years (fixed n=3802).
-`spearman_rho_excl_imputed` better reflects the model where it actually makes
-predictions — but its sample differs year to year, so cross-year comparison of
-that column is not strictly like-for-like. In this completed sweep that
-caveat is much stronger than "not strictly": `n_excl_imputed` ranges from 2211 to
-3175 and the *difficulty* of the retained subset shifts systematically with it
-(caveat 7). Plot both; if plotting one, use `spearman_rho` and show the imputed
-fraction alongside it.
-
-**3. `Neff_over_L` is expected to sit far below EVEREST's depth floor of 1.0**
-(2010 is 0.252). Under EVEREST's own selection heuristic these alignments would
-not be chosen for downstream modeling. This is a real limitation on how much
-weight the absolute rho values can bear, and should be stated wherever the
-numbers are presented.
-
-**4. These do not reproduce EVEREST's published numbers, by construction.** One
-dated snapshot instead of the paper's full retrieval, and one bit-score threshold
-instead of its eighteen alignment variants. PSSM is also the weakest
-alignment-based model in the paper (avg rho ≈ 0.38 vs 0.44 for EVE). A
-single-protein rho in the 0.2–0.5 band is plausible; **rho ≈ 0 would signal a
-bug, most likely in coordinate mapping.**
-
-**5. `jackhmmer_elapsed_s` is NOT a clean compute benchmark.** These runs were
-executed six-at-a-time on a 16-vCPU box. A measured control (the same 2010
-database run alone vs. six-way concurrent) showed **223.8 s → ~403 s, a 1.80×
-inflation** purely from contention. Worse, concurrency was not even constant
-across the sweep: eight years were queued six-at-a-time and the field thinned as
-short years finished, so 2018 ran with far less contention than 2015 did. The
-column therefore conflates database size with a scheduling history that is not
-recorded anywhere. Do not fit a scaling law of runtime vs. database size to it,
-and do not quote it as a per-year compute cost. `README.md`'s compute-cost
-section has properly isolated measurements for that purpose.
-
-**6. Year coverage stops at 2018 and is not extendable from this machine
-as-is.** The 2020 snapshot exists but is 0 bytes (a killed download); 2022/2024/
-2026 were never fetched. Any post-pandemic point — which is where the
-interesting signal would be, since it is the first time the query's own lineage
-enters the database — requires re-running the Tier B download first.
-
-**7. `L_final` confounds the headline curve, and is the most important thing to
-handle before plotting.** `L_final` is not stable across the series: it sits at
-872–875 for 2012–2015, then falls to 829/818/820 for 2016/2017/2018, and is
-844/837 for 2010/2011. Because imputation is driven entirely by which columns
-survive, `imputed_frac` tracks it inversely — 16.5–17.0% in the high-`L_final`
-years, 33–42% in the low ones. Three consequences:
-
-- Headline rho is depressed in exactly the years with low `L_final`, because
-  more variants receive the constant fill that carries no rank information. Much
-  of the 2015 → 2018 decline is this, not a change in the model.
-- `rho_excl_imputed` moves *opposite* to rho across that boundary: it jumps from
-  0.1143 (2015) to 0.1711 (2016). When the gap filter drops ~45 more columns, the
-  survivors are the best-covered ones and the retained variant subset gets easier.
-  This is a difficulty shift in the denominator, not an improvement.
-- 2016 and 2017 have nearly identical `rho_excl_imputed` (0.1711 vs 0.1708) while
-  their headline rho differs by 0.012 — the difference is fully explained by
-  `imputed_frac` rising 37.4% → 41.9%.
-
-The mechanism is coherent: a larger database recruits more distant homologs
-(`N_final` 451 → 2745), which makes the alignment gappier, which drops columns,
-which raises imputation. Database growth is degrading *coverage* of the RBD while
-per-prediction accuracy stays roughly flat within a coverage regime.
-
-**Practical guidance:** plot `L_final` and `imputed_frac` as companion panels
-rather than mentioning them in a caption, and treat any claim about the rho trend
-as provisional until it survives conditioning on `L_final`. With only nine points
-split unevenly across coverage regimes, database size and column retention are
-not cleanly separable in this dataset — say so rather than picking whichever
-column tells the tidier story.
+`L_final` is not stable across the series (872–875 for 2012–2015; 818–844 for the
+other years) and `imputed_frac` tracks it inversely, so database size and column
+retention are not cleanly separable in these nine points.
 
 ---
 
