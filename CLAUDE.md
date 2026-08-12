@@ -76,6 +76,13 @@ sequences there, so we may switch to a different protein.
   in the low-imputation years, 818-844 in the high ones), so part of the
   year-to-year rho movement is coverage, not prediction quality. Database
   size and column retention are not cleanly separable in these 9 points.
+- **TODO: diagnose the rho decline.** Run
+  `scripts/diagnostics/rbd_gap_diagnostic.py` against each year's
+  `msa_raw.sto` to check whether later, larger snapshots pull in more
+  divergent homologs that gap out specifically in the RBD (positions
+  361-413) — which would explain the 50%-gap-column filter dropping more of
+  the RBD as snapshots grow, one candidate mechanism for the decline
+  alongside the imputed_frac caveat above.
 
 This repo is checked out on two machines (a local Mac and an EC2 instance),
 each with its own downloaded snapshots and `data/snapshots` layout —
