@@ -53,7 +53,11 @@ REPO_ROOT = Path(__file__).resolve().parent.parent
 XML_TO_FASTA = Path(__file__).resolve().parent / "xml_to_fasta.py"
 ARCHIVE_SIZES_CSV = REPO_ROOT / "data" / "uniprotref_yearly_archive_sizes.csv"
 
-BASE_URL = "https://ftp.uniprot.org/pub/databases/uniprot/previous_major_releases"
+# ftp.uniprot.org itself hangs at the TLS handshake from this instance
+# (confirmed 2026-08-12: TCP connects, ClientHello sent, no ServerHello --
+# times out); EBI mirrors the same archives at an identical path layout and
+# is reachable.
+BASE_URL = "https://ftp.ebi.ac.uk/pub/databases/uniprot/previous_major_releases"
 
 # This project's locked-in 13-year set (README, Phase 3: "Year set: Option 2").
 OPTION2_YEARS = [2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2020, 2022, 2024, 2026]
