@@ -45,10 +45,18 @@ on disk. The protein may not stay the current one in the repo (Spike).
   per protein.
 
 **Progress:**
-- `run_tier_b_download.sh` overloads the EC2 instance and makes it
-  unresponsive — don't just re-run it as-is; the cause needs investigating
-  (e.g. concurrency/worker count, resource limits) before Tier B is
-  retried.
+- `run_tier_b_download.sh` overloaded the EC2 instance's RAM and made it
+  unresponsive. Root cause: `download_uniref100.py` used to fuse downloading
+  and parsing into one worker per year (FIFO + subprocess), with the worker
+  count picked to match parser throughput — so one knob controlled both
+  network and parsing concurrency, and each concurrent worker held an HTTP
+  stream, two live levels of tar/gzip decompression, and a parser process at
+  once, all for the entire multi-GB transfer. Fixed by separating download
+  (writes `.xml.gz` to disk) from parse (reads that file, writes FASTA,
+  deletes the `.xml.gz`) into two independently-sized worker pools:
+  `--download-workers` (default 4) and `--parse-workers` (default 3, capped
+  low since it's the CPU/memory-bound side). Not yet re-tested against an
+  actual Tier B run — see Open TODOs.
 - **Tier A sweep complete** (2011-2018 run 2026-08-10; 2010 from an earlier
   probe). 9/9 years DONE, no errors. Per-year results in
   `data/sweep_results.csv` (columns documented in
@@ -71,8 +79,12 @@ on disk. The protein may not stay the current one in the repo (Spike).
     separable in these 9 points.
 
 **Open TODOs:**
-1. Separate the parsing component from the download script.
-2. EC2 instance has been restarted, so NVMe instance has probably been wiped. A new EBS volume has been created, attached, and mounted as /dev/nvme2n1. Database snapshots (tier a) need to downloaded there. 
+1. ~~Separate the parsing component from the download script.~~ Done — see
+   Progress above.
+2. EC2 instance has been restarted, so NVMe instance has probably been wiped. A new EBS volume has been created, attached, and mounted as /dev/nvme2n1. Database snapshots (tier a) need to downloaded there.
+   `data/snapshots` still symlinks to `/mnt/scratch`, which isn't mounted at
+   all post-restart — the symlink needs repointing at the new EBS volume
+   before any download can run. See `CLAUDE.local.md`.
 3. Rerun the pipeline after the previous step and reproduce results from before 
 4. Diagnose the rho decline: run
   `scripts/diagnostics/rbd_gap_diagnostic.py` against each year's

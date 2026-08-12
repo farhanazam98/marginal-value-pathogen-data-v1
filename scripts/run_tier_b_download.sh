@@ -34,6 +34,8 @@ cd "$REPO_ROOT"
 nohup "$PYTHON" scripts/download_uniref100.py \
   --years 2020 2022 2024 2026 \
   --output-dir "$OUTPUT_DIR" \
+  --download-workers 4 \
+  --parse-workers 3 \
   > "$LOG_FILE" 2>&1 &
 
 echo $! > "$PID_FILE"

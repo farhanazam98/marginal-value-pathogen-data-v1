@@ -69,11 +69,17 @@ Historical UniProt releases only ship a combined `uniref{YYYY}_{NN}.tar.gz`
 (UniRef50+90+100 together) — no standalone UniRef100 file exists for any
 archived year. This script streams that tarball, extracts only the
 `uniref100.xml.gz` member (always first in the stream), and aborts the
-connection immediately after — UniRef50/90 are never requested. The extracted
-bytes are piped through a FIFO into `scripts/xml_to_fasta.py` as a subprocess,
-so neither compressed nor decompressed XML ever touches disk, only the final
-FASTA. `scripts/xml_to_fasta.py` is a line-oriented streaming parser (no DOM,
-memory flat at ~one sequence) and is independently invocable.
+connection immediately after — UniRef50/90 are never requested.
+
+Download and parse are two separate, independently-concurrent phases,
+connected by the extracted `uniref100.xml.gz` sitting on disk rather than a
+live pipe: `--download-workers` (default 4) controls how many years fetch at
+once — cheap, network/disk-bound — and `--parse-workers` (default 3) controls
+how many `scripts/xml_to_fasta.py` conversions run at once — CPU-bound, and
+capped low to keep total memory use predictable. The `.xml.gz` is deleted
+once its FASTA is verified. `scripts/xml_to_fasta.py` is a line-oriented
+streaming parser (no DOM, memory flat at ~one sequence) and is independently
+invocable.
 
 `scripts/run_tier_a_download.sh` and `scripts/run_tier_b_download.sh` launch
 the 2010–2018 and 2020/2022/2024/2026 batches respectively as detached

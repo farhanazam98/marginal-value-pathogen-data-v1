@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Fetch UniRef100 FASTA for a set of years from UniProt's previous_major_releases mirror.
+"""Fetch UniRef100 XML for a set of years from UniProt's previous_major_releases mirror.
 
 Historical releases only ship UniRef100 bundled with UniRef50/90 inside one
 combined uniref{YYYY}_{NN}.tar.gz -- no standalone UniRef100 file exists for
@@ -19,41 +19,29 @@ by range-fetching just the tar headers, no full downloads):
      |- tar member #2: uniref90.tar
      `- tar member #3: uniref50.tar
 
-The extracted uniref100.xml.gz bytes are piped through a named pipe (FIFO)
-into scripts/xml_to_fasta.py, unmodified, running as a subprocess. That
-script is already calibrated (14.73 MB/s of compressed input per worker) and
-already handles the actual XML->FASTA conversion, so nothing here re-parses
-XML. Because it's a FIFO rather than a real file, no compressed or
-decompressed XML ever touches disk -- only the final FASTA does.
-
-Concurrency: `workers = 1 if download_MBps <= 6.45 else
-ceil(download_MBps / 14.73)`, per the calibration above. Measured once from
-the first release's download, then held fixed for the rest of the batch --
-network throughput is stable enough within a run that re-measuring
-continuously isn't worth the added complexity.
+Download and parse are two separate, independently-sized phases connected by
+the extracted uniref100.xml.gz file on disk (not a live pipe): downloading a
+year writes that file, then a bounded pool of parse workers converts it to
+FASTA via scripts/xml_to_fasta.py and deletes the .xml.gz once the FASTA is
+verified. --download-workers and --parse-workers size the two phases
+independently (see README.md's Data acquisition section for why they used to
+be fused, and why that was a problem).
 
 Long-running-download support is deliberately scoped to what this workload
 actually needs. Within one release: a dropped connection reconnects with an
 HTTP Range request and keeps feeding the same live decompressor, so a network
 blip costs a reconnect, not a restart. Across a killed/restarted batch: a
-release already on disk with valid stats is skipped, so a restart only
-re-pays whatever release was in flight, not the whole multi-hour run. True
-mid-file resume across a process restart isn't attempted -- the tar/gzip
-decompression state can't be serialized -- but since each release only ever
-transfers its own UniRef100 share (about 43% of the combined archive) rather
-than the full combined file, that's an acceptable trade rather than something
-worth a resumable on-disk staging format.
+release already fully parsed is skipped, and a release already downloaded but
+not yet parsed skips straight to parsing -- so a restart only re-pays whatever
+was actually in flight.
 """
 
 import argparse
 import csv
 import json
-import math
-import os
 import subprocess
 import sys
 import tarfile
-import tempfile
 import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
@@ -103,13 +91,6 @@ def release_for_year(year):
 
 def archive_url(release):
     return f"{BASE_URL}/release-{release}/uniref/uniref{release}.tar.gz"
-
-
-def parser_workers(download_mbps):
-    """Worker count per the calibration in xml_to_fasta.py / the README's Phase 4 rule."""
-    if download_mbps <= 6.45:
-        return 1
-    return math.ceil(download_mbps / 14.73)
 
 
 class ResilientHTTPStream:
@@ -212,101 +193,118 @@ def integrity_ok(year, stats_path, cluster_counts):
     return stats.get("n_seqs") == expected
 
 
-def download_release(year, output_dir, cluster_counts):
-    """Download, extract, and convert one year's UniRef100. Returns (year, download_MBps)."""
+def download_release(year, output_dir):
+    """Download one year's UniRef100 XML (still gzip-compressed) to disk.
+
+    Streams to a .partial path and renames atomically on completion, so a
+    half-written file left behind by a crash is never mistaken for a
+    complete one.
+    """
     release = release_for_year(year)
     url = archive_url(release)
-    fasta_path = output_dir / f"uniref100_{release}.fasta"
-    stats_path = output_dir / f"uniref100_{release}.stats.json"
-
-    if integrity_ok(year, stats_path, cluster_counts):
-        print(f"[{year}] already complete, skipping ({fasta_path})", flush=True)
-        return year, None
+    xml_gz_path = output_dir / f"uniref100_{release}.xml.gz"
+    partial_path = xml_gz_path.with_suffix(xml_gz_path.suffix + ".partial")
 
     print(f"[{year}] fetching {url}", flush=True)
     t0 = time.time()
     session = requests.Session()
     stream = ResilientHTTPStream(url, session)
 
-    with tempfile.TemporaryDirectory(prefix=f"uniref100_{release}_") as tmp_dir:
-        fifo_path = Path(tmp_dir) / "uniref100.xml.gz"
-        os.mkfifo(fifo_path)
+    try:
+        xml_gz_stream = extract_uniref100_xml_gz(stream)
+        with open(partial_path, "wb") as f:
+            while True:
+                chunk = xml_gz_stream.read(1 << 20)
+                if not chunk:
+                    break
+                f.write(chunk)
+    except Exception:
+        partial_path.unlink(missing_ok=True)
+        raise
+    finally:
+        # Early abort: we stop reading the moment uniref100.xml.gz is fully
+        # consumed, so uniref90/50 -- later in the same ordered stream -- are
+        # never requested.
+        stream.close()
 
-        proc = subprocess.Popen([
-            sys.executable, str(XML_TO_FASTA),
-            str(fifo_path), str(fasta_path),
-            "--stats-json", str(stats_path),
-        ])
-
-        try:
-            xml_gz_stream = extract_uniref100_xml_gz(stream)
-            with open(fifo_path, "wb") as fifo:
-                while True:
-                    chunk = xml_gz_stream.read(1 << 20)
-                    if not chunk:
-                        break
-                    fifo.write(chunk)
-        finally:
-            # Early abort: we stop reading the moment uniref100.xml.gz is
-            # fully consumed, so uniref90/50 -- later in the same ordered
-            # stream -- are never requested.
-            stream.close()
-
-        returncode = proc.wait()
+    partial_path.rename(xml_gz_path)
 
     elapsed = time.time() - t0
-    download_mbps = (stream.pos / (1 << 20)) / elapsed if elapsed > 0 else 0.0
+    mbps = (stream.pos / (1 << 20)) / elapsed if elapsed > 0 else 0.0
+    print(f"[{year}] downloaded in {elapsed:.0f}s, "
+          f"{stream.pos / (1 << 20):.0f} MB at {mbps:.2f} MB/s -> {xml_gz_path}",
+          flush=True)
 
-    if returncode != 0 or not integrity_ok(year, stats_path, cluster_counts):
-        print(f"[{year}] FAILED (xml_to_fasta.py exit {returncode}); "
+
+def parse_release(year, xml_gz_path, output_dir, cluster_counts):
+    """Convert one year's downloaded uniref100.xml.gz to FASTA via
+    xml_to_fasta.py, verify it against the expected cluster count, and
+    delete the .xml.gz once the FASTA is confirmed good."""
+    release = release_for_year(year)
+    fasta_path = output_dir / f"uniref100_{release}.fasta"
+    stats_path = output_dir / f"uniref100_{release}.stats.json"
+
+    print(f"[{year}] parsing {xml_gz_path}", flush=True)
+    result = subprocess.run([
+        sys.executable, str(XML_TO_FASTA),
+        str(xml_gz_path), str(fasta_path),
+        "--stats-json", str(stats_path),
+    ])
+
+    if result.returncode != 0 or not integrity_ok(year, stats_path, cluster_counts):
+        print(f"[{year}] FAILED (xml_to_fasta.py exit {result.returncode}); "
               f"removing partial output", file=sys.stderr, flush=True)
         fasta_path.unlink(missing_ok=True)
         stats_path.unlink(missing_ok=True)
-        raise RuntimeError(f"release {release} failed integrity/conversion check")
+        raise RuntimeError(f"release {release} failed parsing/integrity check")
 
-    print(f"[{year}] done in {elapsed:.0f}s, "
-          f"{stream.pos / (1 << 20):.0f} MB fetched at {download_mbps:.2f} MB/s "
-          f"-> {fasta_path}", flush=True)
-    return year, download_mbps
+    xml_gz_path.unlink()
+    print(f"[{year}] parsed -> {fasta_path}", flush=True)
 
 
-def run_batch(years, output_dir, max_workers_override):
+def process_year(year, output_dir, cluster_counts, parse_pool):
+    """Get one year to a verified FASTA: skip if already done, download if
+    the .xml.gz isn't on disk yet, then parse.
+
+    Runs as a download-pool task, but hands the actual parsing off to the
+    separately-sized parse_pool and blocks on its result -- so this thread
+    sits idle waiting rather than parsing itself, and parse concurrency
+    stays capped at --parse-workers no matter how many downloads are
+    in flight at once.
+    """
+    release = release_for_year(year)
+    fasta_path = output_dir / f"uniref100_{release}.fasta"
+    stats_path = output_dir / f"uniref100_{release}.stats.json"
+    xml_gz_path = output_dir / f"uniref100_{release}.xml.gz"
+
+    if integrity_ok(year, stats_path, cluster_counts):
+        print(f"[{year}] already parsed, skipping ({fasta_path})", flush=True)
+        return
+
+    if not xml_gz_path.exists():
+        download_release(year, output_dir)
+
+    parse_pool.submit(parse_release, year, xml_gz_path, output_dir, cluster_counts).result()
+
+
+def run_batch(years, output_dir, download_workers, parse_workers):
     output_dir.mkdir(parents=True, exist_ok=True)
     cluster_counts = load_cluster_counts()
-
-    remaining = list(years)
     failures = []
 
-    if max_workers_override is None and len(remaining) > 1:
-        # Calibrate worker count off the first release's real throughput,
-        # then hold it fixed for the rest of the batch.
-        first_year = remaining.pop(0)
-        try:
-            _, mbps = download_release(first_year, output_dir, cluster_counts)
-        except RuntimeError as exc:
-            print(f"[{first_year}] {exc}", file=sys.stderr, flush=True)
-            failures.append(first_year)
-            mbps = None
-        worker_count = parser_workers(mbps) if mbps else 1
-        print(f"calibrated {worker_count} worker(s) from {first_year} "
-              f"({mbps:.2f} MB/s)" if mbps else
-              f"calibration unavailable, defaulting to 1 worker", flush=True)
-    else:
-        worker_count = max_workers_override or 1
-
-    if remaining:
-        with ThreadPoolExecutor(max_workers=worker_count) as pool:
-            futures = {
-                pool.submit(download_release, year, output_dir, cluster_counts): year
-                for year in remaining
-            }
-            for future in as_completed(futures):
-                year = futures[future]
-                try:
-                    future.result()
-                except RuntimeError as exc:
-                    print(f"[{year}] {exc}", file=sys.stderr, flush=True)
-                    failures.append(year)
+    with ThreadPoolExecutor(max_workers=download_workers) as dl_pool, \
+         ThreadPoolExecutor(max_workers=parse_workers) as parse_pool:
+        futures = {
+            dl_pool.submit(process_year, year, output_dir, cluster_counts, parse_pool): year
+            for year in years
+        }
+        for fut in as_completed(futures):
+            year = futures[fut]
+            try:
+                fut.result()
+            except Exception as exc:
+                print(f"[{year}] {exc}", file=sys.stderr, flush=True)
+                failures.append(year)
 
     if failures:
         print(f"\n{len(failures)} release(s) failed: {sorted(failures)}", file=sys.stderr)
@@ -326,12 +324,15 @@ def main():
                           "or --years option2 for this project's locked-in 13-year set")
     ap.add_argument("--output-dir", default=str(REPO_ROOT / "data"),
                      help="where uniref100_{release}.fasta and .stats.json are written")
-    ap.add_argument("--max-workers", type=int, default=None,
-                     help="override the calibrated worker/concurrency count")
+    ap.add_argument("--download-workers", type=int, default=4,
+                     help="concurrent downloads -- network/disk-bound, cheap per worker (default 4)")
+    ap.add_argument("--parse-workers", type=int, default=3,
+                     help="concurrent xml_to_fasta.py conversions -- CPU-bound, capped to bound "
+                          "total memory (default 3)")
     args = ap.parse_args()
 
     years = parse_years(args.years)
-    run_batch(years, Path(args.output_dir), args.max_workers)
+    run_batch(years, Path(args.output_dir), args.download_workers, args.parse_workers)
 
 
 if __name__ == "__main__":
