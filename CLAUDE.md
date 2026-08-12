@@ -71,17 +71,17 @@ on disk. The protein may not stay the current one in the repo (Spike).
     separable in these 9 points.
 
 **Open TODOs:**
-- Diagnose the rho decline: run
+1. Separate the parsing component from the download script.
+2. EC2 instance has been restarted, so NVMe instance has probably been wiped. A new EBS volume has been created, attached, and mounted as /dev/nvme2n1. Database snapshots (tier a) need to downloaded there. 
+3. Rerun the pipeline after the previous step and reproduce results from before 
+4. Diagnose the rho decline: run
   `scripts/diagnostics/rbd_gap_diagnostic.py` against each year's
   `msa_raw.sto` to check whether later, larger snapshots pull in more
   divergent homologs that gap out specifically in the RBD (positions
   361-413) — which would explain the 50%-gap-column filter dropping more
   of the RBD as snapshots grow, one candidate mechanism for the decline
   alongside the imputed_frac caveat above.
-- EC2 instance has been restarted, so NVMe instance has probably been wiped. A new EBS volume has been created, attached, and mounted as /dev/nvme2n1. Database snapshots (tier a) need to downloaded there. 
-- Rerun the pipeline after the previous step and reproduce results from before
-- Separate the parsing component from the download script.
-- Add the alignment-threshold heuristic from the EVEREST paper.
+5. Add the alignment-threshold heuristic from the EVEREST paper.
 
 This repo is checked out on two machines (a local Mac and an EC2 instance),
 each with its own downloaded snapshots and `data/snapshots` layout —
