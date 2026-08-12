@@ -78,8 +78,8 @@ on disk. The protein may not stay the current one in the repo (Spike).
   361-413) — which would explain the 50%-gap-column filter dropping more
   of the RBD as snapshots grow, one candidate mechanism for the decline
   alongside the imputed_frac caveat above.
-- Move database snapshot storage from the NVMe instance store to an EBS
-  volume.
+- EC2 instance has been restarted, so NVMe instance has probably been wiped. A new EBS volume has been created, attached, and mounted as /dev/nvme2n1. Database snapshots (tier a) need to downloaded there. 
+- Rerun the pipeline after the previous step and reproduce results from before
 - Separate the parsing component from the download script.
 - Add the alignment-threshold heuristic from the EVEREST paper.
 
