@@ -34,55 +34,54 @@ written explanations as much as to code.
 
 **Goal:** get a curve of PSSM's mutation-effect-prediction performance versus
 database snapshot year, using whichever UniRef100 snapshots we currently have
-on disk. The protein may not stay the current one in the repo (Spike) — we
-were originally scoped to Tier A only, but Spike may not have enough related
-sequences there, so we may switch to a different protein.
+on disk. The protein may not stay the current one in the repo (Spike).
 
-**Notes (as of 2026-08-10):**
+**Configuration (as of 2026-08-12):**
 - Protein: SARS-CoV-2 Spike, full-length precursor, 1273 aa
   (`data/protein.fasta`, header still generic `>my_protein`) — the one
   candidate to possibly swap out per the goal above.
 - Bit-score threshold: still a single hardcoded
   `BITSCORE_PER_RESIDUE = 0.3` in `01_jackhmmer_search.py`, not yet varied
   per protein.
-- `run_tier_a_download.sh` ran successfully.
+
+**Progress:**
 - `run_tier_b_download.sh` overloads the EC2 instance and makes it
   unresponsive — don't just re-run it as-is; the cause needs investigating
   (e.g. concurrency/worker count, resource limits) before Tier B is
   retried.
-- Pipeline steps 00-06 run end-to-end (local jackhmmer vs. the local
-  UniRef100 2010 snapshot, Spike, threshold 0.3 bits/residue): **Spearman
-  rho = 0.175** (95% bootstrap CI [0.142, 0.208], n=3802; excluding the
-  1254 imputed variants, rho = 0.203, n=2548). This reproduces the number
-  already recorded in `README.md`'s Step 6 to three decimal places, and is
-  consistent with the ~0.17 the same local-jackhmmer pipeline produced on
-  the Mac checkout — confirming the pipeline is deterministic and gives
-  the same result across machines, not machine-dependent. This is the 2010
-  point of the curve below.
 - **Tier A sweep complete** (2011-2018 run 2026-08-10; 2010 from an earlier
   probe). 9/9 years DONE, no errors. Per-year results in
   `data/sweep_results.csv` (columns documented in
   `data/sweep_results_dictionary.md`), logs in `logs/sweep/`, driver in
   `scripts/sweep/`.
+
+**Findings:**
 - **rho declines as the snapshot grows**: 0.175 (2010, 4.1 GB) to 0.100
   (2018, 58.8 GB), despite alignment depth rising monotonically
   (Neff 213 to 732). More homologs, worse DMS correlation.
-- Caveat: the endpoint CIs are disjoint (2010 [0.142, 0.208] vs 2018
-  [0.065, 0.133]), so 2010-vs-2018 is real, but adjacent years overlap and
-  2016 breaks the trend upward — a trend, not a smooth curve.
-- Caveat: `imputed_frac` swings 0.17-0.42 across years. Imputed variants
-  all take one constant value, so they enter the Spearman as a tied block
-  carrying no rank information. The fraction is set by `L_final` (872-875
-  in the low-imputation years, 818-844 in the high ones), so part of the
-  year-to-year rho movement is coverage, not prediction quality. Database
-  size and column retention are not cleanly separable in these 9 points.
-- **TODO: diagnose the rho decline.** Run
+  - Endpoint CIs are disjoint (2010 [0.142, 0.208] vs 2018 [0.065, 0.133]),
+    so 2010-vs-2018 is real, but adjacent years overlap and 2016 breaks
+    the trend upward — a trend, not a smooth curve.
+  - `imputed_frac` swings 0.17-0.42 across years. Imputed variants all
+    take one constant value, so they enter the Spearman as a tied block
+    carrying no rank information. The fraction is set by `L_final`
+    (872-875 in the low-imputation years, 818-844 in the high ones), so
+    part of the year-to-year rho movement is coverage, not prediction
+    quality. Database size and column retention are not cleanly
+    separable in these 9 points.
+
+**Open TODOs:**
+- Diagnose the rho decline: run
   `scripts/diagnostics/rbd_gap_diagnostic.py` against each year's
   `msa_raw.sto` to check whether later, larger snapshots pull in more
   divergent homologs that gap out specifically in the RBD (positions
-  361-413) — which would explain the 50%-gap-column filter dropping more of
-  the RBD as snapshots grow, one candidate mechanism for the decline
+  361-413) — which would explain the 50%-gap-column filter dropping more
+  of the RBD as snapshots grow, one candidate mechanism for the decline
   alongside the imputed_frac caveat above.
+- Move database snapshot storage from the NVMe instance store to an EBS
+  volume.
+- Separate the parsing component from the download script.
+- Add the alignment-threshold heuristic from the EVEREST paper.
 
 This repo is checked out on two machines (a local Mac and an EC2 instance),
 each with its own downloaded snapshots and `data/snapshots` layout —
