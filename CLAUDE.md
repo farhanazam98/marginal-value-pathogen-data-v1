@@ -81,11 +81,16 @@ on disk. The protein may not stay the current one in the repo (Spike).
 **Open TODOs:**
 1. ~~Separate the parsing component from the download script.~~ Done — see
    Progress above.
-2. EC2 instance has been restarted, so NVMe instance has probably been wiped. A new EBS volume has been created, attached, and mounted as /dev/nvme2n1. Database snapshots (tier a) need to downloaded there.
-   `data/snapshots` still symlinks to `/mnt/scratch`, which isn't mounted at
-   all post-restart — the symlink needs repointing at the new EBS volume
-   before any download can run. See `CLAUDE.local.md`.
-3. Rerun the pipeline after the previous step and reproduce results from before 
+2. ~~Repoint `data/snapshots` at the new EBS volume and redownload Tier A
+   there.~~ Done — symlinks to `/data/snapshots`, all 9 years (2010-2018,
+   ~188 GB) redownloaded 2026-08-12/13, stats show no length mismatches.
+   See `CLAUDE.local.md`.
+3. ~~Rerun the pipeline after the previous step and reproduce results from
+   before.~~ Done 2026-08-13 — all 9 years (2010-2018) re-run against the
+   redownloaded snapshots; every value in `data/sweep_results.csv` matches
+   the 2026-08-10 run exactly (including `spearman_rho` for all nine years)
+   except wall-clock timing, confirming the pipeline is deterministic and
+   the rho-decline finding isn't an artifact of one run.
 4. Diagnose the rho decline: run
   `scripts/diagnostics/rbd_gap_diagnostic.py` against each year's
   `msa_raw.sto` to check whether later, larger snapshots pull in more
