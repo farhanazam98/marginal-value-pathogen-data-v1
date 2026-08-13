@@ -24,6 +24,12 @@ Design constraints, in order of importance:
 
 Memory stays flat at roughly the size of the single largest sequence, because
 the only accumulator is the current sequence's line buffer.
+
+Two <sequence> layouts occur: 2010-2018 wrap residues over several lines with
+</sequence> on its own line; 2020+ put the whole sequence on one line. Both
+are handled. A sequence body that hits another tag or EOF before closing now
+raises, rather than latching `in_seq` on and buffering the rest of the file --
+the unbounded-RAM failure of the multi-line-only version on 2020+ input.
 """
 
 import argparse
@@ -63,42 +69,35 @@ def convert(xml_gz_path, fasta_path, progress_every=25_000_000):
 
         for line in fin:
             t = line.strip()
+            flush = False
 
             if in_seq:
+                # Multi-line layout: residue lines (letters only) until a bare
+                # </sequence>. Any other tag here means it never closed -- raise
+                # rather than latch on and buffer the rest of the file.
                 if t == "</sequence>":
-                    # Flush one FASTA record. Sequence lines arrive pre-wrapped
-                    # at 60 columns and are re-emitted as-is: rewrapping would
-                    # cost CPU for no benefit and UniProt's own uniref100.fasta
-                    # uses the same 60-column wrapping.
-                    seq_len = sum(len(chunk) for chunk in buf)
-                    header = f">{acc} {desc}\n" if desc else f">{acc}\n"
-                    body = "\n".join(buf) + "\n"
-                    fout.write(header)
-                    fout.write(body)
-
-                    fasta_bytes += len(header) + len(body)
-                    n_seqs += 1
-                    n_residues += seq_len
-                    if seq_len > max_seq_len:
-                        max_seq_len = seq_len
-                    if declared_len is not None and declared_len != seq_len:
-                        n_len_mismatch += 1
-
                     in_seq = False
-                    buf = []
-                    acc = None
-                    desc = None
-                    declared_len = None
+                    flush = True
+                elif t.startswith("<"):
+                    raise RuntimeError(
+                        f"sequence for {acc!r} not closed before {t[:40]!r}"
+                    )
                 else:
                     buf.append(t)
-                continue
-
             # Ordered by descending frequency in the file to keep the branch
             # chain short on the common path.
-            if t.startswith("<sequence "):
-                in_seq = True
+            elif t.startswith("<sequence "):
                 m = LEN_ATTR.search(t)
                 declared_len = int(m.group(1)) if m else None
+                gt = t.find(">")
+                end = t.find("</sequence>", gt + 1)
+                if end == -1:
+                    in_seq = True  # residues continue on following lines
+                else:
+                    # Single-line layout (2020+): emit residues as one FASTA
+                    # line, no rewrap.
+                    buf.append(t[gt + 1:end])
+                    flush = True
             elif t.startswith("<entry "):
                 n_entries += 1
                 # id="UniRef100_Q197F8"
@@ -112,10 +111,36 @@ def convert(xml_gz_path, fasta_path, progress_every=25_000_000):
                 if desc is None:
                     desc = t[6:-7] if t.endswith("</name>") else None
 
+            if flush:
+                seq_len = sum(len(chunk) for chunk in buf)
+                header = f">{acc} {desc}\n" if desc else f">{acc}\n"
+                body = "\n".join(buf) + "\n"
+                fout.write(header)
+                fout.write(body)
+
+                fasta_bytes += len(header) + len(body)
+                n_seqs += 1
+                n_residues += seq_len
+                if seq_len > max_seq_len:
+                    max_seq_len = seq_len
+                if declared_len is not None and declared_len != seq_len:
+                    n_len_mismatch += 1
+
+                buf = []
+                acc = None
+                desc = None
+                declared_len = None
+
             if progress_every and n_seqs and n_seqs - last_report >= progress_every:
                 last_report = n_seqs
                 print(f"  ... {n_seqs:,} sequences, {n_residues:,} residues",
                       file=sys.stderr, flush=True)
+
+    if in_seq:
+        raise RuntimeError(
+            f"reached EOF inside an unterminated sequence for {acc!r} -- "
+            "truncated input or XML line-layout assumption violated"
+        )
 
     elapsed = time.time() - t0
 

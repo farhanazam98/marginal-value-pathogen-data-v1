@@ -71,6 +71,24 @@ archived year. This script streams that tarball, extracts only the
 `uniref100.xml.gz` member (always first in the stream), and aborts the
 connection immediately after — UniRef50/90 are never requested.
 
+Two mirrors carry these archives at an identical path layout,
+`ftp.uniprot.org` and `ftp.ebi.ac.uk`, and which one is healthy changes without
+warning — each has been caught hanging at the TLS handshake, and each has been
+seen serving bodies hundreds of times slower than the other. So the script
+doesn't hardcode one. At the start of a batch it reads 8 MB from each and pins
+whichever is *fastest*, not whichever answers first: a mirror can return
+headers promptly while delivering at 0.4 MB/s, which is the difference between
+this finishing in an hour and in a fortnight. The chosen mirror is then fixed
+for every year in the batch, because a dropped transfer resumes with an HTTP
+`Range` request into a still-live decompressor — switching hosts mid-file would
+splice two copies together. A mirror dying mid-batch fails those years rather
+than rotating; rerun and it re-probes, then resumes from what's on disk.
+
+`--min-free-gb` (default 150) refuses to begin a year's download when the
+output volume is below that floor. Peak disk is larger than the final FASTA:
+a year's `.xml.gz` is deleted only once its FASTA passes the integrity check,
+so concurrent downloads hold several multi-hundred-GB intermediates at once.
+
 Download and parse are two separate, independently-concurrent phases,
 connected by the extracted `uniref100.xml.gz` sitting on disk rather than a
 live pipe: `--download-workers` (default 4) controls how many years fetch at

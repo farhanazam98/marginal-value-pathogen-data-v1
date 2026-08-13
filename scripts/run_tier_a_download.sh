@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
-# Launches Tier A (UniRef100, 2010-2018, ~120 GB / 5.2h per README Phase 3)
-# as a detached background job so it survives the SSH session ending.
+# Launches Tier A (UniRef100, 2010-2018, ~193 GB of FASTA as measured) as a
+# detached background job so it survives the SSH session ending.
 #
-# Output goes to data/snapshots, which is symlinked to /mnt/scratch -- the
-# root volume only has ~44G free and Tier A alone won't fit on it.
+# Output goes to data/snapshots, which must be a symlink to a volume with room
+# for that -- the root volume has ~44G free.
 set -euo pipefail
 
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"

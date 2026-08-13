@@ -27,6 +27,10 @@ verified. --download-workers and --parse-workers size the two phases
 independently (see README.md's Data acquisition section for why they used to
 be fused, and why that was a problem).
 
+Two mirrors serve these archives and either can be degraded at any given time,
+so the mirror is chosen at run time by measured throughput rather than
+hardcoded -- see pick_mirror() for why reachability alone is the wrong test.
+
 Long-running-download support is deliberately scoped to what this workload
 actually needs. Within one release: a dropped connection reconnects with an
 HTTP Range request and keeps feeding the same live decompressor, so a network
@@ -39,6 +43,7 @@ was actually in flight.
 import argparse
 import csv
 import json
+import shutil
 import subprocess
 import sys
 import tarfile
@@ -53,11 +58,17 @@ REPO_ROOT = Path(__file__).resolve().parent.parent
 XML_TO_FASTA = Path(__file__).resolve().parent / "xml_to_fasta.py"
 ARCHIVE_SIZES_CSV = REPO_ROOT / "data" / "uniprotref_yearly_archive_sizes.csv"
 
-# ftp.uniprot.org itself hangs at the TLS handshake from this instance
-# (confirmed 2026-08-12: TCP connects, ClientHello sent, no ServerHello --
-# times out); EBI mirrors the same archives at an identical path layout and
-# is reachable.
-BASE_URL = "https://ftp.ebi.ac.uk/pub/databases/uniprot/previous_major_releases"
+# Both mirrors carry the same archives at an identical path layout, and both
+# have been observed hanging at the TLS handshake from this instance (TCP
+# connects, ClientHello sent, no ServerHello -- times out): ftp.uniprot.org on
+# 2026-08-12, ftp.ebi.ac.uk on 2026-08-13, by which date uniprot.org was
+# healthy again and serving ~123 MB/s against EBI's 0.37 MB/s over plain HTTP.
+# Which one is up is not predictable, hence a list probed at run time rather
+# than a constant that has to be re-pointed by hand each time this flips.
+MIRRORS = [
+    "https://ftp.uniprot.org/pub/databases/uniprot/previous_major_releases",
+    "https://ftp.ebi.ac.uk/pub/databases/uniprot/previous_major_releases",
+]
 
 # This project's locked-in 13-year set (README, Phase 3: "Year set: Option 2").
 OPTION2_YEARS = [2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2020, 2022, 2024, 2026]
@@ -71,6 +82,25 @@ CLUSTER_COUNT_FALLBACK = {2010: 9_808_438}
 CONNECT_TIMEOUT = 10
 READ_TIMEOUT = 30
 MAX_RECONNECT_ATTEMPTS = 8
+
+# Mirror benchmark: read at most PROBE_BYTES, and give up after
+# PROBE_DEADLINE seconds regardless, rating the mirror on whatever arrived.
+PROBE_BYTES = 8 << 20
+PROBE_DEADLINE = 20
+MIN_MIRROR_MBPS = 5.0
+
+# Refuse to start a download that could fill the volume. The .xml.gz for a
+# single year runs to 163 GB (2026) and its FASTA to another ~209 GB, so
+# running out of space mid-transfer is a realistic way to lose hours of work
+# -- and, worse, to wedge anything else writing to the same filesystem.
+#
+# This is a floor, not a reservation: concurrent downloads each check against
+# the same free-space reading and none of them subtracts what the others are
+# about to consume. It catches "started with a nearly-full volume", not
+# "N workers collectively overcommit it". Sizing --download-workers against
+# actual free space is still the operator's job; see run_tier_b_download.sh's
+# header for the per-year figures to do that arithmetic with.
+DEFAULT_MIN_FREE_GB = 150
 
 # Reading via response.raw (rather than requests' iter_content) means urllib3
 # exceptions reach us unwrapped -- requests only translates urllib3 errors
@@ -93,8 +123,57 @@ def release_for_year(year):
     return f"{year}_01"
 
 
-def archive_url(release):
-    return f"{BASE_URL}/release-{release}/uniref/uniref{release}.tar.gz"
+def archive_url(release, base_url):
+    return f"{base_url}/release-{release}/uniref/uniref{release}.tar.gz"
+
+
+def pick_mirror(release="2020_01"):
+    """Time a short ranged read from each mirror and pin the fastest.
+
+    Reachability is deliberately *not* the test. Both mirrors answer HEAD
+    even when badly degraded -- measured 2026-08-13, EBI returned headers
+    promptly while serving bodies at 0.37 MB/s against uniprot.org's 123 MB/s,
+    a 330x gap that would turn this batch from about an hour into two weeks.
+    So each candidate is benchmarked on a real body read instead.
+
+    Pinned for every year in the batch, because ResilientHTTPStream resumes a
+    dropped transfer with `Range: bytes=N-` into a single live decompressor:
+    silently switching hosts mid-file would splice two copies together and
+    corrupt the output if they differ by even a byte. A mirror dying mid-batch
+    therefore fails the affected years rather than rotating; the next run
+    re-probes and resumes from whatever is already on disk.
+    """
+    results = []
+    for base in MIRRORS:
+        url = archive_url(release, base)
+        try:
+            t0 = time.time()
+            resp = requests.get(
+                url, headers={"Range": f"bytes=0-{PROBE_BYTES - 1}"},
+                stream=True, timeout=(CONNECT_TIMEOUT, 15),
+            )
+            resp.raise_for_status()
+            n = 0
+            for chunk in resp.iter_content(1 << 20):
+                n += len(chunk)
+                if time.time() - t0 > PROBE_DEADLINE:
+                    break  # too slow to finish the probe; rate it on what arrived
+            resp.close()
+            mbps = (n / (1 << 20)) / max(time.time() - t0, 1e-6)
+            print(f"  probe {base}: {mbps:.1f} MB/s", flush=True)
+            results.append((mbps, base))
+        except Exception as exc:
+            print(f"  probe {base}: unreachable ({exc})", file=sys.stderr, flush=True)
+
+    if not results:
+        raise RuntimeError(f"no reachable mirror among {MIRRORS}")
+
+    mbps, base = max(results)
+    if mbps < MIN_MIRROR_MBPS:
+        print(f"WARNING: fastest mirror is only {mbps:.1f} MB/s -- a full batch "
+              f"will take days at this rate", file=sys.stderr, flush=True)
+    print(f"mirror: {base} ({mbps:.1f} MB/s)", flush=True)
+    return base
 
 
 class ResilientHTTPStream:
@@ -197,7 +276,7 @@ def integrity_ok(year, stats_path, cluster_counts):
     return stats.get("n_seqs") == expected
 
 
-def download_release(year, output_dir):
+def download_release(year, output_dir, base_url, min_free_gb):
     """Download one year's UniRef100 XML (still gzip-compressed) to disk.
 
     Streams to a .partial path and renames atomically on completion, so a
@@ -205,7 +284,15 @@ def download_release(year, output_dir):
     complete one.
     """
     release = release_for_year(year)
-    url = archive_url(release)
+
+    free_gb = shutil.disk_usage(output_dir).free / (1 << 30)
+    if free_gb < min_free_gb:
+        raise RuntimeError(
+            f"only {free_gb:.0f} GB free on {output_dir}, below the "
+            f"{min_free_gb} GB floor -- refusing to start this download"
+        )
+
+    url = archive_url(release, base_url)
     xml_gz_path = output_dir / f"uniref100_{release}.xml.gz"
     partial_path = xml_gz_path.with_suffix(xml_gz_path.suffix + ".partial")
 
@@ -266,7 +353,7 @@ def parse_release(year, xml_gz_path, output_dir, cluster_counts):
     print(f"[{year}] parsed -> {fasta_path}", flush=True)
 
 
-def process_year(year, output_dir, cluster_counts, parse_pool):
+def process_year(year, output_dir, cluster_counts, parse_pool, base_url, min_free_gb):
     """Get one year to a verified FASTA: skip if already done, download if
     the .xml.gz isn't on disk yet, then parse.
 
@@ -286,20 +373,22 @@ def process_year(year, output_dir, cluster_counts, parse_pool):
         return
 
     if not xml_gz_path.exists():
-        download_release(year, output_dir)
+        download_release(year, output_dir, base_url, min_free_gb)
 
     parse_pool.submit(parse_release, year, xml_gz_path, output_dir, cluster_counts).result()
 
 
-def run_batch(years, output_dir, download_workers, parse_workers):
+def run_batch(years, output_dir, download_workers, parse_workers, min_free_gb):
     output_dir.mkdir(parents=True, exist_ok=True)
     cluster_counts = load_cluster_counts()
+    base_url = pick_mirror(release_for_year(years[0]))
     failures = []
 
     with ThreadPoolExecutor(max_workers=download_workers) as dl_pool, \
          ThreadPoolExecutor(max_workers=parse_workers) as parse_pool:
         futures = {
-            dl_pool.submit(process_year, year, output_dir, cluster_counts, parse_pool): year
+            dl_pool.submit(process_year, year, output_dir, cluster_counts,
+                           parse_pool, base_url, min_free_gb): year
             for year in years
         }
         for fut in as_completed(futures):
@@ -333,10 +422,14 @@ def main():
     ap.add_argument("--parse-workers", type=int, default=3,
                      help="concurrent xml_to_fasta.py conversions -- CPU-bound, capped to bound "
                           "total memory (default 3)")
+    ap.add_argument("--min-free-gb", type=int, default=DEFAULT_MIN_FREE_GB,
+                     help=f"refuse to start a year's download when the output volume has less "
+                          f"than this much free (default {DEFAULT_MIN_FREE_GB})")
     args = ap.parse_args()
 
     years = parse_years(args.years)
-    run_batch(years, Path(args.output_dir), args.download_workers, args.parse_workers)
+    run_batch(years, Path(args.output_dir), args.download_workers, args.parse_workers,
+              args.min_free_gb)
 
 
 if __name__ == "__main__":
