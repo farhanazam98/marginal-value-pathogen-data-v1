@@ -1,9 +1,13 @@
 #!/usr/bin/env bash
-# Launches Tier B (UniRef100, 2020/2022/2024/2026, ~375 GB / 16.1h per README Phase 3)
-# as a detached background job so it survives the SSH session ending.
+# Launches Tier B (UniRef100, 2020/2022/2024/2026) as a detached background job
+# so it survives the SSH session ending.
 #
-# Output goes to data/snapshots, which is symlinked to /mnt/scratch -- the
-# root volume only has ~44G free and Tier B alone won't fit on it.
+# Sizes, read off the archives' tar headers rather than estimated: the four
+# uniref100.xml.gz members total 468 GB (71/100/133/163 GB) and convert to
+# roughly 607 GB of FASTA (95/131/172/209 GB). Peak disk is therefore ~1075 GB,
+# since a year's .xml.gz is only deleted once its FASTA passes the integrity
+# check. Output goes to data/snapshots, which must be a symlink to a volume
+# with room for that -- the root volume has ~44G free.
 
 set -euo pipefail
 
