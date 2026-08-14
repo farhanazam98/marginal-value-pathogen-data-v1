@@ -45,23 +45,16 @@ on disk. The protein may not stay the current one in the repo (Spike).
   per protein.
 
 **Progress:**
-- `run_tier_b_download.sh` overloaded the EC2 instance's RAM and made it
-  unresponsive. Root cause: `download_uniref100.py` used to fuse downloading
-  and parsing into one worker per year (FIFO + subprocess), with the worker
-  count picked to match parser throughput — so one knob controlled both
-  network and parsing concurrency, and each concurrent worker held an HTTP
-  stream, two live levels of tar/gzip decompression, and a parser process at
-  once, all for the entire multi-GB transfer. Fixed by separating download
-  (writes `.xml.gz` to disk) from parse (reads that file, writes FASTA,
-  deletes the `.xml.gz`) into two independently-sized worker pools:
-  `--download-workers` (default 4) and `--parse-workers` (default 3, capped
-  low since it's the CPU/memory-bound side). Not yet re-tested against an
-  actual Tier B run — see Open TODOs.
+- `run_tier_b_download.sh` downloads and parses each year with independently-
+  sized worker pools — see README's Data acquisition section.
 - **Tier A sweep complete** (2011-2018 run 2026-08-10; 2010 from an earlier
   probe). 9/9 years DONE, no errors. Per-year results in
-  `data/sweep_results.csv` (columns documented in
-  `data/sweep_results_dictionary.md`), logs in `logs/sweep/`, driver in
-  `scripts/sweep/`.
+  `data/sweep_results.csv`, logs in `logs/sweep/`, driver in `scripts/sweep/`
+  (see README's "Running the sweep across years").
+- **Tier B download complete** (2026-08-13, all 4 years: 2020/2022/2024/2026,
+  ~621 GB). Zero length mismatches, same integrity check as Tier A. All 13
+  years of the locked set are now on disk — see Open TODOs for running the
+  pipeline against them.
 
 **Findings:**
 - **rho declines as the snapshot grows**: 0.175 (2010, 4.1 GB) to 0.100
@@ -91,14 +84,17 @@ on disk. The protein may not stay the current one in the repo (Spike).
    the 2026-08-10 run exactly (including `spearman_rho` for all nine years)
    except wall-clock timing, confirming the pipeline is deterministic and
    the rho-decline finding isn't an artifact of one run.
-4. Diagnose the rho decline: run
+4. Run the sweep against the 4 Tier B years (2020/2022/2024/2026), now that
+   they're downloaded. This is the last piece needed for the full 2010-2026
+   curve the Goal calls for.
+5. Diagnose the rho decline: run
   `scripts/diagnostics/rbd_gap_diagnostic.py` against each year's
   `msa_raw.sto` to check whether later, larger snapshots pull in more
   divergent homologs that gap out specifically in the RBD (positions
   361-413) — which would explain the 50%-gap-column filter dropping more
   of the RBD as snapshots grow, one candidate mechanism for the decline
   alongside the imputed_frac caveat above.
-5. Add the alignment-threshold heuristic from the EVEREST paper.
+6. Add the alignment-threshold heuristic from the EVEREST paper.
 
 This repo is checked out on two machines (a local Mac and an EC2 instance),
 each with its own downloaded snapshots and `data/snapshots` layout —

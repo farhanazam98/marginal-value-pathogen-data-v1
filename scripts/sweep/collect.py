@@ -24,7 +24,7 @@ import os
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
-SWEEP_ROOT = Path(os.environ.get("SWEEP_ROOT", "/mnt/scratch/sweep"))
+SWEEP_ROOT = Path(os.environ.get("SWEEP_ROOT", REPO_ROOT / "data" / "sweep"))
 SNAPSHOT_DIR = REPO_ROOT / "data" / "snapshots"
 OUT_CSV = REPO_ROOT / "data" / "sweep_results.csv"
 
