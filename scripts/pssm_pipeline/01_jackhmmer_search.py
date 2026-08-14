@@ -22,6 +22,7 @@ Requires the HMMER suite on PATH: `conda activate marginal-value-pathogen-data`.
 """
 
 import json
+import os
 import shutil
 import subprocess
 import time
@@ -30,7 +31,10 @@ from pathlib import Path
 from Bio import SeqIO
 
 QUERY_FASTA = "data/pssm_pipeline/query.fasta"
-SEQ_DB = "data/uniref100_2010.fasta"  # the local UniRef100 snapshot to search
+# The local UniRef100 snapshot to search. Override with the SEQ_DB env var
+# (e.g. `SEQ_DB=data/snapshots/uniref100_2015_01.fasta python ...`) instead
+# of editing this default -- the sweep driver does exactly that per year.
+SEQ_DB = os.environ.get("SEQ_DB", "data/uniref100_2010.fasta")
 OUT_ALIGNMENT = "data/pssm_pipeline/msa_raw.sto"  # consumed by Step 2
 OUT_TABLE = "data/pssm_pipeline/msa_raw_hits.tbl"  # per-sequence hit table
 OUT_RUN_META = "data/pssm_pipeline/msa_raw_run_meta.json"  # run summary / debug

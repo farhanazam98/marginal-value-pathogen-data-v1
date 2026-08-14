@@ -20,7 +20,7 @@ set -euo pipefail
 
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 LOG_DIR="$REPO_ROOT/logs/sweep"
-SWEEP_ROOT="${SWEEP_ROOT:-/mnt/scratch/sweep}"
+SWEEP_ROOT="${SWEEP_ROOT:-$REPO_ROOT/data/sweep}"
 PID_FILE="$SWEEP_ROOT/.run_sweep.pid"
 JOBS=6
 

@@ -49,12 +49,40 @@ checkpoint, so steps can be re-run individually after changing one of them):
 `04 pssm.npy` → `05 predictions.csv` → `06 rho + scatter.png`.
 
 Step 1 requires a local UniRef100 FASTA snapshot on disk (see Data acquisition
-below) and two constants set by hand at the top of the script: `SEQ_DB`, the
-path to the specific year's snapshot to search — there's no year/CLI
-parameter, so switching years means editing this constant — and
-`BITSCORE_PER_RESIDUE`, configured per protein; thresholds are
+below). Which snapshot to search is set by `SEQ_DB` at the top of the script
+(default `data/uniref100_2010.fasta`) — override it via the `SEQ_DB`
+environment variable to point at a different year without editing the script,
+e.g. `SEQ_DB=data/snapshots/uniref100_2015_01.fasta python
+scripts/pssm_pipeline/01_jackhmmer_search.py`. `BITSCORE_PER_RESIDUE`,
+configured per protein, is still a hand-set constant; thresholds are
 length-normalized (bits/residue × query length) rather than e-value-based, so
 hit quality stays constant as snapshots grow across years.
+
+## Running the sweep across years
+
+`scripts/sweep/run_sweep.sh` runs the full pipeline (steps 00–06) once per
+snapshot year, so a rho-vs-year curve doesn't mean rerunning by hand for each
+year:
+
+```bash
+scripts/sweep/run_sweep.sh -j 6 2010 2011 2012 2013 2014 2015 2016 2017 2018
+python scripts/sweep/collect.py
+```
+
+Each year runs in its own sandbox under `$SWEEP_ROOT/<year>` (env var,
+default `data/sweep/`, gitignored): a directory with symlinks to the shared
+scripts/inputs plus its own real `data/pssm_pipeline/`, needed because every
+pipeline script other than `01_jackhmmer_search.py` resolves its checkpoint
+paths relative to the working directory rather than taking a year argument
+(`01` itself is pointed at the right snapshot via the `SEQ_DB` env var, no
+sandbox needed for that part). `-j N` caps how many years run concurrently
+(default 6) — jackhmmer only pins ~2 effective cores per job, so uncapped
+concurrency oversubscribes the machine the same way the old fused
+download+parse worker did (see Data acquisition below). A run is resumable:
+finished years are skipped on a rerun. `collect.py` then re-derives
+`data/sweep_results.csv` (columns documented in
+`data/sweep_results_dictionary.md`) from whatever checkpoints exist under
+`$SWEEP_ROOT`, so it's safe to run mid-sweep or after a crash.
 
 ## Data acquisition (UniRef100 snapshots)
 
@@ -128,6 +156,10 @@ rather than assuming another machine's state.
 - `data/uniprotref_yearly_archive_sizes.csv` — combined UniRef50+90+100
   archive size per year, used for both the growth plot and
   `download_uniref100.py`'s integrity checks (expected cluster counts).
+- `data/sweep_results.csv` — one row per sweep-driver run, all metrics from
+  every pipeline step (not just rho); columns documented in
+  `data/sweep_results_dictionary.md`. Produced by `scripts/sweep/collect.py`,
+  not hand-edited.
 - `calibration.csv` — timed measurements (wall/CPU/RSS/throughput) from
   early conversion and search calibration runs; referenced by the README's
   "Compute breakdown" section, not consumed by any script at run time.
