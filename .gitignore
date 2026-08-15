@@ -8,6 +8,12 @@ data/snapshots/**
 data/pssm_pipeline
 data/pssm_pipeline/**
 
+# Sweep sandboxes: one pipeline checkpoint set per snapshot year, regenerable
+# via scripts/sweep/*.py. data/sweep_results.csv (the collected table) is the
+# tracked artifact, not the sandboxes themselves.
+data/sweep
+data/sweep/**
+
 # Large sequence/archive formats, wherever they end up
 *.faa
 *.fna
