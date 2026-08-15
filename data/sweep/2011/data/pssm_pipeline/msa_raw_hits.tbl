@@ -1,0 +1,606 @@
+#                                                               --- full sequence ---- --- best 1 domain ---- --- domain number estimation ----
+# target name        accession  query name           accession    E-value  score  bias   E-value  score  bias   exp reg clu  ov env dom rep inc description of target
+#------------------- ---------- -------------------- ---------- --------- ------ ----- --------- ------ -----   --- --- --- --- --- --- --- --- ---------------------
+UniRef100_Q1EFN2     -          my_protein           -                  0 2020.6  19.9         0 2020.5  19.9   1.0   1   0   0   1   1   1   1 Cluster: Spike glycoprotein S
+UniRef100_D3KDM5     -          my_protein           -                  0 2020.0  19.2         0 2019.8  19.2   1.0   1   0   0   1   1   1   1 Cluster: Spike glycoprotein
+UniRef100_D2E1K6     -          my_protein           -                  0 2019.8  19.6         0 2019.7  19.6   1.0   1   0   0   1   1   1   1 Cluster: Spike glycoprotein
+UniRef100_Q202H8     -          my_protein           -                  0 2019.8  19.6         0 2019.6  19.6   1.0   1   0   0   1   1   1   1 Cluster: Spike glycoprotein
+UniRef100_P59594     -          my_protein           -                  0 2019.7  19.4         0 2019.6  19.4   1.0   1   0   0   1   1   1   1 Cluster: Spike glycoprotein
+UniRef100_Q6T7X5     -          my_protein           -                  0 2019.5  19.5         0 2019.3  19.5   1.0   1   0   0   1   1   1   1 Cluster: Spike glycoprotein
+UniRef100_Q202G8     -          my_protein           -                  0 2019.4  19.0         0 2019.2  19.0   1.0   1   0   0   1   1   1   1 Cluster: Spike glycoprotein
+UniRef100_D2E1Z1     -          my_protein           -                  0 2019.3  20.4         0 2019.1  20.4   1.0   1   0   0   1   1   1   1 Cluster: Spike glycoprotein
+UniRef100_D2E250     -          my_protein           -                  0 2019.2  18.8         0 2019.0  18.8   1.0   1   0   0   1   1   1   1 Cluster: Spike glycoprotein
+UniRef100_Q202G5     -          my_protein           -                  0 2019.2  19.2         0 2019.0  19.2   1.0   1   0   0   1   1   1   1 Cluster: Spike glycoprotein
+UniRef100_Q202H5     -          my_protein           -                  0 2019.0  19.9         0 2018.9  19.9   1.0   1   0   0   1   1   1   1 Cluster: Spike glycoprotein
+UniRef100_Q202E5     -          my_protein           -                  0 2018.9  19.6         0 2018.8  19.6   1.0   1   0   0   1   1   1   1 Cluster: Spike glycoprotein
+UniRef100_Q5Y187     -          my_protein           -                  0 2018.9  19.5         0 2018.7  19.5   1.0   1   0   0   1   1   1   1 Cluster: S protein
+UniRef100_D2E235     -          my_protein           -                  0 2018.9  19.1         0 2018.7  19.1   1.0   1   0   0   1   1   1   1 Cluster: Spike glycoprotein
+UniRef100_D2E206     -          my_protein           -                  0 2018.6  19.3         0 2018.4  19.3   1.0   1   0   0   1   1   1   1 Cluster: Spike glycoprotein
+UniRef100_Q5GDB6     -          my_protein           -                  0 2018.5  16.8         0 2018.3  16.8   1.0   1   0   0   1   1   1   1 Cluster: Spike glycoprotein
+UniRef100_D2E2F2     -          my_protein           -                  0 2018.4  19.1         0 2018.3  19.1   1.0   1   0   0   1   1   1   1 Cluster: Spike glycoprotein
+UniRef100_Q202F2     -          my_protein           -                  0 2018.4  19.2         0 2018.2  19.2   1.0   1   0   0   1   1   1   1 Cluster: Spike glycoprotein
+UniRef100_B8Q8U8     -          my_protein           -                  0 2018.4  19.1         0 2018.2  19.1   1.0   1   0   0   1   1   1   1 Cluster: Spike glycoprotein S
+UniRef100_Q202F9     -          my_protein           -                  0 2018.3  19.9         0 2018.2  19.9   1.0   1   0   0   1   1   1   1 Cluster: Spike glycoprotein
+UniRef100_Q5GDB4     -          my_protein           -                  0 2018.3  16.6         0 2018.2  16.6   1.0   1   0   0   1   1   1   1 Cluster: Spike glycoprotein
+UniRef100_Q202G3     -          my_protein           -                  0 2018.3  19.6         0 2018.1  19.6   1.0   1   0   0   1   1   1   1 Cluster: Spike glycoprotein
+UniRef100_Q6TPE8     -          my_protein           -                  0 2018.3  19.0         0 2018.1  19.0   1.0   1   0   0   1   1   1   1 Cluster: Spike glycoprotein
+UniRef100_D2E2D8     -          my_protein           -                  0 2018.3  19.9         0 2018.1  19.9   1.0   1   0   0   1   1   1   1 Cluster: Spike glycoprotein
+UniRef100_Q6JH46     -          my_protein           -                  0 2018.2  19.2         0 2018.1  19.2   1.0   1   0   0   1   1   1   1 Cluster: Spike protein
+UniRef100_Q6T7Y1     -          my_protein           -                  0 2018.2  19.4         0 2018.1  19.4   1.0   1   0   0   1   1   1   1 Cluster: Spike glycoprotein
+UniRef100_C4P6Q7     -          my_protein           -                  0 2018.1  19.1         0 2017.9  19.1   1.0   1   0   0   1   1   1   1 Cluster: Spike glycoprotein
+UniRef100_Q5DIC5     -          my_protein           -                  0 2018.1  19.9         0 2017.9  19.9   1.0   1   0   0   1   1   1   1 Cluster: Spike glycoprotein S
+UniRef100_Q4JDM4     -          my_protein           -                  0 2017.9  16.8         0 2017.7  16.8   1.0   1   0   0   1   1   1   1 Cluster: Spike glycoprotein
+UniRef100_A4ZF29     -          my_protein           -                  0 2017.8  18.4         0 2017.6  18.4   1.0   1   0   0   1   1   1   1 Cluster: Spike glycoprotein
+UniRef100_D2E2C3     -          my_protein           -                  0 2017.5  19.2         0 2017.4  19.2   1.0   1   0   0   1   1   1   1 Cluster: Spike glycoprotein
+UniRef100_Q3ZTC8     -          my_protein           -                  0 2017.5  17.7         0 2017.4  17.7   1.0   1   0   0   1   1   1   1 Cluster: Spike glycoprotein
+UniRef100_D2E2M5     -          my_protein           -                  0 2017.3  19.4         0 2017.2  19.4   1.0   1   0   0   1   1   1   1 Cluster: Spike glycoprotein
+UniRef100_D2E221     -          my_protein           -                  0 2017.3  19.4         0 2017.1  19.4   1.0   1   0   0   1   1   1   1 Cluster: Spike glycoprotein
+UniRef100_Q692E4     -          my_protein           -                  0 2017.2  19.5         0 2017.0  19.5   1.0   1   0   0   1   1   1   1 Cluster: Spike glycoprotein
+UniRef100_Q5GDB5     -          my_protein           -                  0 2017.1  17.4         0 2016.9  17.4   1.0   1   0   0   1   1   1   1 Cluster: Spike glycoprotein
+UniRef100_Q3ZTC5     -          my_protein           -                  0 2017.1  16.8         0 2016.9  16.8   1.0   1   0   0   1   1   1   1 Cluster: Spike glycoprotein
+UniRef100_Q5GDB3     -          my_protein           -                  0 2016.9  17.9         0 2016.8  17.9   1.0   1   0   0   1   1   1   1 Cluster: Spike glycoprotein
+UniRef100_Q6R7Y6     -          my_protein           -                  0 2016.8  19.9         0 2016.6  19.9   1.0   1   0   0   1   1   1   1 Cluster: Spike glycoprotein S
+UniRef100_Q202F4     -          my_protein           -                  0 2016.7  19.4         0 2016.6  19.4   1.0   1   0   0   1   1   1   1 Cluster: Spike glycoprotein
+UniRef100_B8Q8V9     -          my_protein           -                  0 2016.6  18.2         0 2016.4  18.2   1.0   1   0   0   1   1   1   1 Cluster: Spike glycoprotein S
+UniRef100_Q202F5     -          my_protein           -                  0 2016.4  19.1         0 2016.2  19.1   1.0   1   0   0   1   1   1   1 Cluster: Spike glycoprotein
+UniRef100_Q4JDP1     -          my_protein           -                  0 2016.2  16.7         0 2016.0  16.7   1.0   1   0   0   1   1   1   1 Cluster: Spike glycoprotein
+UniRef100_Q202E6     -          my_protein           -                  0 2015.9  19.7         0 2015.8  19.7   1.0   1   0   0   1   1   1   1 Cluster: Spike glycoprotein
+UniRef100_Q6T7X6     -          my_protein           -                  0 2015.8  19.5         0 2015.7  19.5   1.0   1   0   0   1   1   1   1 Cluster: Spike glycoprotein
+UniRef100_Q4JDN4     -          my_protein           -                  0 2015.8  16.5         0 2015.7  16.5   1.0   1   0   0   1   1   1   1 Cluster: Spike glycoprotein
+UniRef100_A4ZF30     -          my_protein           -                  0 2015.8  18.9         0 2015.7  18.9   1.0   1   0   0   1   1   1   1 Cluster: Spike glycoprotein
+UniRef100_B8Q8T7     -          my_protein           -                  0 2015.6  18.9         0 2015.4  18.9   1.0   1   0   0   1   1   1   1 Cluster: Spike glycoprotein S
+UniRef100_D2E2T4     -          my_protein           -                  0 2015.4  19.4         0 2015.3  19.4   1.0   1   0   0   1   1   1   1 Cluster: Spike glycoprotein
+UniRef100_Q5GDJ6     -          my_protein           -                  0 2015.4  16.9         0 2015.2  16.9   1.0   1   0   0   1   1   1   1 Cluster: Spike glycoprotein
+UniRef100_B8Q8R4     -          my_protein           -                  0 2015.4  18.8         0 2015.2  18.8   1.0   1   0   0   1   1   1   1 Cluster: Spike glycoprotein S
+UniRef100_D2E1H7     -          my_protein           -                  0 2015.2  20.4         0 2015.1  20.4   1.0   1   0   0   1   1   1   1 Cluster: Spike glycoprotein
+UniRef100_A4ZF27     -          my_protein           -                  0 2015.1  17.1         0 2015.0  17.1   1.0   1   0   0   1   1   1   1 Cluster: Spike glycoprotein
+UniRef100_Q4JDN1     -          my_protein           -                  0 2015.1  17.2         0 2014.9  17.2   1.0   1   0   0   1   1   1   1 Cluster: Spike glycoprotein
+UniRef100_Q4JDP2     -          my_protein           -                  0 2015.1  17.4         0 2014.9  17.4   1.0   1   0   0   1   1   1   1 Cluster: Spike glycoprotein
+UniRef100_A4ZF28     -          my_protein           -                  0 2015.0  18.0         0 2014.8  18.0   1.0   1   0   0   1   1   1   1 Cluster: Spike glycoprotein
+UniRef100_Q6DSU4     -          my_protein           -                  0 2015.0  20.3         0 2014.8  20.3   1.0   1   0   0   1   1   1   1 Cluster: Spike protein
+UniRef100_Q3ZTC7     -          my_protein           -                  0 2014.9  17.9         0 2014.8  17.9   1.0   1   0   0   1   1   1   1 Cluster: Spike glycoprotein
+UniRef100_Q4JDP0     -          my_protein           -                  0 2014.9  17.7         0 2014.7  17.7   1.0   1   0   0   1   1   1   1 Cluster: Spike glycoprotein
+UniRef100_Q4JDM5     -          my_protein           -                  0 2014.8  16.2         0 2014.6  16.2   1.0   1   0   0   1   1   1   1 Cluster: Spike glycoprotein
+UniRef100_A1IHM8     -          my_protein           -                  0 2014.6  19.9         0 2014.4  19.9   1.0   1   0   0   1   1   1   1 Cluster: Spike glycoprotein
+UniRef100_Q6S8D7     -          my_protein           -                  0 2014.6  19.1         0 2014.4  19.1   1.0   1   0   0   1   1   1   1 Cluster: Spike
+UniRef100_Q4JDM6     -          my_protein           -                  0 2014.3  16.6         0 2014.2  16.6   1.0   1   0   0   1   1   1   1 Cluster: Spike glycoprotein
+UniRef100_Q4JDM8     -          my_protein           -                  0 2013.7  16.4         0 2013.5  16.4   1.0   1   0   0   1   1   1   1 Cluster: Spike glycoprotein
+UniRef100_Q3ZTE0     -          my_protein           -                  0 2013.6  17.6         0 2013.4  17.6   1.0   1   0   0   1   1   1   1 Cluster: Spike glycoprotein
+UniRef100_Q1T6X6     -          my_protein           -                  0 2013.6  21.1         0 2013.4  21.1   1.0   1   0   0   1   1   1   1 Cluster: Spike protein
+UniRef100_Q4JDN6     -          my_protein           -                  0 2012.9  17.2         0 2012.7  17.2   1.0   1   0   0   1   1   1   1 Cluster: Spike glycoprotein
+UniRef100_Q3ZTF3     -          my_protein           -                  0 2012.3  17.3         0 2012.1  17.3   1.0   1   0   0   1   1   1   1 Cluster: Spike glycoprotein
+UniRef100_Q6T7X9     -          my_protein           -                  0 2011.7  18.2         0 2011.5  18.2   1.0   1   0   0   1   1   1   1 Cluster: Spike glycoprotein
+UniRef100_Q4JDM3     -          my_protein           -                  0 2011.6  17.7         0 2011.4  17.7   1.0   1   0   0   1   1   1   1 Cluster: Spike glycoprotein
+UniRef100_Q6T7X8     -          my_protein           -                  0 2010.9  18.4         0 2010.8  18.4   1.0   1   0   0   1   1   1   1 Cluster: Spike glycoprotein
+UniRef100_A4ZF26     -          my_protein           -                  0 2010.7  17.8         0 2010.5  17.8   1.0   1   0   0   1   1   1   1 Cluster: Spike glycoprotein
+UniRef100_Q6T7Y0     -          my_protein           -                  0 2009.2  18.6         0 2009.1  18.6   1.0   1   0   0   1   1   1   1 Cluster: Spike glycoprotein
+UniRef100_Q6T7X4     -          my_protein           -                  0 2007.0  18.2         0 2006.8  18.2   1.0   1   0   0   1   1   1   1 Cluster: Spike glycoprotein
+UniRef100_Q6T7X7     -          my_protein           -                  0 2006.8  18.4         0 2006.7  18.4   1.0   1   0   0   1   1   1   1 Cluster: Spike glycoprotein
+UniRef100_Q4JDN7     -          my_protein           -                  0 2006.6  18.9         0 2006.4  18.9   1.0   1   0   0   1   1   1   1 Cluster: Spike glycoprotein
+UniRef100_D5HJZ1     -          my_protein           -                  0 1883.5  25.9         0 1883.2  25.9   1.0   1   0   0   1   1   1   1 Cluster: Spike glycoprotein
+UniRef100_Q3I5J5     -          my_protein           -                  0 1882.5  27.5         0 1882.3  27.5   1.0   1   0   0   1   1   1   1 Cluster: Spike glycoprotein
+UniRef100_D2DJY1     -          my_protein           -                  0 1880.7  25.7         0 1880.4  25.7   1.0   1   0   0   1   1   1   1 Cluster: Spike protein
+UniRef100_Q3LZX1     -          my_protein           -                  0 1880.7  25.9         0 1880.4  25.9   1.0   1   0   0   1   1   1   1 Cluster: Spike glycoprotein
+UniRef100_D5HK02     -          my_protein           -                  0 1880.6  25.2         0 1880.3  25.2   1.0   1   0   0   1   1   1   1 Cluster: Spike glycoprotein
+UniRef100_D5HJQ1     -          my_protein           -                  0 1880.5  25.8         0 1880.3  25.8   1.0   1   0   0   1   1   1   1 Cluster: Spike glycoprotein
+UniRef100_Q3LZV3     -          my_protein           -                  0 1878.9  25.8         0 1878.7  25.8   1.0   1   0   0   1   1   1   1 Cluster: Spike glycoprotein
+UniRef100_D5HJU5     -          my_protein           -                  0 1878.8  24.3         0 1878.6  24.3   1.0   1   0   0   1   1   1   1 Cluster: Spike glycoprotein
+UniRef100_D5HJT4     -          my_protein           -                  0 1877.3  23.9         0 1877.0  23.9   1.0   1   0   0   1   1   1   1 Cluster: Spike glycoprotein
+UniRef100_Q0Q475     -          my_protein           -                  0 1875.6  28.6         0 1875.3  28.6   1.0   1   0   0   1   1   1   1 Cluster: Spike glycoprotein
+UniRef100_Q0QDX9     -          my_protein           -                  0 1874.3  28.7         0 1874.1  28.7   1.0   1   0   0   1   1   1   1 Cluster: Spike protein
+UniRef100_D2DJW4     -          my_protein           -                  0 1865.9  26.7         0 1865.7  26.7   1.0   1   0   0   1   1   1   1 Cluster: Spike protein
+UniRef100_Q5GDJ5     -          my_protein           -                  0 1862.9  26.7         0 1861.4  26.7   1.6   1   1   0   1   1   1   1 Cluster: Spike glycoprotein
+UniRef100_Q0QDZ0     -          my_protein           -                  0 1842.8  29.4         0 1842.5  29.4   1.0   1   0   0   1   1   1   1 Cluster: Spike protein
+UniRef100_Q0Q484     -          my_protein           -                  0 1841.8  29.4         0 1841.5  29.4   1.0   1   0   0   1   1   1   1 Cluster: Spike protein
+UniRef100_E0XIZ3     -          my_protein           -                  0 1797.2  22.8         0 1797.0  22.8   1.0   1   0   0   1   1   1   1 Cluster: Spike protein
+UniRef100_E0ZN52     -          my_protein           -                  0 1508.9  32.3         0 1506.5  32.3   1.8   1   1   0   1   1   1   1 Cluster: Spike glycoprotein
+UniRef100_A3EXI2     -          my_protein           -                  0 1507.8  32.7         0 1505.4  32.7   1.8   1   1   0   1   1   1   1 Cluster: Spike glycoprotein
+UniRef100_E0ZN36     -          my_protein           -                  0 1506.6  32.2         0 1504.2  32.2   1.8   1   1   0   1   1   1   1 Cluster: Spike glycoprotein
+UniRef100_E0ZN44     -          my_protein           -                  0 1502.0  30.0         0 1499.4  30.0   1.8   1   1   0   1   1   1   1 Cluster: Spike glycoprotein
+UniRef100_E0ZN60     -          my_protein           -                  0 1501.2  29.9         0 1498.5  29.9   1.8   1   1   0   1   1   1   1 Cluster: Spike glycoprotein
+UniRef100_A3EXH4     -          my_protein           -                  0 1482.1  28.2         0 1479.6  28.2   1.8   1   1   0   1   1   1   1 Cluster: Spike glycoprotein
+UniRef100_A3EXJ0     -          my_protein           -                  0 1423.2  33.3         0 1421.7  33.3   1.5   1   1   0   1   1   1   1 Cluster: Spike glycoprotein
+UniRef100_A3EXG6     -          my_protein           -                  0 1410.0  20.8         0 1407.8  20.8   1.7   1   1   0   1   1   1   1 Cluster: Spike glycoprotein
+UniRef100_B7U2Q4     -          my_protein           -                  0 1244.3  41.7         0 1131.4  26.1   2.1   2   0   0   2   2   1   1 Cluster: Spike protein
+UniRef100_Q9QAQ8     -          my_protein           -                  0 1243.7  41.4         0 1130.0  26.9   2.1   2   0   0   2   2   1   1 Cluster: Spike glycoprotein
+UniRef100_Q2EF04     -          my_protein           -                  0 1243.4  41.2         0 1129.6  26.4   2.1   2   0   0   2   2   1   1 Cluster: Spike glycoprotein
+UniRef100_Q2EF01     -          my_protein           -                  0 1242.5  43.9         0 1126.8  29.4   2.1   2   0   0   2   2   1   1 Cluster: Spike glycoprotein
+UniRef100_A4ZU52     -          my_protein           -                  0 1242.1  42.8         0 1129.3  28.2   2.1   2   0   0   2   2   1   1 Cluster: Spike protein
+UniRef100_A4ZU30     -          my_protein           -                  0 1242.1  40.9         0 1128.5  27.2   2.1   2   0   0   2   2   1   1 Cluster: Spike protein
+UniRef100_Q2EEY7     -          my_protein           -                  0 1241.9  42.4         0 1128.8  27.7   2.1   2   0   0   2   2   1   1 Cluster: Spike glycoprotein
+UniRef100_Q9QAR5     -          my_protein           -                  0 1241.9  41.9         0 1128.8  27.4   2.1   2   0   0   2   2   1   1 Cluster: Spike glycoprotein
+UniRef100_A4ZU41     -          my_protein           -                  0 1241.8  42.6         0 1128.9  28.3   2.1   2   0   0   2   2   1   1 Cluster: Spike protein
+UniRef100_Q2EF00     -          my_protein           -                  0 1241.4  44.1         0 1125.9  30.0   2.1   2   0   0   2   2   1   1 Cluster: Spike glycoprotein
+UniRef100_Q0PL39     -          my_protein           -                  0 1241.4  42.3         0 1128.3  27.4   2.1   2   0   0   2   2   1   1 Cluster: Spike protein
+UniRef100_B7U2M2     -          my_protein           -                  0 1240.9  44.6         0 1128.0  29.6   2.1   2   0   0   2   2   1   1 Cluster: Spike protein
+UniRef100_B7U2L1     -          my_protein           -                  0 1240.8  44.4         0 1128.0  29.6   2.1   2   0   0   2   2   1   1 Cluster: Spike protein
+UniRef100_A4ZTX5     -          my_protein           -                  0 1240.6  43.8         0 1127.5  29.7   2.1   2   0   0   2   2   1   1 Cluster: Spike protein
+UniRef100_Q58NR8     -          my_protein           -                  0 1240.5  44.4         0 1127.3  29.4   2.1   2   0   0   2   2   1   1 Cluster: Spike glycoprotein
+UniRef100_B7U2P4     -          my_protein           -                  0 1240.4  44.4         0 1127.7  29.4   2.1   2   0   0   2   2   1   1 Cluster: Spike protein
+UniRef100_C6GHR0     -          my_protein           -                  0 1240.4  43.5         0 1125.3  29.2   2.1   2   0   0   2   2   1   1 Cluster: Spike protein
+UniRef100_Q58NR7     -          my_protein           -                  0 1240.3  44.4         0 1126.9  29.5   2.1   2   0   0   2   2   1   1 Cluster: Spike glycoprotein
+UniRef100_C6GHL3     -          my_protein           -                  0 1240.3  46.5         0 1126.6  30.9   2.1   2   0   0   2   2   1   1 Cluster: Spike protein
+UniRef100_Q58NR5     -          my_protein           -                  0 1240.1  44.7         0 1127.3  29.4   2.1   2   0   0   2   2   1   1 Cluster: Spike glycoprotein
+UniRef100_A4ZTZ7     -          my_protein           -                  0 1240.1  44.7         0 1127.5  29.8   2.1   2   0   0   2   2   1   1 Cluster: Spike protein
+UniRef100_E3UTE8     -          my_protein           -                  0 1240.1  44.0         0 1126.8  29.4   2.1   2   0   0   2   2   1   1 Cluster: Spike glycoprotein
+UniRef100_Q2EF08     -          my_protein           -                  0 1240.0  44.0         0 1126.7  29.5   2.1   2   0   0   2   2   1   1 Cluster: Spike glycoprotein
+UniRef100_E3UTE9     -          my_protein           -                  0 1239.6  44.0         0 1126.8  29.4   2.1   2   0   0   2   2   1   1 Cluster: Spike glycoprotein
+UniRef100_B7TYG9     -          my_protein           -                  0 1239.5  43.6         0 1124.4  29.3   2.1   2   0   0   2   2   1   1 Cluster: Spike protein
+UniRef100_B9TXU9     -          my_protein           -                  0 1239.2  44.3         0 1125.8  29.8   2.1   2   0   0   2   2   1   1 Cluster: Spike protein
+UniRef100_Q8V436     -          my_protein           -                  0 1239.2  42.9         0 1126.0  29.4   2.1   2   0   0   2   2   1   1 Cluster: Spike glycoprotein
+UniRef100_C6GHP9     -          my_protein           -                  0 1239.1  42.9         0 1125.9  28.1   2.1   2   0   0   2   2   1   1 Cluster: Spike protein
+UniRef100_B3VTS5     -          my_protein           -                  0 1238.9  44.0         0 1125.2  29.7   2.1   2   0   0   2   2   1   1 Cluster: S protein
+UniRef100_A8HB16     -          my_protein           -                  0 1238.4  45.9         0 1125.7  29.7   2.1   2   0   0   2   2   1   1 Cluster: Spike protein
+UniRef100_Q58NS1     -          my_protein           -                  0 1238.3  44.6         0 1125.7  29.6   2.1   2   0   0   2   2   1   1 Cluster: Spike glycoprotein
+UniRef100_Q2EF06     -          my_protein           -                  0 1238.1  43.3         0 1125.1  29.0   2.1   2   0   0   2   2   1   1 Cluster: Spike glycoprotein
+UniRef100_A4ZU19     -          my_protein           -                  0 1238.1  44.3         0 1125.9  29.6   2.1   2   0   0   2   2   1   1 Cluster: Spike protein
+UniRef100_A6YD40     -          my_protein           -                  0 1237.9  46.4         0 1124.5  31.3   2.1   2   0   0   2   2   1   1 Cluster: Spike protein
+UniRef100_Q58NS0     -          my_protein           -                  0 1237.8  44.9         0 1124.9  29.6   2.1   2   0   0   2   2   1   1 Cluster: Spike glycoprotein
+UniRef100_A4ZTY6     -          my_protein           -                  0 1237.6  44.9         0 1124.9  30.0   2.1   2   0   0   2   2   1   1 Cluster: Spike protein
+UniRef100_C3S7Z2     -          my_protein           -                  0 1237.6  44.8         0 1124.0  30.1   2.1   2   0   0   2   2   1   1 Cluster: Spike protein
+UniRef100_Q06BD7     -          my_protein           -                  0 1237.3  44.5         0 1124.2  30.1   2.1   2   0   0   2   2   1   1 Cluster: Spike protein
+UniRef100_P25192     -          my_protein           -                  0 1237.2  43.7         0 1123.1  29.6   2.1   2   0   0   2   2   1   1 Cluster: Spike glycoprotein
+UniRef100_Q2EF02     -          my_protein           -                  0 1237.0  44.7         0 1121.8  29.9   2.1   2   0   0   2   2   1   1 Cluster: Spike glycoprotein
+UniRef100_Q58NS2     -          my_protein           -                  0 1236.9  44.7         0 1124.3  29.7   2.1   2   0   0   2   2   1   1 Cluster: Spike glycoprotein
+UniRef100_Q2EF09     -          my_protein           -                  0 1236.9  45.1         0 1122.2  30.0   2.1   2   0   0   2   2   1   1 Cluster: Spike glycoprotein
+UniRef100_Q58NR6     -          my_protein           -                  0 1235.9  43.6         0 1122.8  29.2   2.1   2   0   0   2   2   1   1 Cluster: Spike glycoprotein
+UniRef100_Q91A26     -          my_protein           -                  0 1235.6  45.2         0 1123.0  29.9   2.1   2   0   0   2   2   1   1 Cluster: Spike glycoprotein
+UniRef100_Q2EEY1     -          my_protein           -                  0 1235.4  42.6         0 1123.0  28.2   2.0   2   0   0   2   2   1   1 Cluster: Spike glycoprotein
+UniRef100_Q2EEY6     -          my_protein           -                  0 1235.3  43.4         0 1125.7  28.3   2.1   2   0   0   2   2   1   1 Cluster: Spike glycoprotein
+UniRef100_Q58NR3     -          my_protein           -                  0 1235.2  42.1         0 1121.6  27.6   2.1   2   0   0   2   2   1   1 Cluster: Spike glycoprotein
+UniRef100_P25194     -          my_protein           -                  0 1234.6  44.1         0 1120.5  30.9   2.1   2   0   0   2   2   1   1 Cluster: Spike glycoprotein
+UniRef100_Q2EEY9     -          my_protein           -                  0 1234.4  44.7         0 1121.9  29.4   2.1   2   0   0   2   2   1   1 Cluster: Spike glycoprotein
+UniRef100_Q2EEY8     -          my_protein           -                  0 1234.1  45.2         0 1120.8  30.2   2.1   2   0   0   2   2   1   1 Cluster: Spike glycoprotein
+UniRef100_A7BKC2     -          my_protein           -                  0 1233.7  43.6         0 1119.5  30.7   2.1   2   0   0   2   2   1   1 Cluster: Spike glycoprotein
+UniRef100_Q2EF05     -          my_protein           -                  0 1233.6  45.5         0 1118.6  30.7   2.1   2   0   0   2   2   1   1 Cluster: Spike glycoprotein
+UniRef100_Q2EF03     -          my_protein           -                  0 1233.0  44.3         0 1117.9  29.7   2.1   2   0   0   2   2   1   1 Cluster: Spike glycoprotein
+UniRef100_P25191     -          my_protein           -                  0 1232.7  43.2         0 1117.7  29.9   2.1   2   0   0   2   2   1   1 Cluster: Spike glycoprotein
+UniRef100_Q2EF07     -          my_protein           -                  0 1232.1  44.1         0 1119.8  29.4   2.1   2   0   0   2   2   1   1 Cluster: Spike glycoprotein
+UniRef100_B3VTS6     -          my_protein           -                  0 1231.2  44.5         0 1117.1  30.5   2.1   2   0   0   2   2   1   1 Cluster: S protein
+UniRef100_B9TXV1     -          my_protein           -                  0 1231.1  43.9         0 1117.0  31.5   2.1   2   0   0   2   2   1   1 Cluster: Spike protein
+UniRef100_B9TXV2     -          my_protein           -                  0 1230.0  43.7         0 1116.0  31.3   2.1   2   0   0   2   2   1   1 Cluster: Spike protein
+UniRef100_B9TXV0     -          my_protein           -                  0 1229.6  43.7         0 1115.4  31.2   2.1   2   0   0   2   2   1   1 Cluster: Spike protein
+UniRef100_P15777     -          my_protein           -                  0 1229.0  45.3         0 1115.2  32.4   2.0   2   0   0   2   2   1   1 Cluster: Spike glycoprotein
+UniRef100_P11225     -          my_protein           -                  0 1228.8  18.8         0 1103.5  13.9   2.0   1   1   1   2   2   1   1 Cluster: Spike glycoprotein
+UniRef100_Q9WR70     -          my_protein           -                  0 1227.9  19.1         0 1103.1  15.4   2.0   1   1   1   2   2   1   1 Cluster: Spike glycoprotein
+UniRef100_P25193     -          my_protein           -                  0 1227.5  44.2         0 1113.2  31.7   2.0   2   0   0   2   2   1   1 Cluster: Spike glycoprotein
+UniRef100_A2ICF8     -          my_protein           -                  0 1226.9  44.3         0 1113.3  31.5   2.1   2   0   0   2   2   1   1 Cluster: Spike protein
+UniRef100_Q2EEY4     -          my_protein           -                  0 1226.7  39.2         0 1115.2  25.3   2.0   2   0   0   2   2   1   1 Cluster: Spike glycoprotein
+UniRef100_Q2EEY5     -          my_protein           -                  0 1226.4  41.4         0 1113.1  27.3   2.1   2   0   0   2   2   1   1 Cluster: Spike glycoprotein
+UniRef100_Q2EEY2     -          my_protein           -                  0 1225.9  39.9         0 1112.6  25.8   2.1   2   0   0   2   2   1   1 Cluster: Spike glycoprotein
+UniRef100_P25190     -          my_protein           -                  0 1225.5  45.0         0 1112.0  31.2   2.1   2   0   0   2   2   1   1 Cluster: Spike glycoprotein
+UniRef100_C0KYY9     -          my_protein           -                  0 1224.6  25.0         0 1101.4  15.2   2.0   2   0   0   2   2   1   1 Cluster: Spike protein
+UniRef100_C0KYU0     -          my_protein           -                  0 1224.5  24.1         0 1101.4  15.2   2.0   2   0   0   2   2   1   1 Cluster: Spike protein
+UniRef100_A3E2F2     -          my_protein           -                  0 1224.5  42.5         0 1110.8  28.7   2.1   2   0   0   2   2   1   1 Cluster: Spike protein
+UniRef100_Q4VIF0     -          my_protein           -                  0 1224.0  42.5         0 1109.3  29.6   2.0   2   0   0   2   2   1   1 Cluster: Spike glycoprotein
+UniRef100_C0KYS1     -          my_protein           -                  0 1224.0  24.3         0 1101.6  15.1   2.0   2   0   0   2   2   1   1 Cluster: Spike protein
+UniRef100_C0KYT1     -          my_protein           -                  0 1224.0  24.6         0 1101.6  15.1   2.0   2   0   0   2   2   1   1 Cluster: Spike protein
+UniRef100_Q4VIE4     -          my_protein           -                  0 1223.6  42.3         0 1108.8  29.4   2.0   2   0   0   2   2   1   1 Cluster: S glycoprotein
+UniRef100_P22432     -          my_protein           -                  0 1223.2  24.1         0 1101.6  15.1   2.0   2   0   0   2   2   1   1 Cluster: Spike glycoprotein
+UniRef100_A8R4D0     -          my_protein           -                  0 1222.6  41.8         0 1102.6  27.3   2.0   2   0   0   2   2   1   1 Cluster: Spike protein
+UniRef100_Q1ERQ3     -          my_protein           -                  0 1221.9  42.2         0 1110.3  28.3   2.1   2   0   0   2   2   1   1 Cluster: Spike protein
+UniRef100_Q2EEY3     -          my_protein           -                  0 1221.6  37.1         0 1108.5  24.6   2.0   2   0   0   2   2   1   1 Cluster: Spike glycoprotein
+UniRef100_B2ZZ18     -          my_protein           -                  0 1221.1  44.1         0 1108.4  30.2   2.1   2   0   0   2   2   1   1 Cluster: Spike protein
+UniRef100_Q83330     -          my_protein           -                  0 1220.4  24.5         0 1094.3  14.5   2.0   2   0   0   2   2   1   1 Cluster: S glycoprotein
+UniRef100_Q02385     -          my_protein           -                  0 1220.1  22.3         0 1098.4  13.5   2.0   2   0   0   2   2   1   1 Cluster: Spike glycoprotein
+UniRef100_C6ZQJ9     -          my_protein           -                  0 1219.6  42.9         0 1105.7  28.6   2.1   2   0   0   2   2   1   1 Cluster: Spike protein
+UniRef100_B8RIQ7     -          my_protein           -                  0 1219.4  42.9         0 1107.1  29.1   2.1   2   0   0   2   2   1   1 Cluster: Spike protein
+UniRef100_C6ZQK0     -          my_protein           -                  0 1218.9  40.0         0 1104.8  27.9   2.1   2   0   0   2   2   1   1 Cluster: Spike protein
+UniRef100_Q696P8     -          my_protein           -                  0 1215.9  40.9         0 1101.2  29.5   2.0   2   0   0   2   2   1   1 Cluster: Spike surface glycoprotein
+UniRef100_Q6W355     -          my_protein           -                  0 1214.1  40.5         0 1095.2  26.2   2.0   2   0   0   2   2   1   1 Cluster: Spike protein
+UniRef100_Q2QKN3     -          my_protein           -                  0 1214.1  39.4         0 1096.9  29.7   2.0   1   1   0   2   2   1   1 Cluster: Spike glycoprotein
+UniRef100_Q4VID5     -          my_protein           -                  0 1213.6  42.8         0 1100.5  30.5   2.0   2   0   0   2   2   1   1 Cluster: S glycoprotein
+UniRef100_P36334     -          my_protein           -                  0 1212.7  40.7         0 1099.3  29.6   2.0   2   0   0   2   2   1   1 Cluster: Spike glycoprotein
+UniRef100_Q4VIE8     -          my_protein           -                  0 1212.7  42.6         0 1099.6  30.3   2.0   2   0   0   2   2   1   1 Cluster: Spike glycoprotein
+UniRef100_Q83331     -          my_protein           -                  0 1212.6  34.6         0 1089.4  21.1   2.0   2   0   0   2   2   1   1 Cluster: S glycoprotein
+UniRef100_Q8BB25     -          my_protein           -                  0 1212.0  40.6         0 1095.3  30.0   2.0   1   1   0   2   2   1   1 Cluster: Spike glycoprotein
+UniRef100_D4QFK1     -          my_protein           -                  0 1211.9  29.0         0 1089.1  15.6   2.0   2   0   0   2   2   1   1 Cluster: Spike glycoprotein
+UniRef100_C6ZQJ8     -          my_protein           -                  0 1211.1  43.0         0 1102.0  28.8   2.1   2   0   0   2   2   1   1 Cluster: Spike protein
+UniRef100_Q7T5A1     -          my_protein           -                  0 1210.9  39.1         0 1101.7  26.1   2.2   2   0   0   2   2   1   1 Cluster: Spike glycoprotein
+UniRef100_A7U544     -          my_protein           -                  0 1210.7  28.3         0 1086.5  19.1   2.0   2   0   0   2   2   1   1 Cluster: Spike protein
+UniRef100_C0KYR1     -          my_protein           -                  0 1209.7  25.9         0 1088.0  13.9   2.0   1   1   0   2   2   1   1 Cluster: Spike protein
+UniRef100_C0KYV1     -          my_protein           -                  0 1209.6  25.8         0 1088.1  13.8   2.0   1   1   0   2   2   1   1 Cluster: Spike protein
+UniRef100_P11224     -          my_protein           -                  0 1209.1  25.6         0 1088.1  13.8   2.0   1   1   0   2   2   1   1 Cluster: Spike glycoprotein
+UniRef100_A3EXA3     -          my_protein           -                  0 1208.5  23.8         0 1208.2  23.8   1.0   1   0   0   1   1   1   1 Cluster: Spike glycoprotein
+UniRef100_C3VPE9     -          my_protein           -                  0 1207.5  25.3         0 1087.4  13.8   2.0   1   1   0   2   2   1   1 Cluster: Spike protein
+UniRef100_Q6RI12     -          my_protein           -                  0 1207.1  24.4         0 1085.6  12.9   2.0   1   1   0   2   2   1   1 Cluster: Spike glycoprotein
+UniRef100_Q9J3E7     -          my_protein           -                  0 1207.0  26.3         0 1086.0  14.2   2.0   1   1   0   2   2   1   1 Cluster: Spike glycoprotein
+UniRef100_A3EX94     -          my_protein           -                  0 1206.8  23.8         0 1206.5  23.8   1.0   1   0   0   1   1   1   1 Cluster: Spike glycoprotein
+UniRef100_A3EXB2     -          my_protein           -                  0 1206.2  24.0         0 1205.9  24.0   1.0   1   0   0   1   1   1   1 Cluster: Spike glycoprotein
+UniRef100_Q9IKD1     -          my_protein           -                  0 1205.5  33.5         0 1084.4  23.5   2.0   2   0   0   2   2   1   1 Cluster: Spike glycoprotein
+UniRef100_Q8JSP8     -          my_protein           -                  0 1204.7  42.0         0 1088.6  30.9   2.0   1   1   0   2   2   1   1 Cluster: Spike glycoprotein
+UniRef100_D7SCA7     -          my_protein           -                  0 1204.4  26.2         0 1198.4  26.2   2.0   1   1   0   1   1   1   1 Cluster: Spike glycoprotein
+UniRef100_Q9QD01     -          my_protein           -                  0 1204.3  34.4         0 1084.6  22.5   2.0   2   0   0   2   2   1   1 Cluster: Spike protein
+UniRef100_Q9J3F1     -          my_protein           -                  0 1204.2  32.7         0 1081.1  20.1   2.0   1   1   0   2   2   1   1 Cluster: Spike glycoprotein
+UniRef100_Q64FZ4     -          my_protein           -                  0 1204.1  25.6         0 1198.2  25.6   2.0   1   1   0   1   1   1   1 Cluster: S protein
+UniRef100_D7PJY2     -          my_protein           -                  0 1203.6  33.9         0 1084.0  22.9   2.0   2   0   0   2   2   1   1 Cluster: Structural protein S
+UniRef100_C6GHS2     -          my_protein           -                  0 1203.5  35.6         0 1082.3  24.3   2.0   2   0   0   2   2   1   1 Cluster: Spike protein
+UniRef100_Q0Q4F2     -          my_protein           -                  0 1202.8  19.5         0 1202.6  19.5   1.0   1   0   0   1   1   1   1 Cluster: Spike glycoprotein
+UniRef100_B7SXR4     -          my_protein           -                  0 1202.6  25.0         0 1196.6  25.0   2.1   1   1   0   1   1   1   1 Cluster: Spike protein
+UniRef100_Q6DTV2     -          my_protein           -                  0 1201.8  25.4         0 1195.8  25.4   2.0   1   1   0   1   1   1   1 Cluster: Spike protein
+UniRef100_C0KYX0     -          my_protein           -                  0 1201.2  24.1         0 1080.9  14.5   2.0   2   0   0   2   2   1   1 Cluster: Spike protein
+UniRef100_C7S7Z0     -          my_protein           -                  0 1201.0  27.6         0 1195.1  27.5   2.0   1   1   0   1   1   1   1 Cluster: Spike glycoprotein
+UniRef100_Q3Y4G1     -          my_protein           -                  0 1200.9  26.9         0 1195.0  26.9   2.0   1   1   0   1   1   1   1 Cluster: Spike protein
+UniRef100_B7SXP0     -          my_protein           -                  0 1200.4  23.2         0 1194.4  20.5   2.1   1   1   1   2   2   1   1 Cluster: Spike protein
+UniRef100_Q80QV9     -          my_protein           -                  0 1200.3  27.3         0 1194.5  27.2   2.0   1   1   0   1   1   1   1 Cluster: Spike glycoprotein
+UniRef100_Q0ZB46     -          my_protein           -                  0 1200.0  26.0         0 1194.6  26.0   2.0   1   1   0   1   1   1   1 Cluster: Spike protein
+UniRef100_A3EXC1     -          my_protein           -                  0 1199.0  22.5         0 1198.8  22.5   1.0   1   0   0   1   1   1   1 Cluster: Spike glycoprotein
+UniRef100_Q5ICX2     -          my_protein           -                  0 1198.4  30.7         0 1082.3  18.0   2.0   2   0   0   2   2   1   1 Cluster: Spike
+UniRef100_D7SC97     -          my_protein           -                  0 1198.2  23.6         0 1192.6  23.1   2.1   1   1   0   1   1   1   1 Cluster: Spike glycoprotein
+UniRef100_B7SXP8     -          my_protein           -                  0 1197.6  26.8         0 1192.2  26.8   2.0   1   1   0   1   1   1   1 Cluster: Spike protein
+UniRef100_P90210     -          my_protein           -                  0 1197.0  33.2         0 1075.1  20.8   2.0   2   0   0   2   2   1   1 Cluster: Spike protein
+UniRef100_D0R6Q6     -          my_protein           -                  0 1195.8  28.4         0 1190.1  28.4   2.0   1   1   0   1   1   1   1 Cluster: Spike protein
+UniRef100_B7SXN2     -          my_protein           -                  0 1195.8  29.1         0 1189.8  29.0   2.0   1   1   0   1   1   1   1 Cluster: Spike protein
+UniRef100_B7SXS2     -          my_protein           -                  0 1195.6  29.9         0 1190.2  29.9   2.0   1   1   0   1   1   1   1 Cluster: Spike protein
+UniRef100_C3VPK3     -          my_protein           -                  0 1195.3  28.7         0 1190.0  28.4   2.0   1   1   0   1   1   1   1 Cluster: Spike protein
+UniRef100_B2MWL9     -          my_protein           -                  0 1194.7  22.3         0 1188.6  22.3   2.1   1   1   0   1   1   1   1 Cluster: S protein
+UniRef100_O55253     -          my_protein           -                  0 1194.1  32.4         0 1083.8  21.2   2.0   2   0   0   2   2   1   1 Cluster: Spike glycoprotein
+UniRef100_Q0ZB54     -          my_protein           -                  0 1194.0  27.8         0 1188.1  27.8   2.0   1   1   0   1   1   1   1 Cluster: Spike protein
+UniRef100_A4ZCT6     -          my_protein           -                  0 1193.8  29.1         0 1187.9  29.1   2.0   1   1   0   1   1   1   1 Cluster: Spike protein
+UniRef100_B7SXR2     -          my_protein           -                  0 1193.6  28.8         0 1187.5  28.7   2.0   1   1   0   1   1   1   1 Cluster: Spike protein
+UniRef100_C7S7Y0     -          my_protein           -                  0 1193.3  30.0         0 1188.0  29.5   2.0   1   1   0   1   1   1   1 Cluster: Spike glycoprotein
+UniRef100_Q5XLA4     -          my_protein           -                  0 1192.7  28.8         0 1187.3  28.8   2.0   1   1   0   1   1   1   1 Cluster: S protein
+UniRef100_C1KAB1     -          my_protein           -                  0 1192.7  30.2         0 1187.2  30.2   2.1   1   1   0   1   1   1   1 Cluster: Spike protein
+UniRef100_C1KAB9     -          my_protein           -                  0 1192.6  27.6         0 1186.9  27.6   2.0   1   1   0   1   1   1   1 Cluster: Spike protein
+UniRef100_A4ZCM5     -          my_protein           -                  0 1192.3  28.3         0 1186.6  28.3   2.0   1   1   0   1   1   1   1 Cluster: Spike protein
+UniRef100_Q0ZB62     -          my_protein           -                  0 1192.1  26.3         0 1186.8  26.1   2.0   1   1   0   1   1   1   1 Cluster: Spike protein
+UniRef100_Q80Q50     -          my_protein           -                  0 1192.1  25.4         0 1186.4  25.4   2.0   1   1   0   1   1   1   1 Cluster: S protein
+UniRef100_Q5EMM1     -          my_protein           -                  0 1191.6  28.9         0 1186.1  28.9   2.0   1   1   0   1   1   1   1 Cluster: Spike glycoprotein
+UniRef100_D3Y276     -          my_protein           -                  0 1191.1  26.6         0 1185.7  26.6   2.0   1   1   0   1   1   1   1 Cluster: Spike protein
+UniRef100_Q6RI11     -          my_protein           -                  0 1190.4  26.3  3.3e-315 1058.2  13.5   2.0   1   1   1   2   2   1   1 Cluster: Spike glycoprotein
+UniRef100_A4ZCJ6     -          my_protein           -                  0 1190.3  27.0         0 1184.9  27.0   2.0   1   1   0   1   1   1   1 Cluster: Spike protein
+UniRef100_C1IXZ5     -          my_protein           -                  0 1189.9  22.1         0 1183.5  22.1   2.0   1   1   0   1   1   1   1 Cluster: Spike protein
+UniRef100_A4ZCV2     -          my_protein           -                  0 1188.9  28.4         0 1183.1  28.4   2.0   1   1   0   1   1   1   1 Cluster: Spike protein
+UniRef100_Q4FGJ5     -          my_protein           -                  0 1188.7  22.4         0 1182.9  21.6   2.0   1   1   0   1   1   1   1 Cluster: Spike glycoprotein
+UniRef100_Q4ZJU6     -          my_protein           -                  0 1188.7  29.5         0 1183.4  29.5   2.0   1   1   0   1   1   1   1 Cluster: Spike protein
+UniRef100_Q98Y27     -          my_protein           -                  0 1188.7  30.2         0 1183.2  30.1   2.1   1   1   0   1   1   1   1 Cluster: Spike glycoprotein
+UniRef100_A4ZCP6     -          my_protein           -                  0 1188.7  27.8         0 1182.7  27.9   2.0   1   1   0   1   1   1   1 Cluster: Spike protein
+UniRef100_Q4ZJU2     -          my_protein           -                  0 1188.2  31.8         0 1182.4  31.8   2.0   1   1   0   1   1   1   1 Cluster: Spike protein
+UniRef100_B2L0U7     -          my_protein           -                  0 1188.0  19.5         0 1183.0  19.2   2.0   1   1   0   1   1   1   1 Cluster: Spike glycoprotein
+UniRef100_B8QAZ8     -          my_protein           -                  0 1188.0  18.3         0 1182.8  18.3   2.0   1   1   0   1   1   1   1 Cluster: Spike protein
+UniRef100_C7S859     -          my_protein           -                  0 1187.7  25.9         0 1183.0  25.6   2.0   1   1   0   1   1   1   1 Cluster: 2 protein
+UniRef100_D0R6S1     -          my_protein           -                  0 1187.3  23.7         0 1181.6  23.7   2.0   1   1   0   1   1   1   1 Cluster: Spike protein
+UniRef100_Q6RI10     -          my_protein           -                  0 1186.6  26.9  1.2e-314 1056.4  14.0   2.0   1   1   1   2   2   1   1 Cluster: Spike glycoprotein
+UniRef100_B2L0U1     -          my_protein           -                  0 1186.4  19.3         0 1181.3  19.0   2.0   1   1   0   1   1   1   1 Cluster: Spike glycoprotein
+UniRef100_P12651     -          my_protein           -                  0 1185.8  29.1         0 1179.9  29.1   2.0   1   1   0   1   1   1   1 Cluster: Spike glycoprotein
+UniRef100_Q66178     -          my_protein           -                  0 1185.8  28.9         0 1180.1  28.9   2.0   1   1   0   1   1   1   1 Cluster: Infectious bronchitis virus (M41) RNA for spike protein
+UniRef100_A4ZCS8     -          my_protein           -                  0 1185.7  29.0         0 1180.5  28.5   2.0   1   1   0   1   1   1   1 Cluster: Spike protein
+UniRef100_Q66VA7     -          my_protein           -                  0 1185.6  27.5         0 1180.2  27.5   2.0   1   1   0   1   1   1   1 Cluster: Spike protein
+UniRef100_A4ZCL7     -          my_protein           -                  0 1185.6  26.2         0 1180.1  26.2   2.0   1   1   0   1   1   1   1 Cluster: Spike protein
+UniRef100_P12722     -          my_protein           -                  0 1185.0  25.8         0 1179.2  25.8   2.0   1   1   0   1   1   1   1 Cluster: Spike glycoprotein
+UniRef100_B2L0U0     -          my_protein           -                  0 1183.8  19.4         0 1178.6  19.4   2.0   1   1   0   1   1   1   1 Cluster: Spike glycoprotein
+UniRef100_B2L0T4     -          my_protein           -                  0 1183.5  18.0         0 1178.2  17.8   2.0   1   1   0   1   1   1   1 Cluster: Spike glycoprotein
+UniRef100_B2L0U2     -          my_protein           -                  0 1183.5  18.9         0 1178.6  18.6   2.0   1   1   0   1   1   1   1 Cluster: Spike glycoprotein
+UniRef100_B2L0U3     -          my_protein           -                  0 1183.4  19.3         0 1178.4  18.9   2.0   1   1   0   1   1   1   1 Cluster: Spike glycoprotein
+UniRef100_Q4ZJU4     -          my_protein           -                  0 1183.1  31.5         0 1177.3  31.5   2.0   1   1   0   1   1   1   1 Cluster: Spike protein
+UniRef100_A4ZCK9     -          my_protein           -                  0 1183.0  28.1         0 1177.8  28.1   2.0   1   1   0   1   1   1   1 Cluster: Spike protein
+UniRef100_B8QAY8     -          my_protein           -                  0 1182.9  19.5         0 1178.0  19.1   2.0   1   1   0   1   1   1   1 Cluster: Spike protein
+UniRef100_B2L0T6     -          my_protein           -                  0 1182.6  18.3         0 1177.7  18.1   2.0   1   1   0   1   1   1   1 Cluster: Spike glycoprotein
+UniRef100_B2L0U4     -          my_protein           -                  0 1182.6  19.8         0 1177.4  19.8   2.0   1   1   0   1   1   1   1 Cluster: Spike glycoprotein
+UniRef100_A4ZCR2     -          my_protein           -                  0 1182.4  28.1         0 1176.8  27.8   2.0   1   1   0   1   1   1   1 Cluster: Spike protein
+UniRef100_B2L0T5     -          my_protein           -                  0 1182.4  19.0         0 1177.6  18.8   2.0   1   1   0   1   1   1   1 Cluster: Spike glycoprotein
+UniRef100_B2L0U5     -          my_protein           -                  0 1182.2  19.7         0 1177.2  19.7   2.0   1   1   0   1   1   1   1 Cluster: Spike glycoprotein
+UniRef100_Q4ZJS3     -          my_protein           -                  0 1182.2  31.3         0 1176.3  31.3   2.0   1   1   0   1   1   1   1 Cluster: Spike protein
+UniRef100_P05135     -          my_protein           -                  0 1182.0  26.8         0 1176.1  26.8   2.0   1   1   0   1   1   1   1 Cluster: Spike glycoprotein
+UniRef100_B2L0U6     -          my_protein           -                  0 1181.9  19.7         0 1177.0  19.5   2.0   1   1   0   1   1   1   1 Cluster: Spike glycoprotein
+UniRef100_C6K2F8     -          my_protein           -                  0 1181.8  28.9         0 1176.4  28.9   2.0   1   1   0   1   1   1   1 Cluster: Spike protein (Fragment)
+UniRef100_A3EXD0     -          my_protein           -                  0 1181.5  30.4         0 1181.2  30.4   1.0   1   0   0   1   1   1   1 Cluster: Spike glycoprotein
+UniRef100_Q82624     -          my_protein           -                  0 1181.3  20.1         0 1176.1  20.2   2.0   1   1   0   1   1   1   1 Cluster: Spike protein
+UniRef100_Q1PB59     -          my_protein           -                  0 1181.2  20.3         0 1176.6  17.5   2.0   1   1   1   2   2   1   1 Cluster: Spike glycoprotein
+UniRef100_Q4ZJU5     -          my_protein           -                  0 1180.8  31.8         0 1175.0  31.8   2.0   1   1   0   1   1   1   1 Cluster: Spike protein
+UniRef100_P12650     -          my_protein           -                  0 1180.5  31.3         0 1175.0  30.9   2.0   1   1   0   1   1   1   1 Cluster: Spike glycoprotein
+UniRef100_A4ZCI8     -          my_protein           -                  0 1180.0  26.9         0 1174.9  26.7   2.0   1   1   0   1   1   1   1 Cluster: Spike protein
+UniRef100_Q5MNZ2     -          my_protein           -                  0 1179.6  29.5         0 1174.2  29.5   2.0   1   1   0   1   1   1   1 Cluster: Spike protein
+UniRef100_Q4ZJU3     -          my_protein           -                  0 1179.2  29.5         0 1173.7  29.5   2.0   1   1   0   1   1   1   1 Cluster: Spike protein
+UniRef100_Q4ZJS2     -          my_protein           -                  0 1179.1  31.4         0 1173.3  31.4   2.0   1   1   0   1   1   1   1 Cluster: Spike protein
+UniRef100_C7DZG5     -          my_protein           -                  0 1178.2  29.7         0 1172.7  29.7   2.0   1   1   0   1   1   1   1 Cluster: Spike protein
+UniRef100_P11223     -          my_protein           -                  0 1177.1  29.7         0 1171.8  29.7   2.0   1   1   0   1   1   1   1 Cluster: Spike glycoprotein
+UniRef100_Q82666     -          my_protein           -                  0 1177.1  27.5         0 1171.8  27.0   2.0   1   1   0   1   1   1   1 Cluster: Spike protein
+UniRef100_Q0Z8B1     -          my_protein           -                  0 1176.6  30.0         0 1171.2  30.0   2.0   1   1   0   1   1   1   1 Cluster: Spike glycoprotein (Fragment)
+UniRef100_Q6R4P5     -          my_protein           -                  0 1175.5  24.8         0 1170.2  24.8   2.0   1   1   0   1   1   1   1 Cluster: Spike glycoprotein
+UniRef100_B2L0T3     -          my_protein           -                  0 1175.4  19.5         0 1170.2  19.6   2.0   1   1   0   1   1   1   1 Cluster: Spike glycoprotein
+UniRef100_Q91QT1     -          my_protein           -                  0 1173.9  30.4         0 1168.5  30.4   2.0   1   1   0   1   1   1   1 Cluster: S protein
+UniRef100_A3EXD9     -          my_protein           -                  0 1173.5  27.2         0 1173.2  27.2   1.0   1   0   0   1   1   1   1 Cluster: Spike glycoprotein
+UniRef100_A3EXE8     -          my_protein           -                  0 1173.5  27.3         0 1173.2  27.3   1.0   1   0   0   1   1   1   1 Cluster: Spike glycoprotein
+UniRef100_A4ZCN3     -          my_protein           -                  0 1173.3  28.5         0 1167.0  28.6   2.0   1   1   0   1   1   1   1 Cluster: Spike protein
+UniRef100_Q19U39     -          my_protein           -                  0 1171.8  43.9  5.3e-311 1044.3  29.5   2.0   2   0   0   2   2   1   1 Cluster: Spike glycoprotein
+UniRef100_Q19U40     -          my_protein           -                  0 1171.4  44.0  7.5e-311 1043.8  29.6   2.0   2   0   0   2   2   1   1 Cluster: Spike glycoprotein
+UniRef100_Q0ZME7     -          my_protein           -                  0 1171.3  44.1  7.5e-311 1043.8  29.6   2.0   2   0   0   2   2   1   1 Cluster: Spike glycoprotein
+UniRef100_E0AGZ7     -          my_protein           -                  0 1171.2  42.0         0 1165.8  42.0   2.2   1   1   0   1   1   1   1 Cluster: Spike protein
+UniRef100_Q19U45     -          my_protein           -                  0 1171.1  44.0  8.7e-311 1043.6  29.6   2.0   2   0   0   2   2   1   1 Cluster: Spike glycoprotein
+UniRef100_Q0ZJI1     -          my_protein           -                  0 1169.8  44.4  1.3e-310 1043.0  29.3   2.0   2   0   0   2   2   1   1 Cluster: Spike glycoprotein
+UniRef100_Q19U46     -          my_protein           -                  0 1169.7  44.6  9.4e-311 1043.4  29.0   2.0   2   0   0   2   2   1   1 Cluster: Spike glycoprotein
+UniRef100_Q14EB0     -          my_protein           -                  0 1169.6  45.3  1.4e-310 1042.9  29.4   2.0   2   0   0   2   2   1   1 Cluster: Spike glycoprotein
+UniRef100_Q3Y4F1     -          my_protein           -                  0 1168.7  38.9         0 1163.4  38.9   2.2   1   1   0   1   1   1   1 Cluster: Spike protein
+UniRef100_C6GHH8     -          my_protein           -                  0 1167.1  43.1         0 1166.7  38.9   2.6   2   1   0   2   2   1   1 Cluster: Spike protein
+UniRef100_Q5MQD0     -          my_protein           -                  0 1166.8  46.6  1.6e-309 1039.4  28.8   2.0   2   0   0   2   2   1   1 Cluster: Spike glycoprotein
+UniRef100_Q19U49     -          my_protein           -                  0 1166.3  46.6  2.6e-309 1038.7  28.6   2.0   2   0   0   2   2   1   1 Cluster: Spike glycoprotein
+UniRef100_Q19U37     -          my_protein           -                  0 1166.3  46.7  2.6e-309 1038.7  28.6   2.0   2   0   0   2   2   1   1 Cluster: Spike glycoprotein
+UniRef100_Q19U48     -          my_protein           -                  0 1166.1  46.7  2.6e-309 1038.7  28.6   2.0   2   0   0   2   2   1   1 Cluster: Spike glycoprotein
+UniRef100_Q19U42     -          my_protein           -                  0 1166.1  46.4  2.6e-309 1038.7  28.6   2.0   2   0   0   2   2   1   1 Cluster: Spike glycoprotein
+UniRef100_E0AGV5     -          my_protein           -                  0 1165.6  34.1         0 1165.6  34.1   2.4   2   1   1   3   3   1   1 Cluster: Spike protein
+UniRef100_C6GHC6     -          my_protein           -                  0 1164.4  39.7         0 1161.7  36.0   2.2   1   1   1   2   2   1   1 Cluster: Spike protein
+UniRef100_Q0ZJH3     -          my_protein           -                  0 1164.2  46.6    1e-308 1036.7  28.8   2.0   2   0   0   2   2   1   1 Cluster: Spike glycoprotein
+UniRef100_Q19U47     -          my_protein           -                  0 1163.9  46.8  3.1e-309 1038.4  28.6   2.0   2   0   0   2   2   1   1 Cluster: Spike glycoprotein
+UniRef100_Q1PB60     -          my_protein           -                  0 1163.8  20.4         0 1159.2  17.6   2.0   1   1   1   2   2   1   1 Cluster: Spike glycoprotein
+UniRef100_C6GH95     -          my_protein           -                  0 1163.8  36.8         0 1163.8  36.8   2.4   1   1   1   2   2   1   1 Cluster: Spike protein
+UniRef100_C6GHG7     -          my_protein           -                  0 1163.7  36.9         0 1163.7  36.9   2.3   1   1   1   2   2   1   1 Cluster: Spike protein
+UniRef100_E0YJ44     -          my_protein           -                  0 1163.5  45.4  1.8e-308 1035.9  28.4   2.0   2   0   0   2   2   1   1 Cluster: Spike glycoprotein
+UniRef100_C6GH84     -          my_protein           -                  0 1162.9  35.6         0 1162.9  35.6   2.9   1   1   1   3   3   1   1 Cluster: Spike protein
+UniRef100_Q64930     -          my_protein           -                  0 1161.6  19.8         0 1156.2  19.8   2.0   1   1   0   1   1   1   1 Cluster: Spike protein
+UniRef100_C5IGD1     -          my_protein           -                  0 1161.6  38.8         0 1157.5  36.5   2.3   1   1   1   2   2   1   1 Cluster: Spike glycoprotein
+UniRef100_C6GHA6     -          my_protein           -                  0 1161.4  31.8         0 1161.4  31.8   2.8   1   1   2   3   3   1   1 Cluster: Spike protein
+UniRef100_Q7T833     -          my_protein           -                  0 1161.0  26.1         0 1154.9  26.2   2.0   1   1   0   1   1   1   1 Cluster: Spike protein
+UniRef100_E0AGY6     -          my_protein           -                  0 1158.8  33.9         0 1158.8  33.9   2.8   1   1   1   3   3   1   1 Cluster: Spike protein
+UniRef100_C6GHK0     -          my_protein           -                  0 1155.3  44.4         0 1154.2  40.7   2.3   1   1   1   2   2   1   1 Cluster: Spike protein
+UniRef100_E3W5F7     -          my_protein           -                  0 1155.2  35.1         0 1155.2  35.1   2.7   2   1   1   3   3   1   1 Cluster: Spike protein
+UniRef100_E0AGX6     -          my_protein           -                  0 1153.9  41.3         0 1153.9  41.3   2.4   2   1   1   3   3   1   1 Cluster: Spike protein
+UniRef100_C5IG86     -          my_protein           -                  0 1153.7  38.7         0 1153.7  38.7   2.4   2   1   1   3   3   1   1 Cluster: Spike glycoprotein
+UniRef100_C5IG95     -          my_protein           -                  0 1153.7  38.7         0 1153.7  38.7   2.4   2   1   1   3   3   1   1 Cluster: Spike glycoprotein
+UniRef100_C5IGM0     -          my_protein           -                  0 1153.6  38.8         0 1153.6  38.8   2.4   2   1   1   3   3   1   1 Cluster: Spike glycoprotein
+UniRef100_E3W5G8     -          my_protein           -                  0 1153.4  41.9         0 1151.3  36.2   2.8   2   1   1   3   3   1   1 Cluster: Spike protein
+UniRef100_D3KDL4     -          my_protein           -                  0 1153.3  38.5         0 1149.3  35.6   2.3   1   1   1   2   2   1   1 Cluster: Spike protein
+UniRef100_C5IGM9     -          my_protein           -                  0 1153.2  39.1         0 1153.2  39.1   2.4   2   1   1   3   3   1   1 Cluster: Spike glycoprotein
+UniRef100_D3KDK3     -          my_protein           -                  0 1153.2  36.0         0 1153.2  36.0   2.4   2   1   1   3   3   1   1 Cluster: Spike protein
+UniRef100_C6GHI9     -          my_protein           -                  0 1152.5  37.1         0 1152.5  37.1   2.6   2   1   1   3   3   1   1 Cluster: Spike protein
+UniRef100_E3W5J0     -          my_protein           -                  0 1151.9  34.8         0 1151.9  34.8   2.6   2   1   1   3   3   1   1 Cluster: Spike protein
+UniRef100_C5IGC2     -          my_protein           -                  0 1150.8  35.6         0 1150.8  35.6   2.4   2   1   1   3   3   1   1 Cluster: Spike glycoprotein
+UniRef100_C5IGA4     -          my_protein           -                  0 1150.6  36.5         0 1150.6  36.5   2.4   2   1   1   3   3   1   1 Cluster: Spike glycoprotein
+UniRef100_C6GHF7     -          my_protein           -                  0 1150.6  39.0         0 1146.2  35.9   2.1   1   1   1   2   2   1   1 Cluster: Spike protein
+UniRef100_C6GHE6     -          my_protein           -                  0 1149.3  35.4         0 1149.3  35.4   2.3   2   1   1   3   3   1   1 Cluster: Spike protein
+UniRef100_Q8JVL1     -          my_protein           -                  0 1148.8  35.8         0 1148.8  35.8   2.7   2   1   1   3   3   1   1 Cluster: Peplomer protein
+UniRef100_C6GHB7     -          my_protein           -                  0 1147.6  39.4         0 1144.7  31.8   2.8   2   1   1   3   3   1   1 Cluster: Spike protein
+UniRef100_E0AGW6     -          my_protein           -                  0 1146.2  38.7         0 1142.0  36.6   2.1   1   1   1   2   2   1   1 Cluster: Spike protein
+UniRef100_B0LJR1     -          my_protein           -                  0 1145.8  36.0         0 1145.8  36.0   2.7   2   1   1   3   3   1   1 Cluster: Spike glycoprotein
+UniRef100_E3W5H9     -          my_protein           -                  0 1145.7  43.0         0 1145.6  37.7   2.6   2   1   0   2   2   1   1 Cluster: Spike protein
+UniRef100_Q09PH3     -          my_protein           -                  0 1144.6  35.8         0 1144.6  35.8   2.8   2   1   1   3   3   1   1 Cluster: Spike glycoprotein
+UniRef100_D6RTN9     -          my_protein           -                  0 1143.3  37.9         0 1141.3  34.9   2.0   1   1   1   2   2   1   1 Cluster: Spike protein
+UniRef100_Q7TE92     -          my_protein           -                  0 1142.8  34.6         0 1142.2  34.1   1.4   1   1   1   2   2   1   1 Cluster: S protein
+UniRef100_C6GHD6     -          my_protein           -                  0 1142.3  36.5         0 1142.3  36.5   2.3   2   1   1   3   3   1   1 Cluster: Spike protein
+UniRef100_Q66951     -          my_protein           -                  0 1140.3  33.8         0 1140.3  33.8   2.7   2   1   1   3   3   1   1 Cluster: Peplomer protein
+UniRef100_Q7TE91     -          my_protein           -                  0 1139.8  38.9         0 1135.5  34.4   2.1   1   1   1   2   2   1   1 Cluster: S protein
+UniRef100_Q8JVL2     -          my_protein           -                  0 1134.1  44.0         0 1133.1  38.8   2.9   1   1   1   2   2   1   1 Cluster: Peplomer protein
+UniRef100_E0AGU6     -          my_protein           -                  0 1127.0  45.1         0 1125.3  38.4   2.8   2   1   1   3   3   1   1 Cluster: Spike protein
+UniRef100_A4ZCS0     -          my_protein           -                  0 1126.0  33.1         0 1120.3  33.1   2.0   1   1   0   1   1   1   1 Cluster: Spike protein
+UniRef100_Q0Q4F7     -          my_protein           -                  0 1124.8  25.3         0 1124.4  25.3   1.1   1   0   0   1   1   1   1 Cluster: Spike
+UniRef100_Q0PKZ5     -          my_protein           -                  0 1120.6  28.2         0 1114.8  21.5   2.3   2   0   0   2   2   1   1 Cluster: Spike protein
+UniRef100_D0ECU0     -          my_protein           -                  0 1120.4  36.3         0 1117.5  36.3   1.9   1   1   0   1   1   1   1 Cluster: Spike
+UniRef100_D0ECU1     -          my_protein           -                  0 1119.9  35.3         0 1117.0  35.3   1.9   1   1   0   1   1   1   1 Cluster: Spike
+UniRef100_P07946     -          my_protein           -                  0 1119.3  28.5         0 1112.9  21.2   2.3   2   0   0   2   2   1   1 Cluster: Spike glycoprotein
+UniRef100_Q0PL04     -          my_protein           -                  0 1119.2  29.1         0 1112.9  21.2   2.3   2   0   0   2   2   1   1 Cluster: Spike protein
+UniRef100_D3X6W6     -          my_protein           -                  0 1118.8  35.7         0 1115.9  35.7   1.9   1   1   0   1   1   1   1 Cluster: Spike
+UniRef100_Q0ZVX5     -          my_protein           -                  0 1118.4  29.7         0 1112.4  23.9   2.3   2   0   0   2   2   1   1 Cluster: Spike protein
+UniRef100_C9DSV9     -          my_protein           -                  0 1118.0  35.4         0 1115.1  35.4   2.0   1   1   0   1   1   1   1 Cluster: Spike
+UniRef100_C9DST7     -          my_protein           -                  0 1118.0  36.7         0 1110.9  36.7   2.1   1   1   0   1   1   1   1 Cluster: Spike
+UniRef100_D3X6W3     -          my_protein           -                  0 1117.7  35.2         0 1114.8  35.2   1.9   1   1   0   1   1   1   1 Cluster: Spike
+UniRef100_Q5RZ64     -          my_protein           -                  0 1117.4  28.6         0 1112.1  22.1   2.1   2   0   0   2   2   1   1 Cluster: Spike protein
+UniRef100_D0ECU2     -          my_protein           -                  0 1117.3  33.9         0 1114.5  33.9   1.9   1   1   0   1   1   1   1 Cluster: Spike
+UniRef100_D3X6W4     -          my_protein           -                  0 1117.2  35.4         0 1114.3  35.4   1.9   1   1   0   1   1   1   1 Cluster: Spike
+UniRef100_D3X6W5     -          my_protein           -                  0 1117.0  34.8         0 1114.1  34.9   1.9   1   1   0   1   1   1   1 Cluster: Spike
+UniRef100_B3TD61     -          my_protein           -                  0 1116.8  31.7         0 1113.9  31.7   1.9   1   1   0   1   1   1   1 Cluster: Spike
+UniRef100_B7T4B7     -          my_protein           -                  0 1115.9  30.4         0 1111.1  23.4   2.2   2   0   0   2   2   1   1 Cluster: Spike protein
+UniRef100_B7T072     -          my_protein           -                  0 1115.7  26.5         0 1110.8  22.6   2.1   2   0   0   2   2   1   1 Cluster: S protein
+UniRef100_B7T061     -          my_protein           -                  0 1115.4  31.2         0 1110.6  24.2   2.2   2   0   0   2   2   1   1 Cluster: S protein
+UniRef100_A4ZCU4     -          my_protein           -                  0 1115.3  25.4         0 1110.2  25.3   2.0   1   1   0   1   1   1   1 Cluster: Spike protein
+UniRef100_A4ZCU8     -          my_protein           -                  0 1115.3  25.1         0 1109.8  25.0   2.0   1   1   0   1   1   1   1 Cluster: Spike protein
+UniRef100_Q6PQ05     -          my_protein           -                  0 1115.1  28.7         0 1109.9  21.9   2.3   2   0   0   2   2   1   1 Cluster: Spike glycoprotein
+UniRef100_Q01977     -          my_protein           -                  0 1114.9  27.6         0 1108.6  20.3   2.3   2   0   0   2   2   1   1 Cluster: Spike glycoprotein
+UniRef100_B7T4A8     -          my_protein           -                  0 1114.7  30.0         0 1109.5  23.8   2.2   2   0   0   2   2   1   1 Cluster: Spike protein
+UniRef100_Q7T428     -          my_protein           -                  0 1114.6  28.5         0 1109.3  21.8   2.3   2   0   0   2   2   1   1 Cluster: Spike glycoprotein
+UniRef100_Q0PL12     -          my_protein           -                  0 1114.4  29.7         0 1108.7  23.5   2.1   2   0   0   2   2   1   1 Cluster: Spike protein
+UniRef100_C6K2T6     -          my_protein           -                  0 1114.0  30.1         0 1109.1  25.0   2.2   2   0   0   2   2   1   1 Cluster: S protein
+UniRef100_B3FHU5     -          my_protein           -                  0 1113.0  36.8         0 1110.2  36.8   1.8   1   1   0   1   1   1   1 Cluster: Spike
+UniRef100_Q2LJ83     -          my_protein           -                  0 1113.0  28.9         0 1107.7  22.1   2.3   2   0   0   2   2   1   1 Cluster: Spike protein
+UniRef100_O91603     -          my_protein           -                  0 1112.9  31.1         0 1109.1  24.6   2.3   2   0   0   2   2   1   1 Cluster: Spike protein
+UniRef100_Q0PL30     -          my_protein           -                  0 1112.4  28.6         0 1107.1  21.4   2.3   2   0   0   2   2   1   1 Cluster: Spike protein
+UniRef100_D2WXL7     -          my_protein           -                  0 1112.4  29.5         0 1107.8  23.3   2.1   2   0   0   2   2   1   1 Cluster: Spike protein
+UniRef100_Q66928     -          my_protein           -                  0 1112.2  26.7         0 1107.9  21.6   2.2   2   0   0   2   2   1   1 Cluster: Spike glycoprotein
+UniRef100_A4ZCQ4     -          my_protein           -                  0 1111.4  32.3         0 1106.1  32.4   2.0   1   1   0   1   1   1   1 Cluster: Spike protein
+UniRef100_Q0PL21     -          my_protein           -                  0 1111.1  28.5         0 1105.8  21.7   2.3   2   0   0   2   2   1   1 Cluster: Spike protein
+UniRef100_P27655     -          my_protein           -                  0 1110.7  26.7         0 1105.0  21.1   2.0   2   0   0   2   2   1   1 Cluster: Spike glycoprotein
+UniRef100_Q4ZJU7     -          my_protein           -                  0 1110.7  30.0         0 1106.1  22.5   2.2   2   0   0   2   2   1   1 Cluster: Spike glycoprotein
+UniRef100_Q84852     -          my_protein           -                  0 1109.7  27.3         0 1104.0  21.7   2.0   2   0   0   2   2   1   1 Cluster: S protein
+UniRef100_A7UIZ6     -          my_protein           -                  0 1109.5  27.2         0 1101.9  21.0   2.3   2   0   0   2   2   1   1 Cluster: Spike protein
+UniRef100_C9DSU8     -          my_protein           -                  0 1109.4  34.7         0 1106.4  34.7   1.9   1   1   0   1   1   1   1 Cluster: Spike
+UniRef100_Q9DY22     -          my_protein           -                  0 1109.0  31.4         0 1107.6  21.2   2.3   3   0   0   3   3   1   1 Cluster: Spike protein S
+UniRef100_P33470     -          my_protein           -                  0 1108.8  21.6         0 1108.8  21.6   2.3   3   0   0   3   3   1   1 Cluster: Spike glycoprotein
+UniRef100_A4UII7     -          my_protein           -                  0 1108.7  30.1         0 1103.9  24.1   2.2   2   0   0   2   2   1   1 Cluster: Spike protein
+UniRef100_Q6TPL2     -          my_protein           -                  0 1108.4  27.9         0 1104.8  22.0   2.1   2   0   0   2   2   1   1 Cluster: Spike protein
+UniRef100_P10033     -          my_protein           -                  0 1108.0  21.9         0 1108.0  21.9   2.4   3   0   0   3   3   1   1 Cluster: Spike glycoprotein
+UniRef100_Q88510     -          my_protein           -                  0 1107.8  31.2         0 1104.8  21.3   2.7   3   0   0   3   3   1   1 Cluster: Virus Envelope Protein
+UniRef100_A4ZCK4     -          my_protein           -                  0 1107.3  27.0         0 1102.2  26.7   2.0   1   1   0   1   1   1   1 Cluster: Spike protein
+UniRef100_Q6SR88     -          my_protein           -                  0 1107.1  21.5         0 1107.1  21.5   2.4   3   0   0   3   3   1   1 Cluster: E2 glycoprotein
+UniRef100_C8YR35     -          my_protein           -                  0 1106.8  28.3         0 1101.5  21.2   2.3   2   0   0   2   2   1   1 Cluster: Spike protein
+UniRef100_P18450     -          my_protein           -                  0 1106.5  28.0         0 1101.7  20.9   2.3   2   0   0   2   2   1   1 Cluster: Spike glycoprotein
+UniRef100_P24413     -          my_protein           -                  0 1106.1  28.0         0 1100.3  22.5   2.0   2   0   0   2   2   1   1 Cluster: Spike glycoprotein
+UniRef100_A4ZCP1     -          my_protein           -                  0 1106.0  29.4         0 1101.0  29.4   2.0   1   1   0   1   1   1   1 Cluster: Spike protein
+UniRef100_Q6T522     -          my_protein           -                  0 1105.5  27.9         0 1101.8  22.1   2.1   2   0   0   2   2   1   1 Cluster: Spike protein
+UniRef100_B3TD48     -          my_protein           -                  0 1105.2  33.3         0 1099.7  33.3   2.0   1   1   0   1   1   1   1 Cluster: Spike
+UniRef100_Q7T6T3     -          my_protein           -                  0 1105.2  28.9         0 1101.1  23.1   2.3   2   0   0   2   2   1   1 Cluster: Spike glycoprotein
+UniRef100_A4UII8     -          my_protein           -                  0 1104.8  29.9         0 1100.9  23.2   2.2   2   0   0   2   2   1   1 Cluster: Spike protein
+UniRef100_Q65984     -          my_protein           -                  0 1104.2  27.5         0 1100.2  22.1   2.1   2   0   0   2   2   1   1 Cluster: Spike glycoprotein
+UniRef100_Q84853     -          my_protein           -                  0 1102.1  29.8         0 1099.3  21.9   2.4   3   0   0   3   3   1   1 Cluster: S protein
+UniRef100_Q9YRA7     -          my_protein           -                  0 1101.3  30.7         0 1096.8  24.2   2.2   2   0   0   2   2   1   1 Cluster: Virus envelope protein spike
+UniRef100_Q8QQW0     -          my_protein           -                  0 1101.2  24.2         0 1096.9  17.3   2.3   2   0   0   2   2   1   1 Cluster: S protein
+UniRef100_Q7TG53     -          my_protein           -                  0 1099.1  21.5         0 1098.7  21.5   1.0   1   0   0   1   1   1   1 Cluster: S glycoprotein (Fragment)
+UniRef100_P36300     -          my_protein           -                  0 1097.2  25.0         0 1092.6  19.2   2.2   1   1   1   2   2   1   1 Cluster: Spike glycoprotein
+UniRef100_Q7T5V2     -          my_protein           -                  0 1086.6  34.9         0 1079.5  34.9   2.1   1   1   0   1   1   1   1 Cluster: Spike glycoprotein
+UniRef100_Q7T5V3     -          my_protein           -                  0 1069.6  34.2  1.2e-316 1062.7  34.2   2.1   1   1   0   1   1   1   1 Cluster: Spike glycoprotein
+UniRef100_Q98Y31     -          my_protein           -           2.2e-314 1055.5  27.2    9e-313 1050.1  27.2   2.0   1   1   0   1   1   1   1 Cluster: Spike glycoprotein
+UniRef100_Q5MAP4     -          my_protein           -           3.4e-311 1044.9  10.1  4.1e-311 1044.6  10.1   1.0   1   0   0   1   1   1   1 Cluster: Spike glycoprotein S2 subunit (Fragment)
+UniRef100_A5Z114     -          my_protein           -           6.8e-311 1043.9  12.8  8.2e-311 1043.6  12.8   1.0   1   0   0   1   1   1   1 Cluster: S2 protein (Fragment)
+UniRef100_A5Z146     -          my_protein           -           7.2e-311 1043.8  12.3  8.7e-311 1043.5  12.3   1.0   1   0   0   1   1   1   1 Cluster: S2 protein (Fragment)
+UniRef100_Q5MAP5     -          my_protein           -           2.9e-310 1041.8  11.7  3.5e-310 1041.6  11.7   1.0   1   0   0   1   1   1   1 Cluster: Spike glycoprotein S2 subunit (Fragment)
+UniRef100_A5Z1C5     -          my_protein           -           3.7e-310 1041.5  13.8  4.5e-310 1041.2  13.8   1.0   1   0   0   1   1   1   1 Cluster: S2 protein (Fragment)
+UniRef100_D1MJB7     -          my_protein           -           6.7e-310 1040.6  21.5  6.6e-307 1030.7  19.7   2.4   1   1   1   2   2   1   1 Cluster: Spike protein
+UniRef100_C5IGI4     -          my_protein           -             7e-310 1040.5  31.5  7.9e-310 1040.4  31.5   1.0   1   0   0   1   1   1   1 Cluster: Spike glycoprotein (Fragment)
+UniRef100_A5Z0Z0     -          my_protein           -           7.4e-310 1040.5  14.0    9e-310 1040.2  14.0   1.0   1   0   0   1   1   1   1 Cluster: S2 protein (Fragment)
+UniRef100_C1KEY9     -          my_protein           -           9.1e-310 1040.2  12.7  1.1e-309 1039.9  12.7   1.0   1   0   0   1   1   1   1 Cluster: Spike glycoprotein S2 subunit (Fragment)
+UniRef100_B1P748     -          my_protein           -           9.6e-310 1040.1  11.9  1.2e-309 1039.8  11.9   1.0   1   0   0   1   1   1   1 Cluster: S2 glycoprotein (Fragment)
+UniRef100_A5Z138     -          my_protein           -           9.8e-310 1040.1  13.7  1.2e-309 1039.8  13.7   1.0   1   0   0   1   1   1   1 Cluster: S2 protein (Fragment)
+UniRef100_D1MJB5     -          my_protein           -             1e-309 1040.0  21.8  8.9e-307 1030.3  20.0   2.3   1   1   1   2   2   1   1 Cluster: Spike protein
+UniRef100_B1P749     -          my_protein           -           1.1e-309 1040.0  13.4  1.3e-309 1039.7  13.4   1.0   1   0   0   1   1   1   1 Cluster: S2 glycoprotein (Fragment)
+UniRef100_C1KEY4     -          my_protein           -           1.6e-309 1039.4  12.8  1.9e-309 1039.1  12.8   1.0   1   0   0   1   1   1   1 Cluster: Spike glycoprotein S2 subunit (Fragment)
+UniRef100_C5IGJ3     -          my_protein           -           2.1e-309 1039.0  31.4  2.4e-309 1038.8  31.4   1.0   1   0   0   1   1   1   1 Cluster: Spike glycoprotein (Fragment)
+UniRef100_D1MJB4     -          my_protein           -           2.2e-309 1038.9  20.5  1.7e-306 1029.3  18.7   2.4   1   1   1   2   2   1   1 Cluster: Spike protein
+UniRef100_A5Z169     -          my_protein           -           2.4e-309 1038.8  12.7  2.9e-309 1038.5  12.7   1.0   1   0   0   1   1   1   1 Cluster: S2 protein (Fragment)
+UniRef100_B1P752     -          my_protein           -           2.5e-309 1038.7  12.8    3e-309 1038.4  12.8   1.0   1   0   0   1   1   1   1 Cluster: S2 glycoprotein (Fragment)
+UniRef100_A5Z1A9     -          my_protein           -           2.9e-309 1038.5  12.9  3.5e-309 1038.2  12.9   1.0   1   0   0   1   1   1   1 Cluster: S2 protein (Fragment)
+UniRef100_Q991M0     -          my_protein           -           3.8e-309 1038.1  13.9  4.5e-309 1037.9  13.9   1.0   1   0   0   1   1   1   1 Cluster: Spike glycoprotein S2 subunit (Fragment)
+UniRef100_Q0GJJ0     -          my_protein           -           3.9e-309 1038.1  22.1  2.1e-306 1029.0  20.3   2.2   1   1   1   2   2   1   1 Cluster: Spike protein
+UniRef100_A5Z193     -          my_protein           -             4e-309 1038.0  12.8  4.9e-309 1037.8  12.8   1.0   1   0   0   1   1   1   1 Cluster: S2 protein (Fragment)
+UniRef100_A5Z1A1     -          my_protein           -           4.2e-309 1038.0  12.3    5e-309 1037.7  12.3   1.0   1   0   0   1   1   1   1 Cluster: S2 protein (Fragment)
+UniRef100_A5Z122     -          my_protein           -           5.3e-309 1037.6  14.6  6.4e-309 1037.4  14.6   1.0   1   0   0   1   1   1   1 Cluster: S2 protein (Fragment)
+UniRef100_Q91AV1     -          my_protein           -           7.4e-309 1037.2  23.1  3.7e-306 1028.2  21.1   2.2   1   1   1   2   2   1   1 Cluster: Spike glycoprotein
+UniRef100_A5Z153     -          my_protein           -           7.7e-309 1037.1  13.9  9.3e-309 1036.8  13.9   1.0   1   0   0   1   1   1   1 Cluster: S2 protein (Fragment)
+UniRef100_Q9IZ99     -          my_protein           -           2.2e-308 1035.6  11.6  2.6e-308 1035.3  11.6   1.0   1   0   0   1   1   1   1 Cluster: Spike glycoprotein S2 subunit (Fragment)
+UniRef100_A5Z1B7     -          my_protein           -           3.3e-308 1035.0  12.6    4e-308 1034.7  12.6   1.0   1   0   0   1   1   1   1 Cluster: S2 protein (Fragment)
+UniRef100_B1P753     -          my_protein           -           3.6e-308 1034.9  12.7  4.4e-308 1034.6  12.7   1.0   1   0   0   1   1   1   1 Cluster: S2 glycoprotein (Fragment)
+UniRef100_Q84712     -          my_protein           -           3.7e-308 1034.8  23.2  1.8e-305 1025.9  21.2   2.2   1   1   1   2   2   1   1 Cluster: Spike protein
+UniRef100_Q9WCG3     -          my_protein           -             4e-308 1034.7  13.4  4.8e-308 1034.5  13.4   1.0   1   0   0   1   1   1   1 Cluster: Spike glycoprotein (Fragment)
+UniRef100_A5Z0Z8     -          my_protein           -           6.4e-308 1034.1  14.9  7.7e-308 1033.8  14.9   1.0   1   0   0   1   1   1   1 Cluster: S2 protein (Fragment)
+UniRef100_C1KEY5     -          my_protein           -           7.9e-308 1033.8  13.2  9.4e-308 1033.5  13.2   1.0   1   0   0   1   1   1   1 Cluster: Spike glycoprotein S2 subunit (Fragment)
+UniRef100_Q9IZ81     -          my_protein           -             8e-308 1033.7  11.8  9.6e-308 1033.5  11.8   1.0   1   0   0   1   1   1   1 Cluster: Spike glycoprotein (Fragment)
+UniRef100_Q9IZ83     -          my_protein           -             9e-308 1033.6  11.3  1.1e-307 1033.3  11.3   1.0   1   0   0   1   1   1   1 Cluster: Spike glycoprotein (Fragment)
+UniRef100_Q9IH16     -          my_protein           -           9.1e-308 1033.6  11.2  1.1e-307 1033.3  11.2   1.0   1   0   0   1   1   1   1 Cluster: Spike glycoprotein, S2 subunit (Fragment)
+UniRef100_Q991L4     -          my_protein           -           1.1e-307 1033.2  11.5  1.4e-307 1033.0  11.5   1.0   1   0   0   1   1   1   1 Cluster: Spike glycoprotein S2 subunit (Fragment)
+UniRef100_Q9IH18     -          my_protein           -           1.2e-307 1033.2  11.6  1.5e-307 1032.9  11.6   1.0   1   0   0   1   1   1   1 Cluster: Spike glycoprotein, S2 subunit (Fragment)
+UniRef100_D1MJB2     -          my_protein           -           1.2e-307 1033.1  24.0  7.7e-305 1023.8  22.2   2.2   1   1   1   2   2   1   1 Cluster: Spike protein
+UniRef100_C1KEY6     -          my_protein           -           1.4e-307 1032.9  13.2  1.7e-307 1032.7  13.2   1.0   1   0   0   1   1   1   1 Cluster: Spike glycoprotein S2 subunit (Fragment)
+UniRef100_B1P754     -          my_protein           -           1.5e-307 1032.9  13.7  1.8e-307 1032.6  13.7   1.0   1   0   0   1   1   1   1 Cluster: S2 glycoprotein (Fragment)
+UniRef100_B1P750     -          my_protein           -           1.7e-307 1032.7  11.8    2e-307 1032.4  11.8   1.0   1   0   0   1   1   1   1 Cluster: S2 glycoprotein (Fragment)
+UniRef100_A5Z177     -          my_protein           -           1.8e-307 1032.6  13.1  2.2e-307 1032.3  13.1   1.0   1   0   0   1   1   1   1 Cluster: S2 protein (Fragment)
+UniRef100_Q692M1     -          my_protein           -           2.2e-307 1032.3  21.9  1.8e-304 1022.7  20.2   2.3   1   1   1   2   2   1   1 Cluster: Spike glycoprotein
+UniRef100_D1MJB3     -          my_protein           -           3.8e-307 1031.5  22.3  2.9e-304 1021.9  20.6   2.2   1   1   1   2   2   1   1 Cluster: Spike protein
+UniRef100_B1P751     -          my_protein           -           4.1e-307 1031.4  12.7  4.9e-307 1031.1  12.7   1.0   1   0   0   1   1   1   1 Cluster: S2 glycoprotein (Fragment)
+UniRef100_Q991L3     -          my_protein           -           4.1e-307 1031.4  11.7  4.9e-307 1031.1  11.7   1.0   1   0   0   1   1   1   1 Cluster: Spike glycoprotein S2 subunit (Fragment)
+UniRef100_A5Z0U2     -          my_protein           -           6.1e-307 1030.8  14.4  7.3e-307 1030.5  14.4   1.0   1   0   0   1   1   1   1 Cluster: S2 protein (Fragment)
+UniRef100_Q9WCG4     -          my_protein           -           7.7e-307 1030.5  13.9  9.4e-307 1030.2  13.9   1.0   1   0   0   1   1   1   1 Cluster: Spike glycoprotein (Fragment)
+UniRef100_Q91I93     -          my_protein           -           9.6e-307 1030.2  11.0  1.2e-306 1029.9  11.0   1.0   1   0   0   1   1   1   1 Cluster: Spike glycoprotein S2 subunit (Fragment)
+UniRef100_Q5I7L7     -          my_protein           -           1.1e-306 1030.0  16.9  1.3e-306 1029.7  16.9   1.0   1   0   0   1   1   1   1 Cluster: S2 glycoprotein (Fragment)
+UniRef100_Q77TS9     -          my_protein           -           1.1e-306 1030.0  13.1  1.3e-306 1029.7  13.1   1.0   1   0   0   1   1   1   1 Cluster: Spike glycoprotein (Fragment)
+UniRef100_D1MJB1     -          my_protein           -           1.1e-306 1029.9  22.7  6.5e-304 1020.8  20.7   2.2   1   1   1   2   2   1   1 Cluster: Spike protein
+UniRef100_Q0Q4F6     -          my_protein           -           1.3e-306 1029.7  31.4  3.8e-305 1024.9  26.0   2.1   1   1   1   2   2   1   1 Cluster: Spike
+UniRef100_A5Z0W6     -          my_protein           -           1.7e-306 1029.4  16.9    2e-306 1029.1  16.9   1.0   1   0   0   1   1   1   1 Cluster: S2 protein (Fragment)
+UniRef100_P15423     -          my_protein           -           1.7e-306 1029.3  35.7  2.7e-305 1025.3  31.0   2.0   2   0   0   2   2   1   1 Cluster: Spike glycoprotein
+UniRef100_Q9IH15     -          my_protein           -             2e-306 1029.1  11.4  2.4e-306 1028.8  11.4   1.0   1   0   0   1   1   1   1 Cluster: Truncated spike glycoprotein, S2 subunit (Fragment)
+UniRef100_Q9IH17     -          my_protein           -           2.3e-306 1028.9  11.5  2.8e-306 1028.6  11.5   1.0   1   0   0   1   1   1   1 Cluster: Spike glycoprotein, S2 subunit (Fragment)
+UniRef100_A5Z0V0     -          my_protein           -           2.5e-306 1028.8  15.1    3e-306 1028.5  15.1   1.0   1   0   0   1   1   1   1 Cluster: S2 protein (Fragment)
+UniRef100_Q1HVM6     -          my_protein           -           2.8e-306 1028.6  36.0  4.5e-305 1024.6  31.3   2.0   2   0   0   2   2   1   1 Cluster: Spike glycoprotein
+UniRef100_A5Z0V8     -          my_protein           -           3.6e-306 1028.2  12.7  4.4e-306 1028.0  12.7   1.0   1   0   0   1   1   1   1 Cluster: S2 protein (Fragment)
+UniRef100_A5Z0Y2     -          my_protein           -           3.7e-306 1028.2  15.4  4.4e-306 1028.0  15.4   1.0   1   0   0   1   1   1   1 Cluster: S2 protein (Fragment)
+UniRef100_A5Z185     -          my_protein           -           4.3e-306 1028.0  13.4  5.2e-306 1027.7  13.4   1.0   1   0   0   1   1   1   1 Cluster: S2 protein (Fragment)
+UniRef100_Q9IZ80     -          my_protein           -           4.4e-306 1028.0  13.8  5.3e-306 1027.7  13.8   1.0   1   0   0   1   1   1   1 Cluster: Spike glycoprotein (Fragment)
+UniRef100_Q991M1     -          my_protein           -           4.5e-306 1027.9  13.8  5.5e-306 1027.7  13.8   1.0   1   0   0   1   1   1   1 Cluster: Spike glycoprotein S2 subunit (Fragment)
+UniRef100_A5Z0X4     -          my_protein           -           5.1e-306 1027.8  13.2  6.2e-306 1027.5  13.2   1.0   1   0   0   1   1   1   1 Cluster: S2 protein (Fragment)
+UniRef100_Q9IZ82     -          my_protein           -           5.5e-306 1027.7  10.4  6.6e-306 1027.4  10.4   1.0   1   0   0   1   1   1   1 Cluster: Spike glycoprotein (Fragment)
+UniRef100_D9J204     -          my_protein           -           7.5e-306 1027.2  30.8  3.5e-305 1025.0  26.1   2.0   1   1   1   2   2   1   1 Cluster: Spike protein
+UniRef100_Q9IZA0     -          my_protein           -           8.2e-306 1027.1  11.5  9.9e-306 1026.8  11.5   1.0   1   0   0   1   1   1   1 Cluster: Spike glycoprotein S2 subunit (Fragment)
+UniRef100_Q0Q466     -          my_protein           -           8.7e-306 1027.0  29.8  2.8e-304 1022.0  24.2   2.1   1   1   1   2   2   1   1 Cluster: Spike glycoprotein
+UniRef100_D9J1Z4     -          my_protein           -           1.1e-305 1026.7  26.3  1.1e-305 1026.7  26.3   2.7   2   1   1   3   3   1   1 Cluster: Spike protein
+UniRef100_A2IB75     -          my_protein           -           1.1e-305 1026.6  24.2    8e-303 1017.2  22.0   2.2   1   1   1   2   2   1   1 Cluster: S protein
+UniRef100_Q9WCG1     -          my_protein           -           1.3e-305 1026.4  13.4  1.6e-305 1026.1  13.4   1.0   1   0   0   1   1   1   1 Cluster: Spike glycoprotein (Fragment)
+UniRef100_Q9IH09     -          my_protein           -           1.3e-305 1026.4  11.9  1.6e-305 1026.1  11.9   1.0   1   0   0   1   1   1   1 Cluster: Spike glycoprotein, S2 subunit (Fragment)
+UniRef100_Q1HVM3     -          my_protein           -           1.8e-305 1026.0  38.0  3.9e-304 1021.5  33.2   2.1   2   0   0   2   2   1   1 Cluster: Spike glycoprotein
+UniRef100_Q1HVM5     -          my_protein           -             2e-305 1025.8  38.0  4.5e-304 1021.3  33.2   2.1   2   0   0   2   2   1   1 Cluster: Spike glycoprotein
+UniRef100_Q9E128     -          my_protein           -           2.4e-305 1025.5  10.3  2.9e-305 1025.2  10.3   1.0   1   0   0   1   1   1   1 Cluster: Spike glycoprotein S2 subunit (Fragment)
+UniRef100_Q1HVM0     -          my_protein           -           3.1e-305 1025.2  37.7  5.6e-304 1021.0  32.6   2.1   2   0   0   2   2   1   1 Cluster: Spike glycoprotein
+UniRef100_Q9IH14     -          my_protein           -           3.3e-305 1025.1  10.0  3.9e-305 1024.8  10.0   1.0   1   0   0   1   1   1   1 Cluster: Spike glycoprotein, S2 subunit (Fragment)
+UniRef100_Q1HVL9     -          my_protein           -           4.4e-305 1024.7  38.3    1e-303 1020.1  33.5   2.1   2   0   0   2   2   1   1 Cluster: Spike glycoprotein
+UniRef100_A7LKV0     -          my_protein           -             5e-305 1024.5  19.6    4e-302 1014.9  17.8   2.3   1   1   1   2   2   1   1 Cluster: Spike protein
+UniRef100_D1MJB6     -          my_protein           -           6.2e-305 1024.2  19.6  5.4e-302 1014.4  17.9   2.2   1   1   1   2   2   1   1 Cluster: Spike protein
+UniRef100_Q1HVM1     -          my_protein           -           6.9e-305 1024.0  36.9    1e-303 1020.2  31.4   2.1   2   0   0   2   2   1   1 Cluster: Spike glycoprotein
+UniRef100_A5Z0T4     -          my_protein           -           1.1e-304 1023.4  15.3  1.3e-304 1023.1  15.3   1.0   1   0   0   1   1   1   1 Cluster: S2 protein (Fragment)
+UniRef100_Q1HVL7     -          my_protein           -           1.2e-304 1023.2  36.9  1.8e-303 1019.3  31.6   2.1   2   0   0   2   2   1   1 Cluster: Spike glycoprotein
+UniRef100_Q9IH10     -          my_protein           -           1.4e-304 1023.0  12.0  1.7e-304 1022.8  12.0   1.0   1   0   0   1   1   1   1 Cluster: Spike glycoprotein, S2 subunit (Fragment)
+UniRef100_Q1HVL3     -          my_protein           -           1.6e-304 1022.8  37.5    2e-303 1019.2  31.9   2.1   2   0   0   2   2   1   1 Cluster: Spike glycoprotein
+UniRef100_B1P755     -          my_protein           -           1.8e-304 1022.6  14.0  2.2e-304 1022.4  14.0   1.0   1   0   0   1   1   1   1 Cluster: S2 glycoprotein (Fragment)
+UniRef100_Q1HVL4     -          my_protein           -           2.3e-304 1022.3  37.4  2.8e-303 1018.7  31.8   2.1   2   0   0   2   2   1   1 Cluster: Spike glycoprotein
+UniRef100_Q1HVK3     -          my_protein           -           2.9e-304 1021.9  36.7    5e-303 1017.8  31.6   2.1   2   0   0   2   2   1   1 Cluster: Spike glycoprotein
+UniRef100_Q1HVK5     -          my_protein           -           3.8e-304 1021.6  37.0  6.7e-303 1017.4  31.9   2.1   2   0   0   2   2   1   1 Cluster: Spike glycoprotein
+UniRef100_Q1HVL0     -          my_protein           -           3.8e-304 1021.6  37.0  6.7e-303 1017.4  31.9   2.1   2   0   0   2   2   1   1 Cluster: Spike glycoprotein
+UniRef100_Q1HVK9     -          my_protein           -           5.6e-304 1021.0  36.8  9.6e-303 1016.9  31.7   2.1   2   0   0   2   2   1   1 Cluster: Spike glycoprotein
+UniRef100_D9YMZ5     -          my_protein           -           8.1e-304 1020.5  36.9  1.9e-302 1015.9  36.9   2.0   1   1   0   1   1   1   1 Cluster: Putative spike glycoprotein
+UniRef100_Q1HVL8     -          my_protein           -           1.1e-303 1020.0  36.4    2e-302 1015.8  31.2   2.1   2   0   0   2   2   1   1 Cluster: Spike glycoprotein
+UniRef100_Q0QBB8     -          my_protein           -           1.3e-303 1019.8  22.4  1.7e-300 1009.5  20.8   2.3   1   1   1   2   2   1   1 Cluster: Spike protein
+UniRef100_Q1HVL1     -          my_protein           -           1.6e-303 1019.5  36.8  2.7e-302 1015.4  31.7   2.1   2   0   0   2   2   1   1 Cluster: Spike glycoprotein
+UniRef100_Q9WCG2     -          my_protein           -           1.7e-303 1019.4  11.9    2e-303 1019.2  11.9   1.0   1   0   0   1   1   1   1 Cluster: Spike glycoprotein (Fragment)
+UniRef100_Q66197     -          my_protein           -           1.9e-303 1019.2  10.3  2.3e-303 1019.0  10.3   1.0   1   0   0   1   1   1   1 Cluster: Peplomeric polyprotein (Fragment)
+UniRef100_Q000W8     -          my_protein           -           2.3e-303 1019.0  19.3  1.6e-300 1009.5  17.4   2.3   1   1   1   2   2   1   1 Cluster: Spike
+UniRef100_Q991L9     -          my_protein           -           3.3e-303 1018.5  14.2    4e-303 1018.2  14.2   1.0   1   0   0   1   1   1   1 Cluster: Spike glycoprotein S2 subunit (Fragment)
+UniRef100_Q1HVK6     -          my_protein           -           3.7e-303 1018.3  36.5  6.4e-302 1014.2  31.4   2.1   2   0   0   2   2   1   1 Cluster: Spike glycoprotein
+UniRef100_B8YDG3     -          my_protein           -           5.9e-303 1017.6  12.5  7.2e-303 1017.3  12.5   1.0   1   0   0   1   1   1   1 Cluster: S2 glycoprotein (Fragment)
+UniRef100_Q64FG1     -          my_protein           -           2.6e-302 1015.5   8.5    3e-302 1015.3   8.5   1.0   1   0   0   1   1   1   1 Cluster: S2 protein (Fragment)
+UniRef100_Q0Q4F5     -          my_protein           -           4.2e-302 1014.8  25.5  7.8e-301 1010.6  21.2   2.1   1   1   1   2   2   1   1 Cluster: Spike
+UniRef100_Q991L5     -          my_protein           -           4.2e-302 1014.8  12.7  5.1e-302 1014.5  12.7   1.0   1   0   0   1   1   1   1 Cluster: Spike glycoprotein S2 subunit (Fragment)
+UniRef100_Q8QQ98     -          my_protein           -           7.1e-302 1014.0  20.9  7.6e-300 1007.3  18.2   2.3   1   1   1   2   2   1   1 Cluster: Spike protein
+UniRef100_Q1HVK4     -          my_protein           -           1.5e-301 1013.0  35.6  2.6e-300 1008.9  30.5   2.1   2   0   0   2   2   1   1 Cluster: Spike glycoprotein
+UniRef100_Q8B482     -          my_protein           -           1.7e-301 1012.8  19.6  9.8e-299 1003.6  17.6   2.2   1   1   1   2   2   1   1 Cluster: Spike protein
+UniRef100_A4ULL1     -          my_protein           -           1.3e-300 1009.8  37.7  6.9e-299 1004.1  34.5   2.1   1   1   1   2   2   1   1 Cluster: Spike protein
+UniRef100_Q06Y10     -          my_protein           -           3.3e-300 1008.5  36.1  3.3e-300 1008.5  32.0   2.1   1   1   1   2   2   1   1 Cluster: Spike protein
+UniRef100_Q6Q1S2     -          my_protein           -           4.4e-300 1008.1  30.5  4.4e-300 1008.1  30.5   2.2   1   1   0   2   2   1   1 Cluster: Spike glycoprotein
+UniRef100_D3XGJ4     -          my_protein           -           5.7e-300 1007.7  33.4  4.4e-298 1001.5  29.3   2.4   1   1   1   2   2   1   1 Cluster: Spike glycoprotein
+UniRef100_Q06Y16     -          my_protein           -           1.2e-299 1006.6  36.0  1.1e-298 1003.4  36.0   2.1   1   1   0   1   1   1   1 Cluster: Spike protein
+UniRef100_B1PHK2     -          my_protein           -           3.2e-298 1001.9  18.1  3.8e-296  995.1  17.3   2.2   1   1   0   2   2   1   1 Cluster: Spike protein
+UniRef100_B6VDW0     -          my_protein           -           5.2e-295  991.3  49.1  1.8e-293  986.2  44.1   2.1   1   1   1   2   2   1   1 Cluster: Spike glycoprotein
+UniRef100_Q0Q4F4     -          my_protein           -           1.2e-294  990.1  22.8  6.5e-293  984.4  18.9   2.2   1   1   1   2   2   1   1 Cluster: Spike
+UniRef100_B6VDW9     -          my_protein           -           3.3e-294  988.6  46.0  1.2e-292  983.5  40.8   2.1   1   1   1   2   2   1   1 Cluster: Spike glycoprotein
+UniRef100_Q98WQ0     -          my_protein           -             4e-293  985.0  13.4  4.8e-293  984.8  13.4   1.0   1   0   0   1   1   1   1 Cluster: Spike glycoprotein, S2 subunit (Fragment)
+UniRef100_B6VDY7     -          my_protein           -           7.6e-293  984.1  46.1  2.4e-292  982.4  40.4   2.1   1   1   1   2   2   1   1 Cluster: Spike glycoprotein
+UniRef100_D3XGI6     -          my_protein           -           3.7e-292  981.8  33.3  1.7e-291  979.7  28.9   2.1   1   1   1   2   2   1   1 Cluster: Spike glycoprotein
+UniRef100_A6N252     -          my_protein           -             2e-291  979.4  41.7  2.6e-290  975.7  38.0   2.1   1   1   1   2   2   1   1 Cluster: Spike protein
+UniRef100_Q66196     -          my_protein           -           4.9e-291  978.1  16.1  5.9e-291  977.8  16.1   1.0   1   0   0   1   1   1   1 Cluster: Peplomeric polyprotein (Fragment)
+UniRef100_B6VDX8     -          my_protein           -           5.1e-291  978.1  39.6  8.6e-287  964.1  36.4   2.1   2   0   0   2   2   1   1 Cluster: Spike glycoprotein
+UniRef100_Q9QCP6     -          my_protein           -           1.3e-290  976.7  13.6  1.6e-290  976.4  13.6   1.0   1   0   0   1   1   1   1 Cluster: Spike protein (Fragment)
+UniRef100_Q1KVI3     -          my_protein           -           2.6e-289  972.4   6.9  2.9e-289  972.3   6.9   1.0   1   0   0   1   1   1   1 Cluster: S1 protein (Fragment)
+UniRef100_A4ULL0     -          my_protein           -           4.8e-286  961.6  33.2  9.9e-285  957.2  32.9   2.2   1   1   0   1   1   1   1 Cluster: Spike protein (Fragment)
+UniRef100_B1PHJ5     -          my_protein           -           4.7e-281  945.0  27.3  1.3e-280  943.6  23.3   2.1   1   1   1   2   2   1   1 Cluster: Spike protein
+UniRef100_B8YDG2     -          my_protein           -           3.3e-279  938.9   5.5    4e-279  938.7   5.5   1.0   1   0   0   1   1   1   1 Cluster: S2 glycoprotein (Fragment)
+UniRef100_B1PHI8     -          my_protein           -           3.1e-277  932.4  27.7    1e-276  930.7  23.4   2.1   1   1   0   2   2   1   1 Cluster: Spike protein
+UniRef100_B2BW33     -          my_protein           -           1.2e-266  897.3  31.5    3e-261  879.4  23.7   3.0   2   1   1   3   3   1   1 Cluster: Spike protein
+UniRef100_Q1HVK7     -          my_protein           -           5.9e-257  865.2  20.6  6.8e-257  865.0  20.6   1.0   1   0   0   1   1   1   1 Cluster: Spike glycoprotein (Fragment)
+UniRef100_Q2XV39     -          my_protein           -             9e-250  841.4   9.2    1e-249  841.3   9.2   1.0   1   0   0   1   1   1   1 Cluster: Spike glycoprotein S2 subunit (Fragment)
+UniRef100_Q2XV38     -          my_protein           -             1e-246  831.3   9.0  1.2e-246  831.1   9.0   1.0   1   0   0   1   1   1   1 Cluster: Spike glycoprotein S2 subunit (Fragment)
+UniRef100_Q98Y28     -          my_protein           -           3.7e-246  829.5  10.1  4.1e-246  829.3  10.1   1.0   1   0   0   1   1   1   1 Cluster: Spike glycoprotein
+UniRef100_Q2XV37     -          my_protein           -             4e-245  826.0   7.8  4.4e-245  825.9   7.8   1.0   1   0   0   1   1   1   1 Cluster: Spike glycoprotein S2 subunit (Fragment)
+UniRef100_B5LX92     -          my_protein           -           7.2e-234  788.7  29.7  1.1e-197  668.9  20.3   2.0   1   1   0   2   2   1   1 Cluster: Truncated spike glycoprotein
+UniRef100_A8JP00     -          my_protein           -           1.7e-231  780.9  25.3  2.6e-226  763.7  19.3   2.0   2   0   0   2   2   1   1 Cluster: Spike glycoprotein
+UniRef100_A8JP08     -          my_protein           -             2e-231  780.7  25.5  2.2e-226  764.0  19.1   2.0   2   0   0   2   2   1   1 Cluster: Spike glycoprotein
+UniRef100_A8JNZ2     -          my_protein           -           1.3e-230  777.9  25.3  1.4e-225  761.2  18.9   2.0   2   0   0   2   2   1   1 Cluster: Spike glycoprotein
+UniRef100_B2L0T9     -          my_protein           -             5e-203  686.6  11.0  2.2e-201  681.1  10.9   2.0   1   1   0   1   1   1   1 Cluster: Spike glycoprotein (Fragment)
+UniRef100_B2L0T7     -          my_protein           -           5.3e-199  673.2  12.6    2e-197  668.0  12.6   2.0   1   1   0   1   1   1   1 Cluster: Spike glycoprotein (Fragment)
+UniRef100_B2L0T8     -          my_protein           -           5.6e-198  669.8  12.2  2.2e-196  664.6  12.2   2.0   1   1   0   1   1   1   1 Cluster: Spike glycoprotein (Fragment)
+UniRef100_Q6SRE4     -          my_protein           -           1.8e-190  645.0   4.9    2e-190  644.8   4.9   1.0   1   0   0   1   1   1   1 Cluster: Spike glycoprotein (Fragment)
+UniRef100_Q6SRF2     -          my_protein           -           3.3e-190  644.1   5.1  3.7e-190  643.9   5.1   1.0   1   0   0   1   1   1   1 Cluster: Spike glycoprotein (Fragment)
+UniRef100_Q5EM29     -          my_protein           -           1.8e-189  641.7  14.9    2e-189  641.5  14.9   1.0   1   0   0   1   1   1   1 Cluster: Spike protein (Fragment)
+UniRef100_Q6SRF8     -          my_protein           -           4.4e-189  640.4   4.7    5e-189  640.2   4.7   1.0   1   0   0   1   1   1   1 Cluster: Spike glycoprotein (Fragment)
+UniRef100_Q6SRF0     -          my_protein           -           5.2e-189  640.1   4.8  5.8e-189  640.0   4.8   1.0   1   0   0   1   1   1   1 Cluster: Spike glycoprotein (Fragment)
+UniRef100_Q6T1E4     -          my_protein           -           5.5e-171  580.4   5.3  6.2e-171  580.3   5.3   1.0   1   0   0   1   1   1   1 Cluster: Spike glycoprotein (Fragment)
+UniRef100_D0R1F3     -          my_protein           -           9.6e-168  569.7   4.0  1.1e-167  569.4   4.0   1.0   1   0   0   1   1   1   1 Cluster: Spike 2 protein (Fragment)
+UniRef100_D0R1F0     -          my_protein           -           1.9e-161  548.8   6.5  2.2e-161  548.6   6.5   1.0   1   0   0   1   1   1   1 Cluster: Spike 2 protein (Fragment)
+UniRef100_A1DS40     -          my_protein           -           3.8e-158  537.9  11.8  4.6e-158  537.6  11.8   1.0   1   0   0   1   1   1   1 Cluster: Spike protein (Fragment)
+UniRef100_Q52R85     -          my_protein           -           6.1e-150  510.7  11.4  7.4e-150  510.4  11.4   1.0   1   0   0   1   1   1   1 Cluster: Spike protein (Fragment)
+UniRef100_Q6QHB2     -          my_protein           -           4.4e-127  435.0   3.4  4.9e-127  434.8   3.4   1.0   1   0   0   1   1   1   1 Cluster: Spike glycoprotein (Fragment)
+UniRef100_Q6QHB1     -          my_protein           -           2.9e-120  412.4   3.3  3.2e-120  412.3   3.3   1.0   1   0   0   1   1   1   1 Cluster: Spike glycoprotein (Fragment)
+UniRef100_Q6QHB0     -          my_protein           -           7.9e-120  411.0   3.0  8.8e-120  410.8   3.0   1.0   1   0   0   1   1   1   1 Cluster: Spike glycoprotein (Fragment)
+UniRef100_Q1HLC5     -          my_protein           -           4.6e-119  408.4  27.0   5.8e-85  295.4  13.3   2.1   2   0   0   2   2   0   0 Cluster: Spike glycoprotein (Fragment)
+UniRef100_Q1HLC6     -          my_protein           -           6.7e-119  407.9  29.9     2e-84  293.7  14.7   2.1   2   0   0   2   2   0   0 Cluster: Spike glycoprotein (Fragment)
+UniRef100_Q0QJI8     -          my_protein           -           1.3e-115  396.9  23.4   4.1e-79  276.1  10.3   2.0   2   0   0   2   2   0   0 Cluster: Spike glycoprotein (Fragment)
+UniRef100_Q0QJJ2     -          my_protein           -           1.6e-115  396.7  26.9   1.7e-80  280.7  14.2   2.0   2   0   0   2   2   0   0 Cluster: Spike glycoprotein (Fragment)
+UniRef100_Q0QJI6     -          my_protein           -           1.2e-114  393.8  24.1   1.3e-79  277.7  11.4   2.0   2   0   0   2   2   0   0 Cluster: Spike glycoprotein (Fragment)
+UniRef100_Q0QJI7     -          my_protein           -           1.9e-114  393.1  24.6   1.3e-79  277.7  11.4   2.0   2   0   0   2   2   0   0 Cluster: Spike glycoprotein (Fragment)
+UniRef100_Q0QJJ0     -          my_protein           -           4.4e-113  388.6  24.4   5.3e-78  272.4  12.5   2.0   2   0   0   2   2   0   0 Cluster: Spike glycoprotein (Fragment)
+UniRef100_Q0QJI4     -          my_protein           -             2e-112  386.4  22.5   2.3e-78  273.6  11.0   2.0   2   0   0   2   2   0   0 Cluster: Spike glycoprotein (Fragment)
+UniRef100_Q0QJJ1     -          my_protein           -           1.4e-111  383.7  21.8   4.4e-78  272.7  11.5   2.0   2   0   0   2   2   0   0 Cluster: Spike glycoprotein (Fragment)
+UniRef100_Q0QJI9     -          my_protein           -           1.5e-111  383.6  24.8   3.4e-77  269.7  11.8   2.0   2   0   0   2   2   0   0 Cluster: Spike glycoprotein (Fragment)
+UniRef100_Q0QJI5     -          my_protein           -             2e-111  383.1  25.0     5e-77  269.2  12.4   2.0   2   0   0   2   2   0   0 Cluster: Spike glycoprotein (Fragment)
+#
+# Program:         jackhmmer
+# Version:         3.4 (Aug 2023)
+# Pipeline mode:   SEARCH
+# Query file:      data/pssm_pipeline/query.fasta
+# Target file:     data/uniref100_2010.fasta
+# Option settings: jackhmmer -N 5 -A data/pssm_pipeline/msa_raw.sto --tblout data/pssm_pipeline/msa_raw_hits.tbl --noali -T 381.9 --domT 381.9 --incT 381.9 --incdomT 381.9 --cpu 4 data/pssm_pipeline/query.fasta data/uniref100_2010.fasta 
+# Current dir:     /data/sweep/2011
+# Date:            Thu Aug 13 08:00:43 2026
+# [ok]
