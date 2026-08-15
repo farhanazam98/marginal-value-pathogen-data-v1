@@ -53,23 +53,28 @@ on disk. The protein may not stay the current one in the repo (Spike).
   (see README's "Running the sweep across years").
 - **Tier B download complete** (2026-08-13, all 4 years: 2020/2022/2024/2026,
   ~621 GB). Zero length mismatches, same integrity check as Tier A. All 13
-  years of the locked set are now on disk — see Open TODOs for running the
-  pipeline against them.
+  years of the locked set are now on disk.
+- **Tier B sweep complete** (2026-08-14, all 4 years: 2020/2022/2024/2026).
+  4/4 DONE.
 
 **Findings:**
-- **rho declines as the snapshot grows**: 0.175 (2010, 4.1 GB) to 0.100
-  (2018, 58.8 GB), despite alignment depth rising monotonically
-  (Neff 213 to 732). More homologs, worse DMS correlation.
+- **rho declines then plateaus as the snapshot grows**: 0.175 (2010,
+  4.1 GB) falls to 0.100 (2018, 58.8 GB), then holds flat at ~0.10-0.12
+  across all four Tier B years (2020-2026, up to 219 GB), while alignment
+  depth climbs monotonically the whole way (Neff 213 to 1664). More
+  homologs, never better DMS correlation: marginal value is negative
+  2010→2018, then zero.
   - Endpoint CIs are disjoint (2010 [0.142, 0.208] vs 2018 [0.065, 0.133]),
-    so 2010-vs-2018 is real, but adjacent years overlap and 2016 breaks
-    the trend upward — a trend, not a smooth curve.
-  - `imputed_frac` swings 0.17-0.42 across years. Imputed variants all
+    so the 2010→2018 decline is real, but adjacent years overlap and 2016
+    breaks the trend upward — a trend, not a smooth curve. The Tier B
+    points all sit inside each other's CIs, so the plateau is genuinely
+    flat, not a second trend.
+  - 2024 and 2026 did not converge within jackhmmer's 5 rounds
+    (`jackhmmer_converged=False`).
+  - `imputed_frac` swings 0.16-0.42 across years. Imputed variants all
     take one constant value, so they enter the Spearman as a tied block
     carrying no rank information. The fraction is set by `L_final`
-    (872-875 in the low-imputation years, 818-844 in the high ones), so
-    part of the year-to-year rho movement is coverage, not prediction
-    quality. Database size and column retention are not cleanly
-    separable in these 9 points.
+    (872-879 in the low-imputation years, 816-844 in the high ones).
 
 **Open TODOs:**
 1. ~~Separate the parsing component from the download script.~~ Done — see
@@ -84,9 +89,9 @@ on disk. The protein may not stay the current one in the repo (Spike).
    the 2026-08-10 run exactly (including `spearman_rho` for all nine years)
    except wall-clock timing, confirming the pipeline is deterministic and
    the rho-decline finding isn't an artifact of one run.
-4. Run the sweep against the 4 Tier B years (2020/2022/2024/2026), now that
-   they're downloaded. This is the last piece needed for the full 2010-2026
-   curve the Goal calls for.
+4. ~~Run the sweep against the 4 Tier B years (2020/2022/2024/2026).~~ Done
+   2026-08-14 — 4/4 DONE, full 2010-2026 curve now in
+   `data/sweep_results.csv`.
 5. Diagnose the rho decline: run
   `scripts/diagnostics/rbd_gap_diagnostic.py` against each year's
   `msa_raw.sto` to check whether later, larger snapshots pull in more
