@@ -8,6 +8,16 @@ A research project measuring whether PSSM mutation-effect prediction accuracy
 minimal reimplementation of the alignment-based half of the EVEREST pipeline
 (Gurev/Youssef/Marks, bioRxiv 2025.08.04.668549).
 
+## Results
+
+![PSSM accuracy vs. UniRef100 snapshot year, 2010-2026](pssm_accuracy_vs_snapshot_year.png)
+
+Accuracy (Spearman's rho) drops as the database grows through 2018, then
+holds roughly flat through 2026 rather than continuing to decline. Source
+data: `data/sweep_results.csv` (dictionary in
+`data/sweep_results_dictionary.md`); regenerate the plot with
+`python scripts/sweep/plot.py`.
+
 ## Setup and environment
 
 ```bash

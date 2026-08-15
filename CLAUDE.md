@@ -57,26 +57,27 @@ on disk. The protein may not stay the current one in the repo (Spike).
   `--download-workers` (default 4) and `--parse-workers` (default 3, capped
   low since it's the CPU/memory-bound side). Not yet re-tested against an
   actual Tier B run — see Open TODOs.
-- **Tier A sweep complete** (2011-2018 run 2026-08-10; 2010 from an earlier
-  probe). 9/9 years DONE, no errors. Per-year results in
-  `data/sweep_results.csv` (columns documented in
-  `data/sweep_results_dictionary.md`), logs in `logs/sweep/`, driver in
-  `scripts/sweep/`.
+- **Full 13-year sweep complete** (Tier A 2010-2018 run 2026-08-10,
+  reproduced against redownloaded snapshots 2026-08-13; Tier B
+  2020/2022/2024/2026 completed 2026-08-14). 13/13 years DONE, no errors.
+  Per-year results in `data/sweep_results.csv` (columns documented in
+  `data/sweep_results_dictionary.md`; regenerate with
+  `scripts/sweep/collect.py`), logs in `logs/sweep/`, driver in
+  `scripts/sweep/`. Plotted in `pssm_accuracy_vs_snapshot_year.png`
+  (`scripts/sweep/plot.py`) — see README's Results section for the chart
+  itself; this section covers the numbers and caveats behind it.
 
 **Findings:**
-- **rho declines as the snapshot grows**: 0.175 (2010, 4.1 GB) to 0.100
-  (2018, 58.8 GB), despite alignment depth rising monotonically
-  (Neff 213 to 732). More homologs, worse DMS correlation.
-  - Endpoint CIs are disjoint (2010 [0.142, 0.208] vs 2018 [0.065, 0.133]),
-    so 2010-vs-2018 is real, but adjacent years overlap and 2016 breaks
-    the trend upward — a trend, not a smooth curve.
-  - `imputed_frac` swings 0.17-0.42 across years. Imputed variants all
-    take one constant value, so they enter the Spearman as a tied block
-    carrying no rank information. The fraction is set by `L_final`
-    (872-875 in the low-imputation years, 818-844 in the high ones), so
-    part of the year-to-year rho movement is coverage, not prediction
-    quality. Database size and column retention are not cleanly
-    separable in these 9 points.
+- **rho by year**: 0.175 (2010, 4.1 GB) → 0.0996 (2018, 58.8 GB) → 0.1230
+  (2020, 94.3 GB) → 0.1063 (2022, 132.8 GB) → 0.1067 (2024, 175.8 GB) →
+  0.1098 (2026, 218.6 GB). Neff: 213 (2010) → 732 (2018) → 1664 (2026).
+  - CIs: 2010 [0.142, 0.208], 2018 [0.065, 0.133], 2026 [0.078, 0.141].
+    2010 vs. 2018 disjoint; 2018 vs. 2026 overlap.
+  - `imputed_frac` (fraction of DMS variants landing on a column the
+    50%-gap filter dropped, so they get a constant fill value instead of a
+    prediction): 0.33 (2010), 0.41 (2018), 0.41 (2020), 0.165 (2022), 0.165
+    (2024), 0.160 (2026). Full 13-point range: 0.16-0.42, same range as the
+    original 9-point set.
 
 **Open TODOs:**
 1. ~~Separate the parsing component from the download script.~~ Done — see
