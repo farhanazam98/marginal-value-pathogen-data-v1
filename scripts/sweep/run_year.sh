@@ -2,17 +2,17 @@
 # Runs the full PSSM pipeline (steps 00-06) against ONE UniRef100 snapshot year,
 # inside an isolated sandbox directory.
 #
-# Why a sandbox: every script under scripts/pssm_pipeline/ hardcodes its paths
-# (no argparse, no env vars) and resolves them relative to the working directory.
-# So a sandbox whose data/ holds the right symlinks retargets the whole pipeline
-# without editing a single tracked script -- which keeps BITSCORE_PER_RESIDUE at
-# 0.3 for every year and keeps this run comparable to the existing 2010 result.
+# Why a sandbox: every script under scripts/pssm_pipeline/ resolves its
+# checkpoint paths (data/pssm_pipeline/...) relative to the working directory,
+# with no year/tag parameter -- so each concurrent run needs its own working
+# directory. A sandbox whose data/ holds the right symlinks retargets the
+# whole pipeline without editing a tracked script, which keeps
+# BITSCORE_PER_RESIDUE at 0.3 for every year and keeps runs comparable.
 #
-# data/uniref100_2010.fasta keeps that literal name in *every* sandbox, whatever
-# the year, because SEQ_DB in 01_jackhmmer_search.py hardcodes it. Only the
-# symlink target varies. This also means each run owns its own copy of that name,
-# so years can run concurrently -- impossible with the repoint-the-shared-symlink
-# workflow in CLAUDE.local.md, which is a single global mutable.
+# The database itself doesn't need a symlink: SEQ_DB (exported below) points
+# 01_jackhmmer_search.py straight at this run's snapshot, so concurrent runs
+# never share that mutable the way the old repoint-the-shared-symlink
+# workflow in CLAUDE.local.md did.
 #
 # Usage: run_year.sh <year> [tag]
 #   tag defaults to <year>; pass one explicitly to run the same year more than
@@ -23,7 +23,7 @@ YEAR="${1:?usage: run_year.sh <year> [tag]}"
 TAG="${2:-$YEAR}"
 
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
-SWEEP_ROOT="${SWEEP_ROOT:-/mnt/scratch/sweep}"
+SWEEP_ROOT="${SWEEP_ROOT:-$REPO_ROOT/data/sweep}"
 RUN_DIR="$SWEEP_ROOT/$TAG"
 SNAPSHOT="$REPO_ROOT/data/snapshots/uniref100_${YEAR}_01.fasta"
 STATUS_FILE="$RUN_DIR/STATUS"
@@ -51,11 +51,8 @@ mkdir -p "$RUN_DIR/data/pssm_pipeline"
 ln -sfn "$REPO_ROOT/scripts"                              "$RUN_DIR/scripts"
 ln -sfn "$REPO_ROOT/data/protein.fasta"                   "$RUN_DIR/data/protein.fasta"
 ln -sfn "$REPO_ROOT/data/SARS2_RBD_Starr_binding_dms.csv" "$RUN_DIR/data/SARS2_RBD_Starr_binding_dms.csv"
-ln -sfn "$SNAPSHOT"                                       "$RUN_DIR/data/uniref100_2010.fasta"
+export SEQ_DB="$SNAPSHOT"
 
-# Provenance: the pipeline's own meta files record the database only as the
-# generic "data/uniref100_2010.fasta", so without this a finished sandbox can't
-# be traced back to the year it actually searched.
 cat > "$RUN_DIR/data/pssm_pipeline/sweep_run.json" <<EOF
 {
   "tag": "$TAG",
