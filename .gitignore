@@ -4,15 +4,6 @@
 data/snapshots
 data/snapshots/**
 
-# PSSM pipeline checkpoints (regenerable via scripts/pssm_pipeline/*.py)
-data/pssm_pipeline
-data/pssm_pipeline/**
-
-# Default sweep sandbox root (scripts/sweep/run_sweep.sh), one subdir of
-# checkpoints per year -- regenerable, override with SWEEP_ROOT if needed
-data/sweep
-data/sweep/**
-
 # Large sequence/archive formats, wherever they end up
 *.faa
 *.fna
