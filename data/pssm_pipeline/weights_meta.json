@@ -1,0 +1,18 @@
+{
+  "theta": 0.01,
+  "identity_cutoff": 0.99,
+  "N": 451,
+  "L": 844,
+  "Neff": 212.6619201899108,
+  "depth_Neff_over_L": 0.2519690997510792,
+  "depth_floor": 1.0,
+  "clears_depth_floor": false,
+  "reliability_id_cutoff": 0.9,
+  "Neff_at_90pct_identity": 58.55693385010703,
+  "reliability_neff_threshold": 30,
+  "clears_reliability_threshold": true,
+  "n_singleton_sequences": 157,
+  "Neff_at_90pct_identity_to_query": 1.0,
+  "frac_neff_within_90pct_identity_to_query": 0.004702299307308908,
+  "frac_seqs_within_90pct_to_query": 0.0022172949002217295
+}

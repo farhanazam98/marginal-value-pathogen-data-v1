@@ -1,7 +1,10 @@
 # `sweep_results.csv` — data dictionary
 
-One row per UniRef100 snapshot year. Produced by `scripts/sweep/collect.py`,
-which re-derives the table from the per-year pipeline checkpoints under
+One row per (UniRef100 snapshot year, DMS assay), keyed by `dms_id`. Steps
+00–04 build one PSSM per year; steps 05–06 score every assay named by the
+active protein config against it, so a year with two assays produces two rows
+sharing all step 00–04 columns. Produced by `scripts/sweep/collect.py`, which
+re-derives the table from the per-year pipeline checkpoints under
 `/mnt/scratch/sweep/<year>/data/pssm_pipeline/`. Regenerate at any time with:
 
 ```bash
@@ -55,6 +58,7 @@ No biology background assumed.
 | Column | Meaning |
 |---|---|
 | `tag` | Run directory name under the sweep root. Equals the year. |
+| `dms_id` | Which DMS assay this row scores (e.g. `starr_binding`, `starr_expression`), from the protein config. The one column that distinguishes multiple rows of the same year. |
 | `year` | UniRef100 release year (the January release, `uniref100_<year>_01`). |
 | `snapshot_bytes`, `snapshot_gb` | Size of the FASTA actually searched. |
 | `db_n_seqs`, `db_n_residues` | Sequence / residue count of that snapshot, from the download step's `.stats.json`. Prefer these over bytes for a "database size" axis. |
@@ -92,7 +96,7 @@ No biology background assumed.
 ### Scoring (step 05)
 | Column | Meaning |
 |---|---|
-| `n_variants` | DMS variants attempted. **3802 every year** — the DMS is fixed. |
+| `n_variants` | DMS variants attempted. Fixed per assay across years (Starr binding 3802, expression 3798); it varies only between assays, not between snapshots. |
 | `n_scored_directly` | Variants landing on a surviving MSA column, i.e. genuinely predicted. |
 | `n_imputed`, `imputed_frac` | Variants whose column was dropped in step 02. These receive a **constant** fill value, not a prediction. |
 | `imputed_value` | The constant used (the mean of the directly-scored predictions). |

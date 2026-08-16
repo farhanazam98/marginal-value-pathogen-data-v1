@@ -1,15 +1,19 @@
 #!/usr/bin/env python3
 """Step 5: score every DMS variant with the Step 4 PSSM.
 score(wt->mut, pos) = log f(mut, pos) - log f(wt, pos).
-Writes data/pssm_pipeline/predictions.csv.
 
-Numbering: the DMS's `mutant` column (e.g. "N331C") and query.fasta both use
-full-spike, 1-indexed coordinates -- verified below before any scoring
-happens. Positions with no surviving MSA column (dropped by Step 2's gap
-filter) are imputed with the mean predicted score across the rest of the
-protein (Methods A.3.5): this keeps the evaluated variant set identical
-across alignment-based models and contributes no rank signal instead of a
-biased one.
+Scores each assay named by the active PROTEIN_CONFIG against the single PSSM
+built for this protein, writing predictions_<assay_id>.csv (+ a
+predictions_meta_<assay_id>.json) per assay. Building the PSSM (steps 00-04) is
+the expensive per-protein work; scoring is a cheap fan-out over the protein's
+assays.
+
+Numbering: each DMS's `mutant` column (e.g. "N331C") and query.fasta must share
+1-indexed coordinates -- verified per assay below before any scoring happens.
+Positions with no surviving MSA column (dropped by Step 2's gap filter) are
+imputed with the mean predicted score across the rest of the protein (Methods
+A.3.5): this keeps the evaluated variant set identical across alignment-based
+models and contributes no rank signal instead of a biased one.
 """
 
 import json
@@ -17,13 +21,12 @@ import re
 
 import numpy as np
 import pandas as pd
+from config import load_config
 
-DMS_FILE = "data/SARS2_RBD_Starr_binding_dms.csv"
 QUERY_FASTA = "data/pssm_pipeline/query.fasta"
 MSA_META = "data/pssm_pipeline/msa_clean_meta.json"
 PSSM = "data/pssm_pipeline/pssm.npy"
-OUT_PREDICTIONS = "data/pssm_pipeline/predictions.csv"
-OUT_META = "data/pssm_pipeline/predictions_meta.json"
+CKPT = "data/pssm_pipeline"
 
 ALPHABET = "ACDEFGHIKLMNPQRSTVWY-"
 AA_TO_CODE = {c: i for i, c in enumerate(ALPHABET[:-1])}
@@ -32,9 +35,13 @@ MUTANT_RE = re.compile(r"^([A-Z])(\d+)([A-Z])$")
 MATCH_RATE_FLOOR = 0.99  # stop if WT-residue reconciliation isn't ~100%
 
 
-def main():
-    dms = pd.read_csv(DMS_FILE)
-    print(f"Loaded {len(dms)} DMS variants from {DMS_FILE}")
+def score_assay(assay, query, pssm, log_pssm, pos_to_col, entropy):
+    dms_file = assay["csv"]
+    out_predictions = f"{CKPT}/predictions_{assay['id']}.csv"
+    out_meta_path = f"{CKPT}/predictions_meta_{assay['id']}.json"
+
+    dms = pd.read_csv(dms_file)
+    print(f"\n{'='*70}\nAssay '{assay['id']}': loaded {len(dms)} DMS variants from {dms_file}")
 
     parsed = dms["mutant"].str.extract(MUTANT_RE)
     parsed.columns = ["wt_aa", "position", "mut_aa"]
@@ -42,9 +49,6 @@ def main():
         raise AssertionError("Some `mutant` entries didn't parse as WT+position+MUT -- stopping.")
     parsed["position"] = parsed["position"].astype(int)
     dms = pd.concat([dms[["mutant", "DMS_score"]], parsed], axis=1)
-
-    query = open(QUERY_FASTA).read().split("\n", 1)[1].replace("\n", "")
-    print(f"Query length: {len(query)}")
 
     # --- Numbering reconciliation: DMS WT residue must match query.fasta at that position ---
     query_wt_at_pos = dms["position"].apply(lambda p: query[p - 1])
@@ -60,15 +64,6 @@ def main():
             "likely a coordinate offset between the DMS and query.fasta. Stopping rather than "
             "scoring against the wrong columns."
         )
-
-    meta = json.load(open(MSA_META))
-    kept_cols_1indexed = meta["kept_query_columns_1indexed"]
-    pos_to_col = {pos: idx for idx, pos in enumerate(kept_cols_1indexed)}
-
-    pssm = np.load(PSSM)
-    log_pssm = np.log(pssm)
-    L, n_aa = pssm.shape
-    print(f"\nLoaded PSSM: {pssm.shape}")
 
     # --- Score every variant with a surviving MSA column; leave the rest NaN for now ---
     scores = np.full(len(dms), np.nan)
@@ -92,9 +87,9 @@ def main():
     dms["predicted_score"] = scores
     dms["imputed"] = imputed
     dms[["mutant", "position", "wt_aa", "mut_aa", "DMS_score", "predicted_score", "imputed"]].to_csv(
-        OUT_PREDICTIONS, index=False
+        out_predictions, index=False
     )
-    print(f"\nWrote {OUT_PREDICTIONS}")
+    print(f"\nWrote {out_predictions}")
 
     # ---------------- Sanity checks ----------------
     print("\n--- Sanity checks ---")
@@ -124,8 +119,6 @@ def main():
     print(least_del.to_string(index=False))
 
     # Cross-reference with per-column entropy to see if extremes sit at conserved positions.
-    freqs = pssm
-    entropy = -np.sum(freqs * np.log2(freqs), axis=1)
     pos_to_entropy = {pos: entropy[col] for pos, col in pos_to_col.items()}
     print(f"\nEntropy (bits) at the 10 most-deleterious positions "
           f"(low = conserved; alignment-wide mean = {entropy.mean():.3f}):")
@@ -149,9 +142,30 @@ def main():
         "predicted_score_mean": float(scored.mean()),
         "predicted_score_std": float(scored.std()),
     }
-    with open(OUT_META, "w") as f:
+    with open(out_meta_path, "w") as f:
         json.dump(out_meta, f, indent=2)
-    print(f"\nWrote {OUT_META}")
+    print(f"\nWrote {out_meta_path}")
+
+
+def main():
+    cfg = load_config()
+
+    # Shared across all assays: build once, score many.
+    query = open(QUERY_FASTA).read().split("\n", 1)[1].replace("\n", "")
+    print(f"Query length: {len(query)}")
+
+    meta = json.load(open(MSA_META))
+    kept_cols_1indexed = meta["kept_query_columns_1indexed"]
+    pos_to_col = {pos: idx for idx, pos in enumerate(kept_cols_1indexed)}
+
+    pssm = np.load(PSSM)
+    log_pssm = np.log(pssm)
+    entropy = -np.sum(pssm * np.log2(pssm), axis=1)
+    print(f"Loaded PSSM: {pssm.shape}")
+    print(f"Scoring {len(cfg['assays'])} assay(s): {', '.join(a['id'] for a in cfg['assays'])}")
+
+    for assay in cfg["assays"]:
+        score_assay(assay, query, pssm, log_pssm, pos_to_col, entropy)
 
 
 if __name__ == "__main__":

@@ -9,5 +9,6 @@ dependencies:
   - pandas
   - scipy
   - requests
+  - pyyaml
   - biopython
   - hmmer=3.4

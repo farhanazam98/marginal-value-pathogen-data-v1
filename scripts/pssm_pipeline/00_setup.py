@@ -1,17 +1,20 @@
 #!/usr/bin/env python3
 """Step 0: canonicalize the query sequence into data/query.fasta and sanity-check it.
 
-Source: data/protein.fasta (SARS-CoV-2 Spike glycoprotein, precursor/full-length
-numbering starting at the initiator Met). This is the same numbering used by the
-'mutant' and 'mutated_sequence' columns in the Starr 2020 DMS file, so no coordinate
-offset is needed downstream.
+Source is the `query_fasta` named by the active PROTEIN_CONFIG (default Spike:
+data/protein.fasta, SARS-CoV-2 Spike glycoprotein, precursor/full-length numbering
+starting at the initiator Met). For Spike that's the same numbering used by the
+'mutant' column in the Starr 2020 DMS files, so no coordinate offset is needed
+downstream; step 05 reconciles this per assay.
 """
 
 from collections import Counter
 
 from Bio import SeqIO
+from config import load_config
 
-SOURCE_FASTA = "data/protein.fasta"
+CONFIG = load_config()
+SOURCE_FASTA = CONFIG["query_fasta"]
 QUERY_FASTA = "data/pssm_pipeline/query.fasta"
 
 STANDARD_AA = set("ACDEFGHIKLMNPQRSTVWY")

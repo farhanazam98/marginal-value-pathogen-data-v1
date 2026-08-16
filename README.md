@@ -49,8 +49,8 @@ python scripts/pssm_pipeline/01_jackhmmer_search.py  # jackhmmer search -> raw M
 python scripts/pssm_pipeline/02_clean_msa.py          # Stockholm -> N x L matrix, EVEREST A.3.1 filters
 python scripts/pssm_pipeline/03_weights.py            # 99%-identity sequence reweighting, Neff
 python scripts/pssm_pipeline/04_pssm.py               # per-column aa frequency table
-python scripts/pssm_pipeline/05_score.py              # log-odds score every DMS variant
-python scripts/pssm_pipeline/06_evaluate.py           # Spearman rho vs DMS, bootstrap CI, scatter plot
+python scripts/pssm_pipeline/05_score.py              # log-odds score every DMS variant, per assay
+python scripts/pssm_pipeline/06_evaluate.py           # Spearman rho vs each DMS assay, bootstrap CI, scatter
 ```
 
 Pipeline dependency chain (each step consumes only the previous step's
@@ -63,10 +63,40 @@ below). Which snapshot to search is set by `SEQ_DB` at the top of the script
 (default `data/uniref100_2010.fasta`) — override it via the `SEQ_DB`
 environment variable to point at a different year without editing the script,
 e.g. `SEQ_DB=data/snapshots/uniref100_2015_01.fasta python
-scripts/pssm_pipeline/01_jackhmmer_search.py`. `BITSCORE_PER_RESIDUE`,
-configured per protein, is still a hand-set constant; thresholds are
-length-normalized (bits/residue × query length) rather than e-value-based, so
-hit quality stays constant as snapshots grow across years.
+scripts/pssm_pipeline/01_jackhmmer_search.py`. The bit-score threshold comes
+from the active protein config's `bitscore_per_residue` (see Configuring which
+protein); thresholds are length-normalized (bits/residue × query length) rather
+than e-value-based, so hit quality stays constant as snapshots grow across years.
+
+## Configuring which protein
+
+Which protein the pipeline runs is set by a small per-protein config file,
+selected with the `PROTEIN_CONFIG` env var (default `config/spike.yaml`):
+
+```yaml
+name: SARS2_Spike
+query_fasta: data/protein.fasta
+bitscore_per_residue: 0.3
+assays:
+  - {id: starr_binding,    csv: data/SARS2_RBD_Starr_binding_dms.csv,  label: Starr 2020 ACE2 binding}
+  - {id: starr_expression, csv: data/SARS2_RBD_Starr_expression.csv,   label: Starr 2020 RBD expression}
+```
+
+Steps 00 and 01 read the query sequence and the jackhmmer threshold from it;
+steps 05 and 06 score *every* assay in the `assays` list against the single
+PSSM built for the protein, writing a `predictions_<id>.csv`, `scatter_<id>.png`,
+and per-assay meta files. A protein needs more than one assay because a single
+physical protein is commonly measured under several phenotypes — for Spike,
+Starr 2020 reports both ACE2 *binding* (does it still grip the receptor) and RBD
+*expression* (does it still fold and display), and a conservation-based PSSM has
+no reason to track the two equally. Building the MSA/PSSM (steps 00–04) is the
+expensive per-protein work; scoring assays on top of it is a cheap fan-out.
+
+To run a different protein, copy `config/spike.yaml`, point it at that protein's
+query FASTA and DMS assays, and set `PROTEIN_CONFIG` to it. Each assay's DMS
+must use the same residue numbering as the query — step 05 reconciles the two
+(the WT residue named in each `mutant` must match the query at that position)
+and stops if they disagree; there is no coordinate-offset support yet.
 
 ## Running the sweep across years
 
@@ -75,22 +105,44 @@ snapshot year, so a rho-vs-year curve doesn't mean rerunning by hand for each
 year:
 
 ```bash
-scripts/sweep/run_sweep.sh -j 6 2010 2011 2012 2013 2014 2015 2016 2017 2018
+PROTEIN_CONFIG=config/spike.yaml scripts/sweep/run_sweep.sh -j 6 2010 2011 2012 2013 2014 2015 2016 2017 2018
 python scripts/sweep/collect.py
 ```
 
+`PROTEIN_CONFIG` selects the protein (default `config/spike.yaml`; see
+Configuring which protein). Each year builds one PSSM and scores all the
+protein's assays against it, so `collect.py` writes **one row per (year, assay)**
+— `data/sweep_results.csv` carries a `dms_id` column, and `plot.py` draws one
+line per assay.
+
+**One protein per sweep.** Sandboxes are keyed by year only, not by protein, so
+running a second protein reuses the same `$SWEEP_ROOT/<year>` dirs and overwrites
+the first. Run proteins serially — sweep one, `collect.py`, save its results,
+then the next. (This is the piece that becomes a manifest of proteins when the
+project scales past a handful.)
+
+**Regenerate committed artifacts only on the machine with the full snapshot
+set.** `collect.py` re-derives `data/sweep_results.csv` and `plot.py` the
+`pssm_accuracy_vs_snapshot_year.png` — both git-tracked — from whatever
+sandboxes exist under `$SWEEP_ROOT`. On a machine missing snapshots (or that has
+only re-run some years), running them produces a partial or mixed-schema table
+and overwrites the good one. Running the *sweep* itself is always safe (it only
+touches the gitignored sandboxes); it's `collect.py`/`plot.py` that write the
+tracked outputs. If you regenerate them by accident, `git checkout --
+data/sweep_results.csv pssm_accuracy_vs_snapshot_year.png` discards it.
+
 Each year runs in its own sandbox under `$SWEEP_ROOT/<year>` (env var,
 default `data/sweep/`, gitignored): a directory with symlinks to the shared
-scripts/inputs plus its own real `data/pssm_pipeline/`, needed because every
-pipeline script other than `01_jackhmmer_search.py` resolves its checkpoint
-paths relative to the working directory rather than taking a year argument
-(`01` itself is pointed at the right snapshot via the `SEQ_DB` env var, no
-sandbox needed for that part). `-j N` caps how many years run concurrently
-(default 6) — jackhmmer only pins ~2 effective cores per job, so uncapped
-concurrency oversubscribes the machine the same way the old fused
-download+parse worker did (see Data acquisition below). A run is resumable:
-finished years are skipped on a rerun. `collect.py` then re-derives
-`data/sweep_results.csv` (columns documented in
+scripts, the active config's inputs, and `config/`, plus its own real
+`data/pssm_pipeline/`, needed because every pipeline script other than
+`01_jackhmmer_search.py` resolves its checkpoint paths relative to the working
+directory rather than taking a year argument (`01` itself is pointed at the
+right snapshot via the `SEQ_DB` env var, no sandbox needed for that part).
+`-j N` caps how many years run concurrently (default 6) — jackhmmer only pins
+~2 effective cores per job, so uncapped concurrency oversubscribes the machine
+the same way the old fused download+parse worker did (see Data acquisition
+below). A run is resumable: finished years are skipped on a rerun. `collect.py`
+then re-derives `data/sweep_results.csv` (columns documented in
 `data/sweep_results_dictionary.md`) from whatever checkpoints exist under
 `$SWEEP_ROOT`, so it's safe to run mid-sweep or after a crash.
 
@@ -153,23 +205,28 @@ rather than assuming another machine's state.
 
 ## Data layout
 
+- `config/*.yaml` — one per-protein config each (query FASTA, bit-score
+  threshold, DMS assay list); `config/spike.yaml` is the default. Selected by
+  `PROTEIN_CONFIG`; see Configuring which protein. Tracked in git.
 - `data/protein.fasta` — query: full-length SARS-CoV-2 Spike (1273 aa),
   precursor numbering. Tracked in git (small, canonical input).
-- `data/SARS2_RBD_Starr_binding_dms.csv` — Starr 2020 ACE2 binding DMS
-  (RBD positions 331–531), same numbering as the query — no coordinate offset
-  needed anywhere in the pipeline.
-- `data/pssm_pipeline/` — gitignored checkpoints written by pipeline steps
-  00–06; regenerate by rerunning the relevant script.
+- `data/SARS2_RBD_Starr_binding_dms.csv`, `data/SARS2_RBD_Starr_expression.csv`
+  — the two Starr 2020 DMS assays (ACE2 binding and RBD expression, RBD
+  positions 331–531), both in the same numbering as the query — no coordinate
+  offset needed anywhere in the pipeline.
+- `data/pssm_pipeline/` — checkpoints written by pipeline steps
+  00–06; steps 05–06 write one set per assay (`predictions_<id>.csv`,
+  `scatter_<id>.png`, …). Regenerate by rerunning the relevant script.
 - `data/snapshots/` — gitignored multi-GB UniRef100 FASTA snapshots (one per
   acquired year) plus `.stats.json` sidecars; typically a symlink to
   scratch/NVMe, not committed or kept on the root volume.
 - `data/uniprotref_yearly_archive_sizes.csv` — combined UniRef50+90+100
   archive size per year, used for both the growth plot and
   `download_uniref100.py`'s integrity checks (expected cluster counts).
-- `data/sweep_results.csv` — one row per sweep-driver run, all metrics from
-  every pipeline step (not just rho); columns documented in
-  `data/sweep_results_dictionary.md`. Produced by `scripts/sweep/collect.py`,
-  not hand-edited.
+- `data/sweep_results.csv` — one row per (sweep-driver run, DMS assay), keyed
+  by a `dms_id` column; all metrics from every pipeline step (not just rho);
+  columns documented in `data/sweep_results_dictionary.md`. Produced by
+  `scripts/sweep/collect.py`, not hand-edited.
 - `calibration.csv` — timed measurements (wall/CPU/RSS/throughput) from
   early conversion and search calibration runs; referenced by the README's
   "Compute breakdown" section, not consumed by any script at run time.
@@ -190,6 +247,7 @@ rather than assuming another machine's state.
   output — preserve this independence if the filters are ever touched.
 - Coordinate mapping between the MSA, PSSM, and DMS is currently offset-free
   by construction (single-query jackhmmer profile ⇒ match column *i* is query
-  position *i*; DMS and query already share numbering) — if the query or
-  search strategy changes such that this no longer holds, every downstream
-  step's coordinate assumptions need re-verification.
+  position *i*; each DMS and the query already share numbering) — step 05
+  reconciles this per assay and stops if it fails to hold. If the query or
+  search strategy changes such that the offset-free property breaks, every
+  downstream step's coordinate assumptions need re-verification.

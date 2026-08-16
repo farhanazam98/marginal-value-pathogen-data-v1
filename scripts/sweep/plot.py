@@ -20,22 +20,20 @@ IN_CSV = REPO_ROOT / "data" / "sweep_results.csv"
 OUT_PNG = REPO_ROOT / "pssm_accuracy_vs_snapshot_year.png"
 
 # Tier A (2010-2018) was searched annually; Tier B (2020-2026) picks up
-# biennially after a redownload/rerun -- same pipeline, same DMS, same
-# bit-score threshold throughout, so it's one continuous series, not two
-# different measurements. Colors are the palette skill's fixed categorical
-# slots 1 and 2 (validated CVD-safe adjacent pair), used only to mark which
-# years are the newly added ones -- not to imply a different quantity.
+# biennially after a redownload/rerun -- same pipeline, same bit-score threshold
+# throughout, so it's one continuous series per assay, not two measurements.
+# Palette skill's fixed categorical slots (validated CVD-safe): BLUE/ORANGE mark
+# the newly added Tier B years in the single-assay view; when several assays are
+# present each gets its own color from ASSAY_COLORS.
 BLUE = "#2a78d6"
 ORANGE = "#eb6834"
 TIER_B_YEARS = {2020, 2022, 2024, 2026}
+ASSAY_COLORS = ["#2a78d6", "#eb6834", "#2e9e5b", "#9a5cd0"]
 
 
-def main():
-    df = pd.read_csv(IN_CSV)
-    df = df[df["status"] == "DONE"].sort_values("year")
-
-    fig, ax = plt.subplots(figsize=(8, 5))
-
+def plot_single_assay(ax, df):
+    """One protein, one assay: the original Tier A/B two-color view, where color
+    marks the newly added later years rather than a different quantity."""
     ax.fill_between(
         df["year"], df["bootstrap_ci_95_lo"], df["bootstrap_ci_95_hi"],
         color=BLUE, alpha=0.12, linewidth=0,
@@ -44,16 +42,38 @@ def main():
 
     tier_a = df[~df["year"].isin(TIER_B_YEARS)]
     tier_b = df[df["year"].isin(TIER_B_YEARS)]
-    ax.scatter(
-        tier_a["year"], tier_a["spearman_rho"],
-        s=64, color=BLUE, edgecolor="#fcfcfb", linewidth=1.5, zorder=3,
-        label="Tier A -- annual, 2010-2018",
-    )
-    ax.scatter(
-        tier_b["year"], tier_b["spearman_rho"],
-        s=64, color=ORANGE, edgecolor="#fcfcfb", linewidth=1.5, zorder=3,
-        label="Tier B -- biennial, 2020-2026 (new)",
-    )
+    ax.scatter(tier_a["year"], tier_a["spearman_rho"], s=64, color=BLUE,
+               edgecolor="#fcfcfb", linewidth=1.5, zorder=3,
+               label="Tier A -- annual, 2010-2018")
+    ax.scatter(tier_b["year"], tier_b["spearman_rho"], s=64, color=ORANGE,
+               edgecolor="#fcfcfb", linewidth=1.5, zorder=3,
+               label="Tier B -- biennial, 2020-2026 (new)")
+
+
+def plot_by_assay(ax, df):
+    """One line per DMS assay, each its own color, with its own CI band."""
+    for color, (assay_id, sub) in zip(ASSAY_COLORS, df.groupby("dms_id")):
+        sub = sub.sort_values("year")
+        ax.fill_between(sub["year"], sub["bootstrap_ci_95_lo"], sub["bootstrap_ci_95_hi"],
+                        color=color, alpha=0.12, linewidth=0)
+        ax.plot(sub["year"], sub["spearman_rho"], color=color, linewidth=2, zorder=2)
+        ax.scatter(sub["year"], sub["spearman_rho"], s=64, color=color,
+                   edgecolor="#fcfcfb", linewidth=1.5, zorder=3, label=assay_id)
+
+
+def main():
+    df = pd.read_csv(IN_CSV)
+    df = df[df["status"] == "DONE"].sort_values("year")
+
+    fig, ax = plt.subplots(figsize=(8, 5))
+
+    # Split into a line per assay only when the table actually carries several;
+    # the single-assay path reproduces the original committed figure exactly.
+    multi_assay = "dms_id" in df.columns and df["dms_id"].nunique() > 1
+    if multi_assay:
+        plot_by_assay(ax, df)
+    else:
+        plot_single_assay(ax, df)
 
     ax.set_xticks(sorted(df["year"].unique()))
     ax.tick_params(axis="x", rotation=0)

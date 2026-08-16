@@ -29,6 +29,7 @@ import time
 from pathlib import Path
 
 from Bio import SeqIO
+from config import load_config
 
 QUERY_FASTA = "data/pssm_pipeline/query.fasta"
 # The local UniRef100 snapshot to search. Override with the SEQ_DB env var
@@ -39,7 +40,9 @@ OUT_ALIGNMENT = "data/pssm_pipeline/msa_raw.sto"  # consumed by Step 2
 OUT_TABLE = "data/pssm_pipeline/msa_raw_hits.tbl"  # per-sequence hit table
 OUT_RUN_META = "data/pssm_pipeline/msa_raw_run_meta.json"  # run summary / debug
 
-BITSCORE_PER_RESIDUE = 0.3  # configure per protein: lower = more permissive (deeper, noisier MSA)
+# Per-protein jackhmmer inclusion cutoff, bits/residue (lower = more permissive:
+# deeper, noisier MSA). Set in the active PROTEIN_CONFIG, not here.
+BITSCORE_PER_RESIDUE = load_config()["bitscore_per_residue"]
 MAX_ITERATIONS = 5  # jackhmmer's default; it stops early once the hit set converges
 CPU = 4  # per README benchmark, jackhmmer doesn't scale past ~2 cores on this workload
 

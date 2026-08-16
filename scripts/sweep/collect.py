@@ -28,8 +28,10 @@ SWEEP_ROOT = Path(os.environ.get("SWEEP_ROOT", REPO_ROOT / "data" / "sweep"))
 SNAPSHOT_DIR = REPO_ROOT / "data" / "snapshots"
 OUT_CSV = REPO_ROOT / "data" / "sweep_results.csv"
 
+# Steps 00-04 are per-(protein, year): one MSA/PSSM, shared by every assay. Their
+# metas contribute the same values to each of a run's assay rows.
 # (output column, meta file, key in that file)
-FIELDS = [
+SHARED_FIELDS = [
     ("tag",                     "sweep_run.json",        "tag"),
     ("year",                    "sweep_run.json",        "year"),
     ("snapshot_bytes",          "sweep_run.json",        "snapshot_bytes"),
@@ -55,23 +57,29 @@ FIELDS = [
     ("Neff_at_90pct_identity",  "weights_meta.json",     "Neff_at_90pct_identity"),
     ("clears_reliability",      "weights_meta.json",     "clears_reliability_threshold"),
     ("n_singleton_sequences",   "weights_meta.json",     "n_singleton_sequences"),
+]
 
-    ("n_variants",              "predictions_meta.json", "n_variants"),
-    ("n_scored_directly",       "predictions_meta.json", "n_scored_directly"),
-    ("n_imputed",               "predictions_meta.json", "n_imputed"),
-    ("imputed_value",           "predictions_meta.json", "imputed_value"),
-    ("wt_wt_all_zero",          "predictions_meta.json", "wt_wt_all_zero"),
-    ("predicted_score_mean",    "predictions_meta.json", "predicted_score_mean"),
-    ("predicted_score_std",     "predictions_meta.json", "predicted_score_std"),
+# Steps 05-06 run once per assay. The meta filename carries the assay id
+# (predictions_meta_<id>.json, evaluate_meta_<id>.json); "base" here is that name
+# without the id, filled in per assay in collect_run.
+# (output column, meta base, key in that file)
+ASSAY_FIELDS = [
+    ("n_variants",              "predictions_meta", "n_variants"),
+    ("n_scored_directly",       "predictions_meta", "n_scored_directly"),
+    ("n_imputed",               "predictions_meta", "n_imputed"),
+    ("imputed_value",           "predictions_meta", "imputed_value"),
+    ("wt_wt_all_zero",          "predictions_meta", "wt_wt_all_zero"),
+    ("predicted_score_mean",    "predictions_meta", "predicted_score_mean"),
+    ("predicted_score_std",     "predictions_meta", "predicted_score_std"),
 
-    ("n_joined",                "evaluate_meta.json",    "n_joined"),
-    ("n_dropped_from_dms",      "evaluate_meta.json",    "n_dropped_from_dms"),
-    ("spearman_rho",            "evaluate_meta.json",    "spearman_rho"),
-    ("spearman_pvalue",         "evaluate_meta.json",    "spearman_pvalue"),
-    ("bootstrap_ci_95_lo",      "evaluate_meta.json",    "bootstrap_ci_95_lo"),
-    ("bootstrap_ci_95_hi",      "evaluate_meta.json",    "bootstrap_ci_95_hi"),
-    ("spearman_rho_excl_imputed", "evaluate_meta.json",  "spearman_rho_excluding_imputed"),
-    ("n_excl_imputed",          "evaluate_meta.json",    "n_excluding_imputed"),
+    ("n_joined",                "evaluate_meta",    "n_joined"),
+    ("n_dropped_from_dms",      "evaluate_meta",    "n_dropped_from_dms"),
+    ("spearman_rho",            "evaluate_meta",    "spearman_rho"),
+    ("spearman_pvalue",         "evaluate_meta",    "spearman_pvalue"),
+    ("bootstrap_ci_95_lo",      "evaluate_meta",    "bootstrap_ci_95_lo"),
+    ("bootstrap_ci_95_hi",      "evaluate_meta",    "bootstrap_ci_95_hi"),
+    ("spearman_rho_excl_imputed", "evaluate_meta",  "spearman_rho_excluding_imputed"),
+    ("n_excl_imputed",          "evaluate_meta",    "n_excluding_imputed"),
 ]
 
 DERIVED = [
@@ -87,33 +95,51 @@ def load_json(path):
         return {}
 
 
+def discover_assays(ckpt):
+    """Assay ids present in this run, from the per-assay evaluate metas. Falls
+    back to [""] for old single-assay checkpoints (evaluate_meta.json, no id)."""
+    ids = sorted(p.stem[len("evaluate_meta_"):] for p in ckpt.glob("evaluate_meta_*.json"))
+    return ids if ids else [""]
+
+
 def collect_run(run_dir):
+    """One row per assay in this run: the shared step 00-04 metrics repeated,
+    plus that assay's step 05-06 metrics."""
     ckpt = run_dir / "data" / "pssm_pipeline"
-    metas = {name: load_json(ckpt / name) for name in
-             {f[1] for f in FIELDS}}
+    shared_metas = {name: load_json(ckpt / name) for name in {f[1] for f in SHARED_FIELDS}}
 
-    row = {col: metas.get(fname, {}).get(key, "")
-           for col, fname, key in FIELDS}
+    base = {col: shared_metas.get(fname, {}).get(key, "")
+            for col, fname, key in SHARED_FIELDS}
+    base["tag"] = base["tag"] or run_dir.name
 
-    row["tag"] = row["tag"] or run_dir.name
     status_file = run_dir / "STATUS"
-    row["status"] = status_file.read_text().strip() if status_file.exists() else "UNKNOWN"
+    base["status"] = status_file.read_text().strip() if status_file.exists() else "UNKNOWN"
 
-    if row["snapshot_bytes"] != "":
-        row["snapshot_gb"] = round(row["snapshot_bytes"] / 1e9, 2)
+    if base["snapshot_bytes"] != "":
+        base["snapshot_gb"] = round(base["snapshot_bytes"] / 1e9, 2)
 
     # Sequence counts come from the download step's stats file, which is the only
     # place the database's own size in sequences/residues is recorded.
-    year = row.get("year")
+    year = base.get("year")
     if year:
         stats = load_json(SNAPSHOT_DIR / f"uniref100_{year}_01.stats.json")
-        row["db_n_seqs"] = stats.get("n_seqs", "")
-        row["db_n_residues"] = stats.get("n_residues", "")
+        base["db_n_seqs"] = stats.get("n_seqs", "")
+        base["db_n_residues"] = stats.get("n_residues", "")
 
-    if row["n_imputed"] != "" and row["n_variants"] not in ("", 0):
-        row["imputed_frac"] = round(row["n_imputed"] / row["n_variants"], 4)
+    rows = []
+    for assay_id in discover_assays(ckpt):
+        suffix = f"_{assay_id}" if assay_id else ""
+        assay_metas = {b: load_json(ckpt / f"{b}{suffix}.json")
+                       for b in {f[1] for f in ASSAY_FIELDS}}
+        row = dict(base)
+        row["dms_id"] = assay_id
+        for col, mbase, key in ASSAY_FIELDS:
+            row[col] = assay_metas.get(mbase, {}).get(key, "")
+        if row["n_imputed"] != "" and row["n_variants"] not in ("", 0):
+            row["imputed_frac"] = round(row["n_imputed"] / row["n_variants"], 4)
+        rows.append(row)
 
-    return row
+    return rows
 
 
 def main():
@@ -125,10 +151,12 @@ def main():
     if not run_dirs:
         raise SystemExit(f"no runs found under {SWEEP_ROOT}")
 
-    rows = [collect_run(d) for d in run_dirs]
-    rows.sort(key=lambda r: (r.get("year") or 0, r.get("tag") or ""))
+    rows = [row for d in run_dirs for row in collect_run(d)]
+    rows.sort(key=lambda r: (r.get("year") or 0, r.get("tag") or "", r.get("dms_id") or ""))
 
-    columns = [f[0] for f in FIELDS] + DERIVED
+    shared_cols = [f[0] for f in SHARED_FIELDS]
+    columns = ["tag", "dms_id"] + [c for c in shared_cols if c != "tag"] \
+        + [f[0] for f in ASSAY_FIELDS] + DERIVED
     OUT_CSV.parent.mkdir(parents=True, exist_ok=True)
     with open(OUT_CSV, "w", newline="") as fh:
         writer = csv.DictWriter(fh, fieldnames=columns, extrasaction="ignore")
@@ -136,8 +164,8 @@ def main():
         for row in rows:
             writer.writerow({c: row.get(c, "") for c in columns})
 
-    print(f"Wrote {OUT_CSV}  ({len(rows)} runs)\n")
-    hdr = f"{'tag':<14}{'status':<10}{'GB':>7}{'hits':>7}{'N':>7}{'L':>7}{'Neff/L':>9}{'imp%':>7}{'rho':>8}{'rho_ni':>8}{'jh_s':>8}"
+    print(f"Wrote {OUT_CSV}  ({len(rows)} rows)\n")
+    hdr = f"{'tag':<14}{'dms_id':<18}{'status':<10}{'GB':>7}{'hits':>7}{'N':>7}{'L':>7}{'Neff/L':>9}{'imp%':>7}{'rho':>8}{'rho_ni':>8}{'jh_s':>8}"
     print(hdr)
     print("-" * len(hdr))
     for r in rows:
@@ -149,7 +177,7 @@ def main():
             # have most fields still empty, stay aligned with finished ones.
             return format("-", f">{spec.split('.')[0]}")
         print(
-            f"{str(r['tag']):<14}{str(r['status']):<10}"
+            f"{str(r['tag']):<14}{str(r.get('dms_id', '')):<18}{str(r['status']):<10}"
             f"{fmt('snapshot_gb', '7.1f')}"
             f"{fmt('n_hits', '7.0f')}"
             f"{fmt('N_final', '7.0f')}"
