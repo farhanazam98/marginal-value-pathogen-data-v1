@@ -139,8 +139,12 @@ right snapshot via the `SEQ_DB` env var, no sandbox needed for that part).
 `-j N` caps how many years run concurrently (default 6) — jackhmmer only pins
 ~2 effective cores per job, so uncapped concurrency oversubscribes the machine
 the same way the old fused download+parse worker did (see Data acquisition
-below). A run is resumable: finished years are skipped on a rerun. `collect.py`
-then re-derives `data/sweep_results.csv` (columns documented in
+below). Reruns are cheap: a year whose sandbox already holds a PSSM built for
+the same protein (matching query + threshold) skips the search (steps 00–04)
+and only re-scores (steps 05–06), so a rerun after a crash resumes without
+re-searching, and adding or changing a DMS assay costs seconds and needs no
+snapshot on disk. Changing the query or threshold fails that check and rebuilds.
+`collect.py` then re-derives `data/sweep_results.csv` (columns documented in
 `data/sweep_results_dictionary.md`) from whatever checkpoints exist under
 `$SWEEP_ROOT`, so it's safe to run mid-sweep or after a crash.
 
