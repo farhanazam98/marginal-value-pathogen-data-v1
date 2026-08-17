@@ -1,6 +1,9 @@
 #!/usr/bin/env python3
-"""Step 6: join predictions back to the DMS and compute Spearman rho.
-Writes data/pssm_pipeline/scatter.png.
+"""Step 6: join each assay's predictions back to its DMS and compute Spearman rho.
+
+Loops over the assays named by the active PROTEIN_CONFIG, reading the
+predictions_<assay_id>.csv that step 05 wrote and producing scatter_<assay_id>.png
+and evaluate_meta_<assay_id>.json for each.
 
 Spearman rho is Pearson correlation computed on ranks rather than raw
 values: it asks whether the two orderings (by predicted_score, by
@@ -21,26 +24,30 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 from scipy.stats import spearmanr
+from config import load_config
 
-DMS_FILE = "data/SARS2_RBD_Starr_binding_dms.csv"
-PREDICTIONS = "data/pssm_pipeline/predictions.csv"
-OUT_SCATTER = "data/pssm_pipeline/scatter.png"
-OUT_META = "data/pssm_pipeline/evaluate_meta.json"
+CKPT = "data/pssm_pipeline"
 
 MUTANT_RE = re.compile(r"^([A-Z])(\d+)([A-Z])$")
 N_BOOTSTRAP = 10_000
 SEED = 0
 
 
-def main():
-    dms = pd.read_csv(DMS_FILE)[["mutant", "DMS_score"]]
+def evaluate_assay(assay):
+    dms_file = assay["csv"]
+    predictions_file = f"{CKPT}/predictions_{assay['id']}.csv"
+    out_scatter = f"{CKPT}/scatter_{assay['id']}.png"
+    out_meta_path = f"{CKPT}/evaluate_meta_{assay['id']}.json"
+
+    print(f"\n{'='*70}\nAssay '{assay['id']}' ({assay['label']})")
+    dms = pd.read_csv(dms_file)[["mutant", "DMS_score"]]
     parsed = dms["mutant"].str.extract(MUTANT_RE)
     parsed.columns = ["wt_aa", "position", "mut_aa"]
     parsed["position"] = parsed["position"].astype(int)
     dms = pd.concat([dms, parsed], axis=1)
     print(f"DMS variants: {len(dms)}")
 
-    predictions = pd.read_csv(PREDICTIONS)
+    predictions = pd.read_csv(predictions_file)
     print(f"Prediction rows: {len(predictions)}")
 
     # --- Inner join on (position, wt_aa, mut_aa), independent of Step 5's own bookkeeping ---
@@ -96,12 +103,12 @@ def main():
         s=8, alpha=0.4, color="#d62728", label=f"imputed (n={len(imputed_rows)})",
     )
     ax.set_xlabel("Predicted score: log f(mut, pos) - log f(wt, pos)")
-    ax.set_ylabel("DMS score (Starr 2020 ACE2 binding)")
-    ax.set_title(f"PSSM vs DMS -- Spearman rho = {rho:.3f} (95% CI [{ci_lo:.3f}, {ci_hi:.3f}])")
+    ax.set_ylabel(f"DMS score ({assay['label']})")
+    ax.set_title(f"PSSM vs {assay['id']} -- Spearman rho = {rho:.3f} (95% CI [{ci_lo:.3f}, {ci_hi:.3f}])")
     ax.legend()
     fig.tight_layout()
-    fig.savefig(OUT_SCATTER, dpi=150)
-    print(f"\nWrote {OUT_SCATTER}")
+    fig.savefig(out_scatter, dpi=150)
+    print(f"\nWrote {out_scatter}")
 
     out_meta = {
         "n_dms_variants": int(len(dms)),
@@ -117,9 +124,15 @@ def main():
         "spearman_rho_excluding_imputed": float(rho_no_impute),
         "n_excluding_imputed": int(len(non_imputed)),
     }
-    with open(OUT_META, "w") as f:
+    with open(out_meta_path, "w") as f:
         json.dump(out_meta, f, indent=2)
-    print(f"Wrote {OUT_META}")
+    print(f"Wrote {out_meta_path}")
+
+
+def main():
+    cfg = load_config()
+    for assay in cfg["assays"]:
+        evaluate_assay(assay)
 
 
 if __name__ == "__main__":

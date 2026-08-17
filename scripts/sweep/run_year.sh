@@ -28,6 +28,13 @@ RUN_DIR="$SWEEP_ROOT/$TAG"
 SNAPSHOT="$REPO_ROOT/data/snapshots/uniref100_${YEAR}_01.fasta"
 STATUS_FILE="$RUN_DIR/STATUS"
 
+# Which protein to run. Points steps 00/01/05/06 at a query, threshold, and the
+# list of DMS assays to score (see config/spike.yaml). One protein per sweep --
+# sandboxes are keyed by year only, so running a second protein reuses these
+# dirs and overwrites the first. Run proteins serially, collecting results
+# between runs.
+PROTEIN_CONFIG="${PROTEIN_CONFIG:-config/spike.yaml}"
+
 STEPS=(00_setup 01_jackhmmer_search 02_clean_msa 03_weights 04_pssm 05_score 06_evaluate)
 
 # Idempotent: a completed run is never redone, so re-running the driver after a
@@ -47,24 +54,8 @@ if [ ! -s "$SNAPSHOT" ]; then
   exit 1
 fi
 
-mkdir -p "$RUN_DIR/data/pssm_pipeline"
-ln -sfn "$REPO_ROOT/scripts"                              "$RUN_DIR/scripts"
-ln -sfn "$REPO_ROOT/data/protein.fasta"                   "$RUN_DIR/data/protein.fasta"
-ln -sfn "$REPO_ROOT/data/SARS2_RBD_Starr_binding_dms.csv" "$RUN_DIR/data/SARS2_RBD_Starr_binding_dms.csv"
-export SEQ_DB="$SNAPSHOT"
-
-cat > "$RUN_DIR/data/pssm_pipeline/sweep_run.json" <<EOF
-{
-  "tag": "$TAG",
-  "year": $YEAR,
-  "snapshot": "$SNAPSHOT",
-  "snapshot_bytes": $(stat -c %s "$SNAPSHOT"),
-  "started": "$(date -Is)"
-}
-EOF
-
-echo "RUNNING" > "$STATUS_FILE"
-
+# Activate conda first: reading the protein config below needs the env's python
+# (pyyaml), and the pipeline steps need jackhmmer + scipy.
 CONDA_SH="$HOME/miniconda3/etc/profile.d/conda.sh"
 if [ -f "$CONDA_SH" ]; then
   # shellcheck disable=SC1090
@@ -77,6 +68,35 @@ else
   echo "[$TAG] conda env not found; jackhmmer and scipy will be missing." >&2
   exit 1
 fi
+
+mkdir -p "$RUN_DIR/data/pssm_pipeline"
+ln -sfn "$REPO_ROOT/scripts" "$RUN_DIR/scripts"
+ln -sfn "$REPO_ROOT/config"  "$RUN_DIR/config"
+# Symlink exactly the inputs the active protein config names -- its query FASTA
+# and each assay CSV -- instead of hardcoding one protein/DMS. config.py prints
+# them repo-relative; recreate that layout inside the sandbox so the pipeline's
+# relative paths resolve here.
+INPUT_FILES=$(cd "$REPO_ROOT" && PROTEIN_CONFIG="$PROTEIN_CONFIG" \
+  python scripts/pssm_pipeline/config.py --input-files)
+while IFS= read -r f; do
+  mkdir -p "$RUN_DIR/$(dirname "$f")"
+  ln -sfn "$REPO_ROOT/$f" "$RUN_DIR/$f"
+done <<< "$INPUT_FILES"
+export SEQ_DB="$SNAPSHOT"
+export PROTEIN_CONFIG
+
+cat > "$RUN_DIR/data/pssm_pipeline/sweep_run.json" <<EOF
+{
+  "tag": "$TAG",
+  "year": $YEAR,
+  "snapshot": "$SNAPSHOT",
+  "snapshot_bytes": $(stat -c %s "$SNAPSHOT"),
+  "protein_config": "$PROTEIN_CONFIG",
+  "started": "$(date -Is)"
+}
+EOF
+
+echo "RUNNING" > "$STATUS_FILE"
 
 cd "$RUN_DIR"
 START_EPOCH=$(date +%s)

@@ -1,0 +1,17 @@
+# Per-protein pipeline config. Selected by the PROTEIN_CONFIG env var
+# (default: config/spike.yaml). Steps 00/01 read the query and threshold;
+# steps 05/06 score every assay listed here against the one PSSM built for
+# this protein.
+name: SARS2_Spike
+query_fasta: data/protein.fasta
+bitscore_per_residue: 0.3   # per-protein jackhmmer inclusion cutoff, bits/residue
+assays:
+  # Both Starr 2020 assays use full-Spike numbering, so they share this
+  # protein's query without a coordinate offset (see the numbering note in
+  # 05_score.py).
+  - id: starr_binding
+    csv: data/SARS2_RBD_Starr_binding_dms.csv
+    label: Starr 2020 ACE2 binding
+  - id: starr_expression
+    csv: data/SARS2_RBD_Starr_expression.csv
+    label: Starr 2020 RBD expression

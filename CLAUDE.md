@@ -18,6 +18,10 @@ that aren't needed yet. When editing docs, prefer cutting over reorganizing,
 and don't restate the same fact in two places — put it where a reader would
 look for it and link to it from elsewhere.
 
+**Docs describe current state, not history.** Don't reference old or removed
+behavior ("no longer a constant", "used to use X") — describe what the code
+does now. Git history carries the before.
+
 **Explain esoteric concepts in plain terms.** Assume the reader has no strong
 biology background. Domain jargon (PSSM, MSA, `Neff`, bit-score threshold,
 DMS, imputation, homolog) gets a plain-English gloss at first use, and prose
@@ -36,13 +40,20 @@ written explanations as much as to code.
 database snapshot year, using whichever UniRef100 snapshots we currently have
 on disk. The protein may not stay the current one in the repo (Spike).
 
-**Configuration (as of 2026-08-12):**
+**Configuration (as of 2026-08-16):**
+- Protein, bit-score threshold, and DMS assays are now read from a per-protein
+  config file (`config/spike.yaml`), selected by the `PROTEIN_CONFIG` env var
+  (default `config/spike.yaml`). See README's "Configuring which protein".
 - Protein: SARS-CoV-2 Spike, full-length precursor, 1273 aa
-  (`data/protein.fasta`, header still generic `>my_protein`) — the one
-  candidate to possibly swap out per the goal above.
-- Bit-score threshold: still a single hardcoded
-  `BITSCORE_PER_RESIDUE = 0.3` in `01_jackhmmer_search.py`, not yet varied
-  per protein.
+  (`data/protein.fasta`, header still generic `>my_protein`).
+- Bit-score threshold: `bitscore_per_residue: 0.3` in the config, not varied
+  per year.
+- DMS assays: both Starr 2020 assays — `starr_binding` and `starr_expression`.
+  Steps 05/06 fan out over them, so a sweep now yields one row per
+  (year, assay) in `data/sweep_results.csv` (keyed by `dms_id`).
+- One protein per sweep: sandboxes are keyed by year only, so proteins must be
+  run serially (README's "Running the sweep"). Scaling to many proteins is the
+  planned point to switch to a single manifest CSV instead of one YAML each.
 
 **Progress:**
 - `run_tier_b_download.sh` downloads and parses each year with independently-
