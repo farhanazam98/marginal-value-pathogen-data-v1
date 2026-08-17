@@ -11,6 +11,7 @@ Run as a script to print the input files a config references, one per line:
 The sweep driver uses that to symlink the right inputs into each sandbox.
 """
 
+import json
 import os
 import sys
 
@@ -46,11 +47,27 @@ def input_files(cfg):
     return [cfg["query_fasta"]] + [a["csv"] for a in cfg["assays"]]
 
 
+def matches_build(cfg, meta_path):
+    """True if an existing MSA/PSSM build (its msa_raw_run_meta.json) was made
+    with this config's query and threshold, so its PSSM is safe to reuse instead
+    of re-running the jackhmmer search."""
+    try:
+        meta = json.load(open(meta_path))
+    except (FileNotFoundError, json.JSONDecodeError):
+        return False
+    query_len = len(open(cfg["query_fasta"]).read().split("\n", 1)[1].replace("\n", ""))
+    return (meta.get("query_length") == query_len
+            and meta.get("bitscore_per_residue") == cfg["bitscore_per_residue"])
+
+
 if __name__ == "__main__":
     cfg = load_config()
     if "--input-files" in sys.argv:
         for f in input_files(cfg):
             print(f)
+    elif "--matches-build" in sys.argv:
+        # Exit 0 (reuse the PSSM) only if the build fingerprint matches.
+        sys.exit(0 if matches_build(cfg, sys.argv[sys.argv.index("--matches-build") + 1]) else 1)
     else:
         print(f"{cfg['name']}: {len(cfg['assays'])} assay(s) -> "
               f"{', '.join(a['id'] for a in cfg['assays'])}")

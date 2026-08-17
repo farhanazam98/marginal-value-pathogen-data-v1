@@ -1,13 +1,16 @@
 #!/usr/bin/env bash
-# Runs the full PSSM pipeline (steps 00-06) against ONE UniRef100 snapshot year,
-# inside an isolated sandbox directory.
+# Runs the PSSM pipeline against ONE UniRef100 snapshot year, inside an isolated
+# sandbox directory. If the sandbox already holds a PSSM built for this same
+# protein, the expensive search (steps 00-04) is skipped and only scoring
+# (05-06) re-runs -- so adding or changing DMS assays costs seconds, not a
+# re-search, and needs no snapshot on disk.
 #
 # Why a sandbox: every script under scripts/pssm_pipeline/ resolves its
 # checkpoint paths (data/pssm_pipeline/...) relative to the working directory,
 # with no year/tag parameter -- so each concurrent run needs its own working
 # directory. A sandbox whose data/ holds the right symlinks retargets the
-# whole pipeline without editing a tracked script, which keeps
-# BITSCORE_PER_RESIDUE at 0.3 for every year and keeps runs comparable.
+# whole pipeline without editing a tracked script, and keeps runs comparable
+# (query + threshold come from the active PROTEIN_CONFIG).
 #
 # The database itself doesn't need a symlink: SEQ_DB (exported below) points
 # 01_jackhmmer_search.py straight at this run's snapshot, so concurrent runs
@@ -35,24 +38,8 @@ STATUS_FILE="$RUN_DIR/STATUS"
 # between runs.
 PROTEIN_CONFIG="${PROTEIN_CONFIG:-config/spike.yaml}"
 
-STEPS=(00_setup 01_jackhmmer_search 02_clean_msa 03_weights 04_pssm 05_score 06_evaluate)
-
-# Idempotent: a completed run is never redone, so re-running the driver after a
-# crash resumes the sweep instead of restarting it.
-if [ -f "$STATUS_FILE" ] && [ "$(cat "$STATUS_FILE")" = "DONE" ]; then
-  echo "[$TAG] already DONE, skipping."
-  exit 0
-fi
-
-# A 0-byte snapshot is a failed download, not a database -- data/snapshots holds
-# one (2020, from the killed Tier B run). 01's Path(SEQ_DB).exists() check would
-# happily pass on it and produce a silently empty result, so guard on size.
-if [ ! -s "$SNAPSHOT" ]; then
-  echo "[$TAG] snapshot missing or empty: $SNAPSHOT" >&2
-  mkdir -p "$RUN_DIR"
-  echo "FAILED:snapshot" > "$STATUS_FILE"
-  exit 1
-fi
+BUILD_STEPS=(00_setup 01_jackhmmer_search 02_clean_msa 03_weights 04_pssm)  # need the snapshot
+SCORE_STEPS=(05_score 06_evaluate)                                          # need only the PSSM
 
 # Activate conda first: reading the protein config below needs the env's python
 # (pyyaml), and the pipeline steps need jackhmmer + scipy.
@@ -67,6 +54,31 @@ elif command -v conda >/dev/null 2>&1; then
 else
   echo "[$TAG] conda env not found; jackhmmer and scipy will be missing." >&2
   exit 1
+fi
+
+# Reuse an existing PSSM built for this same protein (query + threshold),
+# skipping the search; scoring always re-runs. A different protein/threshold
+# fails the fingerprint and rebuilds from scratch.
+BUILD_META="$RUN_DIR/data/pssm_pipeline/msa_raw_run_meta.json"
+if [ -f "$RUN_DIR/data/pssm_pipeline/pssm.npy" ] && \
+   (cd "$REPO_ROOT" && PROTEIN_CONFIG="$PROTEIN_CONFIG" \
+      python scripts/pssm_pipeline/config.py --matches-build "$BUILD_META"); then
+  REUSE_PSSM=1
+  STEPS=("${SCORE_STEPS[@]}")
+  echo "[$TAG] reusing existing PSSM; skipping search (00-04), re-scoring only."
+else
+  REUSE_PSSM=0
+  STEPS=("${BUILD_STEPS[@]}" "${SCORE_STEPS[@]}")
+  # A 0-byte snapshot is a failed download, not a database -- data/snapshots holds
+  # one (2020, from the killed Tier B run). 01's Path(SEQ_DB).exists() check would
+  # happily pass on it and produce a silently empty result, so guard on size.
+  # Only matters when building; a reuse run needs no snapshot on disk.
+  if [ ! -s "$SNAPSHOT" ]; then
+    echo "[$TAG] snapshot missing or empty: $SNAPSHOT" >&2
+    mkdir -p "$RUN_DIR"
+    echo "FAILED:snapshot" > "$STATUS_FILE"
+    exit 1
+  fi
 fi
 
 mkdir -p "$RUN_DIR/data/pssm_pipeline"
@@ -85,23 +97,27 @@ done <<< "$INPUT_FILES"
 export SEQ_DB="$SNAPSHOT"
 export PROTEIN_CONFIG
 
-cat > "$RUN_DIR/data/pssm_pipeline/sweep_run.json" <<EOF
+# Record build provenance only when we actually build -- a reuse run keeps the
+# existing sweep_run.json (its real snapshot bytes) intact.
+if [ "$REUSE_PSSM" -eq 0 ]; then
+  cat > "$RUN_DIR/data/pssm_pipeline/sweep_run.json" <<EOF
 {
   "tag": "$TAG",
   "year": $YEAR,
   "snapshot": "$SNAPSHOT",
   "snapshot_bytes": $(stat -c %s "$SNAPSHOT"),
   "protein_config": "$PROTEIN_CONFIG",
-  "started": "$(date -Is)"
+  "started": "$(date +%Y-%m-%dT%H:%M:%S%z)"
 }
 EOF
+fi
 
 echo "RUNNING" > "$STATUS_FILE"
 
 cd "$RUN_DIR"
 START_EPOCH=$(date +%s)
 for step in "${STEPS[@]}"; do
-  echo "=== [$TAG] $step  $(date -Is) ==="
+  echo "=== [$TAG] $step  $(date +%Y-%m-%dT%H:%M:%S%z) ==="
   if ! python "scripts/pssm_pipeline/${step}.py"; then
     echo "FAILED:$step" > "$STATUS_FILE"
     echo "[$TAG] FAILED at $step" >&2
@@ -111,4 +127,4 @@ done
 ELAPSED=$(( $(date +%s) - START_EPOCH ))
 
 echo "DONE" > "$STATUS_FILE"
-echo "=== [$TAG] DONE in ${ELAPSED}s  $(date -Is) ==="
+echo "=== [$TAG] DONE in ${ELAPSED}s  $(date +%Y-%m-%dT%H:%M:%S%z) ==="

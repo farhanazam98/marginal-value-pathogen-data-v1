@@ -53,7 +53,7 @@ SORTED=$(
   done | sort -rn | awk '{print $2}'
 )
 
-echo "Sweep starting $(date -Is)"
+echo "Sweep starting $(date +%Y-%m-%dT%H:%M:%S%z)"
 echo "  concurrency: $JOBS"
 echo "  order (largest DB first): $(echo "$SORTED" | tr '\n' ' ')"
 echo
@@ -61,8 +61,10 @@ echo
 for spec in $SORTED; do
   year="${spec%%:*}"
   tag="${spec##*:}"   # equals year when spec has no colon
+  # Throttle by polling rather than `wait -n`: the latter is bash 4.3+ only and
+  # aborts under `set -e` on the macOS system bash (3.2).
   while [ "$(jobs -rp | wc -l)" -ge "$JOBS" ]; do
-    wait -n
+    sleep 0.5
   done
   echo "launching $tag (year $year) -> $LOG_DIR/$tag.log"
   bash "$REPO_ROOT/scripts/sweep/run_year.sh" "$year" "$tag" \
@@ -71,7 +73,7 @@ done
 
 wait
 echo
-echo "Sweep finished $(date -Is)"
+echo "Sweep finished $(date +%Y-%m-%dT%H:%M:%S%z)"
 for spec in $SORTED; do
   tag="${spec##*:}"
   printf '  %-16s %s\n' "$tag" "$(cat "$SWEEP_ROOT/$tag/STATUS" 2>/dev/null || echo MISSING)"
