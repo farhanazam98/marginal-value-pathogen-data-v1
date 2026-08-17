@@ -85,12 +85,10 @@ assays:
 Steps 00 and 01 read the query sequence and the jackhmmer threshold from it;
 steps 05 and 06 score *every* assay in the `assays` list against the single
 PSSM built for the protein, writing a `predictions_<id>.csv`, `scatter_<id>.png`,
-and per-assay meta files. A protein needs more than one assay because a single
-physical protein is commonly measured under several phenotypes — for Spike,
-Starr 2020 reports both ACE2 *binding* (does it still grip the receptor) and RBD
-*expression* (does it still fold and display), and a conservation-based PSSM has
-no reason to track the two equally. Building the MSA/PSSM (steps 00–04) is the
-expensive per-protein work; scoring assays on top of it is a cheap fan-out.
+and per-assay meta files. A protein may be measured under multiple phenotypes,
+so the config allows several assays per protein. Building the MSA/PSSM
+(steps 00–04) is the expensive per-protein work; scoring assays on top of it is
+a cheap fan-out.
 
 To run a different protein, copy `config/spike.yaml`, point it at that protein's
 query FASTA and DMS assays, and set `PROTEIN_CONFIG` to it. Each assay's DMS

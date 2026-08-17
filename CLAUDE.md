@@ -18,6 +18,10 @@ that aren't needed yet. When editing docs, prefer cutting over reorganizing,
 and don't restate the same fact in two places — put it where a reader would
 look for it and link to it from elsewhere.
 
+**Docs describe current state, not history.** Don't reference old or removed
+behavior ("no longer a constant", "used to use X") — describe what the code
+does now. Git history carries the before.
+
 **Explain esoteric concepts in plain terms.** Assume the reader has no strong
 biology background. Domain jargon (PSSM, MSA, `Neff`, bit-score threshold,
 DMS, imputation, homolog) gets a plain-English gloss at first use, and prose
@@ -42,8 +46,8 @@ on disk. The protein may not stay the current one in the repo (Spike).
   (default `config/spike.yaml`). See README's "Configuring which protein".
 - Protein: SARS-CoV-2 Spike, full-length precursor, 1273 aa
   (`data/protein.fasta`, header still generic `>my_protein`).
-- Bit-score threshold: `bitscore_per_residue: 0.3` in the config (no longer a
-  hardcoded constant in `01_jackhmmer_search.py`), still not varied per year.
+- Bit-score threshold: `bitscore_per_residue: 0.3` in the config, not varied
+  per year.
 - DMS assays: both Starr 2020 assays — `starr_binding` and `starr_expression`.
   Steps 05/06 fan out over them, so a sweep now yields one row per
   (year, assay) in `data/sweep_results.csv` (keyed by `dms_id`).
