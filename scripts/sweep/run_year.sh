@@ -56,6 +56,20 @@ else
   exit 1
 fi
 
+# Preflight: confirm the active env can actually load the config. Every step and
+# both config.py calls below do `import yaml`, but those calls sit inside an
+# `if ... &&` and a `$(...)` assignment, so under `set -e` a missing dep is
+# swallowed -- the run then silently produces nothing and the summary still
+# prints a stale STATUS. Fail loudly here instead. (A missing pyyaml in the env,
+# despite environment.yml listing it, is exactly what wedged the 2026-08-17 rerun.)
+if ! python -c "import yaml" 2>/dev/null; then
+  echo "[$TAG] active env ($CONDA_DEFAULT_ENV) cannot 'import yaml' -- config.py will fail." >&2
+  echo "[$TAG] fix: conda env update -n marginal-value-pathogen-data -f environment.yml" >&2
+  mkdir -p "$RUN_DIR"
+  echo "FAILED:preflight" > "$STATUS_FILE"
+  exit 1
+fi
+
 # Reuse an existing PSSM built for this same protein (query + threshold),
 # skipping the search; scoring always re-runs. A different protein/threshold
 # fails the fingerprint and rebuilds from scratch.
