@@ -27,16 +27,16 @@ TAG="${2:-$YEAR}"
 
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 SWEEP_ROOT="${SWEEP_ROOT:-$REPO_ROOT/data/sweep}"
-RUN_DIR="$SWEEP_ROOT/$TAG"
-SNAPSHOT="$REPO_ROOT/data/snapshots/uniref100_${YEAR}_01.fasta"
-STATUS_FILE="$RUN_DIR/STATUS"
 
 # Which protein to run. Points steps 00/01/05/06 at a query, threshold, and the
-# list of DMS assays to score (see config/spike.yaml). One protein per sweep --
-# sandboxes are keyed by year only, so running a second protein reuses these
-# dirs and overwrites the first. Run proteins serially, collecting results
-# between runs.
+# list of DMS assays to score (see config/spike.yaml). The sandbox is keyed by
+# (protein, year), so a second protein gets its own dirs instead of overwriting
+# the first, and proteins can sweep concurrently.
 PROTEIN_CONFIG="${PROTEIN_CONFIG:-config/spike.yaml}"
+PROTEIN_TAG="$(basename "${PROTEIN_CONFIG%.*}")"   # config/spike.yaml -> spike
+RUN_DIR="$SWEEP_ROOT/$PROTEIN_TAG/$TAG"
+SNAPSHOT="$REPO_ROOT/data/snapshots/uniref100_${YEAR}_01.fasta"
+STATUS_FILE="$RUN_DIR/STATUS"
 
 BUILD_STEPS=(00_setup 01_jackhmmer_search 02_clean_msa 03_weights 04_pssm)  # need the snapshot
 SCORE_STEPS=(05_score 06_evaluate)                                          # need only the PSSM
