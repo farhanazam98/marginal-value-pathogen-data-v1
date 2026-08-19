@@ -1,6 +1,7 @@
 # `sweep_results.csv` — data dictionary
 
-One row per (UniRef100 snapshot year, DMS assay), keyed by `dms_id`. Steps
+One row per (protein, UniRef100 snapshot year, DMS assay), keyed by
+`(protein, tag, dms_id)`. Steps
 00–04 build one PSSM per year; steps 05–06 score every assay named by the
 active protein config against it, so a year with two assays produces two rows
 sharing all step 00–04 columns. Produced by `scripts/sweep/collect.py`, which
@@ -57,6 +58,7 @@ No biology background assumed.
 ### Identity / database
 | Column | Meaning |
 |---|---|
+| `protein` | Which protein this row's PSSM was built for, from the sandbox path (`<protein>/<year>`). The protein config's filename stem (e.g. `spike`). |
 | `tag` | Run directory name under the sweep root. Equals the year. |
 | `dms_id` | Which DMS assay this row scores (e.g. `starr_binding`, `starr_expression`), from the protein config. The one column that distinguishes multiple rows of the same year. |
 | `year` | UniRef100 release year (the January release, `uniref100_<year>_01`). |
