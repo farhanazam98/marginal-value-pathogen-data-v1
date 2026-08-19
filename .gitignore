@@ -14,6 +14,9 @@ data/snapshots/**
 data/uniref100_*.fasta
 data/*.xml.gz
 
+# Pipeline scratch/checkpoint dir -- regenerable output of steps 00-06, not source
+data/pssm_pipeline/
+
 # Python
 __pycache__/
 *.pyc
