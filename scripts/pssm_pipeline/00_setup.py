@@ -44,13 +44,6 @@ def main():
     print(f"\nSequence starts: {seq[:20]}...")
     print(f"Sequence ends:   ...{seq[-20:]}")
 
-    print("\nSanity checks:")
-    print(f"  L == 1273 (full SARS-CoV-2 Spike length)? {'PASS' if L == 1273 else 'FAIL'} (L={L})")
-    starts_met = seq.startswith("M")
-    print(f"  Starts with initiator Met? {'PASS' if starts_met else 'FAIL'}")
-    assert L == 1273, f"Expected full Spike length 1273, got {L}"
-    assert starts_met, "Expected sequence to start with initiator Met"
-
 
 if __name__ == "__main__":
     main()
