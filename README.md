@@ -124,13 +124,15 @@ set.** `collect.py` re-derives `data/sweep_results.csv` and `plot.py` the
 `pssm_accuracy_vs_snapshot_year.png` — both git-tracked — from whatever
 sandboxes exist under `$SWEEP_ROOT`. On a machine missing snapshots (or that has
 only re-run some years), running them produces a partial or mixed-schema table
-and overwrites the good one. Running the *sweep* itself is always safe (it only
-touches the gitignored sandboxes); it's `collect.py`/`plot.py` that write the
-tracked outputs. If you regenerate them by accident, `git checkout --
-data/sweep_results.csv pssm_accuracy_vs_snapshot_year.png` discards it.
+and overwrites the good one. Re-running the *sweep* rewrites the tracked sandbox
+checkpoints under `$SWEEP_ROOT` (a reviewable git diff you can keep or discard);
+`collect.py`/`plot.py` then rewrite the derived `data/sweep_results.csv` and
+`pssm_accuracy_vs_snapshot_year.png`. Discard any accidental regeneration with
+`git checkout -- data/sweep_results.csv pssm_accuracy_vs_snapshot_year.png` (and
+the affected sandbox paths).
 
 Each year runs in its own sandbox under `$SWEEP_ROOT/<year>` (env var,
-default `data/sweep/`, gitignored): a directory with symlinks to the shared
+default `data/sweep/`, kept in git as the sweep's analysis record): a directory with symlinks to the shared
 scripts, the active config's inputs, and `config/`, plus its own real
 `data/pssm_pipeline/`, needed because every pipeline script other than
 `01_jackhmmer_search.py` resolves its checkpoint paths relative to the working
@@ -216,9 +218,14 @@ rather than assuming another machine's state.
   — the two Starr 2020 DMS assays (ACE2 binding and RBD expression, RBD
   positions 331–531), both in the same numbering as the query — no coordinate
   offset needed anywhere in the pipeline.
-- `data/pssm_pipeline/` — checkpoints written by pipeline steps
-  00–06; steps 05–06 write one set per assay (`predictions_<id>.csv`,
-  `scatter_<id>.png`, …). Regenerate by rerunning the relevant script.
+- `data/pssm_pipeline/` — gitignored scratch/checkpoint dir written by pipeline
+  steps 00–06 when run by hand from the repo root; steps 05–06 write one set per
+  assay (`predictions_<id>.csv`, `scatter_<id>.png`, …). Regenerate by rerunning
+  the relevant script.
+- `data/sweep/<year>/` — per-year sweep sandboxes, each a self-contained pipeline
+  working dir (its own `data/pssm_pipeline/` plus input symlinks). Tracked in git
+  as the analysis record of the completed 2010–2026 sweep; not regenerated on
+  machines missing snapshots. See Running the sweep across years.
 - `data/snapshots/` — gitignored multi-GB UniRef100 FASTA snapshots (one per
   acquired year) plus `.stats.json` sidecars; typically a symlink to
   scratch/NVMe, not committed or kept on the root volume.
