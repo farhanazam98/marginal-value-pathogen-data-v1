@@ -189,7 +189,7 @@ def main():
             writer.writerow({c: row.get(c, "") for c in columns})
 
     print(f"Wrote {OUT_CSV}  ({len(rows)} rows)\n")
-    hdr = f"{'tag':<14}{'dms_id':<18}{'status':<10}{'GB':>7}{'hits':>7}{'N':>7}{'L':>7}{'Neff/L':>9}{'imp%':>7}{'rho':>8}{'rho_ni':>8}{'jh_s':>8}"
+    hdr = f"{'protein':<12}{'tag':<14}{'dms_id':<18}{'status':<10}{'GB':>7}{'hits':>7}{'N':>7}{'L':>7}{'Neff/L':>9}{'imp%':>7}{'rho':>8}{'rho_ni':>8}{'jh_s':>8}"
     print(hdr)
     print("-" * len(hdr))
     for r in rows:
@@ -201,7 +201,7 @@ def main():
             # have most fields still empty, stay aligned with finished ones.
             return format("-", f">{spec.split('.')[0]}")
         print(
-            f"{str(r['tag']):<14}{str(r.get('dms_id', '')):<18}{str(r['status']):<10}"
+            f"{str(r.get('protein', '')):<12}{str(r['tag']):<14}{str(r.get('dms_id', '')):<18}{str(r['status']):<10}"
             f"{fmt('snapshot_gb', '7.1f')}"
             f"{fmt('n_hits', '7.0f')}"
             f"{fmt('N_final', '7.0f')}"
