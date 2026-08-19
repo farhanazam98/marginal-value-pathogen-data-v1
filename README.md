@@ -109,28 +109,32 @@ python scripts/sweep/collect.py
 
 `PROTEIN_CONFIG` selects the protein (default `config/spike.yaml`; see
 Configuring which protein). Each year builds one PSSM and scores all the
-protein's assays against it, so `collect.py` writes **one row per (year, assay)**
-— `data/sweep_results.csv` carries a `dms_id` column, and `plot.py` draws one
-line per assay.
+protein's assays against it, so `collect.py` writes **one row per (protein,
+year, assay)** — `data/sweep_results.csv` carries `protein` and `dms_id`
+columns, and `plot.py` draws one line per assay.
 
-**One protein per sweep.** Sandboxes are keyed by year only, not by protein, so
-running a second protein reuses the same `$SWEEP_ROOT/<year>` dirs and overwrites
-the first. Run proteins serially — sweep one, `collect.py`, save its results,
-then the next. (This is the piece that becomes a manifest of proteins when the
-project scales past a handful.)
+**Sandboxes are keyed by (protein, year).** The sandbox path is
+`$SWEEP_ROOT/<protein>/<year>`, where `<protein>` is the config filename stem
+(e.g. `spike`), so a second protein gets its own dirs instead of overwriting the
+first, and the PID lock is per-protein — two proteins can sweep concurrently.
+If you run two at once, keep the combined `-j` within the machine's cores (each
+sweep caps its own concurrency independently). Sweeping N proteins × M years
+unattended from one manifest is the next step when the project scales past a
+handful.
 
 **Regenerate committed artifacts only on the machine with the full snapshot
 set.** `collect.py` re-derives `data/sweep_results.csv` and `plot.py` the
 `pssm_accuracy_vs_snapshot_year.png` — both git-tracked — from whatever
 sandboxes exist under `$SWEEP_ROOT`. On a machine missing snapshots (or that has
 only re-run some years), running them produces a partial or mixed-schema table
-and overwrites the good one. Running the *sweep* itself is always safe (it only
-touches the gitignored sandboxes); it's `collect.py`/`plot.py` that write the
+and overwrites the good one. Running the *sweep* itself doesn't touch these two
+headline files — it only rewrites the per-run sandbox checkpoints under
+`$SWEEP_ROOT` — so it's `collect.py`/`plot.py`, run afterward, that write the
 tracked outputs. If you regenerate them by accident, `git checkout --
 data/sweep_results.csv pssm_accuracy_vs_snapshot_year.png` discards it.
 
-Each year runs in its own sandbox under `$SWEEP_ROOT/<year>` (env var,
-default `data/sweep/`, gitignored): a directory with symlinks to the shared
+Each year runs in its own sandbox under `$SWEEP_ROOT/<protein>/<year>` (env var,
+default `data/sweep/`, git-tracked): a directory with symlinks to the shared
 scripts, the active config's inputs, and `config/`, plus its own real
 `data/pssm_pipeline/`, needed because every pipeline script other than
 `01_jackhmmer_search.py` resolves its checkpoint paths relative to the working
