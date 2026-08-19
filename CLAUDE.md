@@ -54,6 +54,11 @@ on disk. The protein may not stay the current one in the repo (Spike).
 - One protein per sweep: sandboxes are keyed by year only, so proteins must be
   run serially (README's "Running the sweep"). Scaling to many proteins is the
   planned point to switch to a single manifest CSV instead of one YAML each.
+- Tracking state (don't re-churn it): `data/sweep/` sandboxes are intentionally
+  **tracked** in git — kept as the analysis record of the completed sweep. The
+  hand-run `data/pssm_pipeline/` scratch dir is **gitignored** (a regenerable,
+  redundant duplicate of the 2010 sweep point). Don't untrack the sweep or
+  re-commit `data/pssm_pipeline/`.
 
 **Progress:**
 - `run_tier_b_download.sh` downloads and parses each year with independently-
