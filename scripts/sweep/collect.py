@@ -28,6 +28,12 @@ SWEEP_ROOT = Path(os.environ.get("SWEEP_ROOT", REPO_ROOT / "data" / "sweep"))
 SNAPSHOT_DIR = REPO_ROOT / "data" / "snapshots"
 OUT_CSV = REPO_ROOT / "data" / "sweep_results.csv"
 
+# Sandboxes are keyed by (protein, year) as <protein>/<year>. Runs from before
+# that layout sit flat as <year> directly under the sweep root; those predate
+# multi-protein support and are all spike (config/spike.yaml), so a flat run's
+# protein defaults to this.
+DEFAULT_PROTEIN = "spike"
+
 # Steps 00-04 are per-(protein, year): one MSA/PSSM, shared by every assay. Their
 # metas contribute the same values to each of a run's assay rows.
 # (output column, meta file, key in that file)
@@ -102,7 +108,24 @@ def discover_assays(ckpt):
     return ids if ids else [""]
 
 
-def collect_run(run_dir):
+def discover_runs(sweep_root):
+    """Yield (protein, run_dir) for every sandbox, tolerating both the flat
+    legacy layout (<sweep_root>/<year>) and the per-protein layout
+    (<sweep_root>/<protein>/<year>). A directory holding data/pssm_pipeline is
+    itself a flat run; otherwise it's a protein dir whose children are runs."""
+    def is_run(d):
+        return d.is_dir() and (d / "data" / "pssm_pipeline").exists()
+
+    for child in sorted(sweep_root.iterdir()):
+        if is_run(child):
+            yield DEFAULT_PROTEIN, child
+        elif child.is_dir():
+            for run_dir in sorted(child.iterdir()):
+                if is_run(run_dir):
+                    yield child.name, run_dir
+
+
+def collect_run(run_dir, protein):
     """One row per assay in this run: the shared step 00-04 metrics repeated,
     plus that assay's step 05-06 metrics."""
     ckpt = run_dir / "data" / "pssm_pipeline"
@@ -110,6 +133,7 @@ def collect_run(run_dir):
 
     base = {col: shared_metas.get(fname, {}).get(key, "")
             for col, fname, key in SHARED_FIELDS}
+    base["protein"] = protein
     base["tag"] = base["tag"] or run_dir.name
 
     status_file = run_dir / "STATUS"
@@ -146,16 +170,16 @@ def main():
     if not SWEEP_ROOT.exists():
         raise SystemExit(f"sweep root not found: {SWEEP_ROOT}")
 
-    run_dirs = sorted(d for d in SWEEP_ROOT.iterdir()
-                      if d.is_dir() and (d / "data" / "pssm_pipeline").exists())
-    if not run_dirs:
+    runs = list(discover_runs(SWEEP_ROOT))
+    if not runs:
         raise SystemExit(f"no runs found under {SWEEP_ROOT}")
 
-    rows = [row for d in run_dirs for row in collect_run(d)]
-    rows.sort(key=lambda r: (r.get("year") or 0, r.get("tag") or "", r.get("dms_id") or ""))
+    rows = [row for protein, d in runs for row in collect_run(d, protein)]
+    rows.sort(key=lambda r: (r.get("protein") or "", r.get("year") or 0,
+                             r.get("tag") or "", r.get("dms_id") or ""))
 
     shared_cols = [f[0] for f in SHARED_FIELDS]
-    columns = ["tag", "dms_id"] + [c for c in shared_cols if c != "tag"] \
+    columns = ["protein", "tag", "dms_id"] + [c for c in shared_cols if c != "tag"] \
         + [f[0] for f in ASSAY_FIELDS] + DERIVED
     OUT_CSV.parent.mkdir(parents=True, exist_ok=True)
     with open(OUT_CSV, "w", newline="") as fh:

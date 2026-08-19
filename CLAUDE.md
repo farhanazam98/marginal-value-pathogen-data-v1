@@ -50,15 +50,12 @@ on disk. The protein may not stay the current one in the repo (Spike).
   per year.
 - DMS assays: both Starr 2020 assays — `starr_binding` and `starr_expression`.
   Steps 05/06 fan out over them, so a sweep now yields one row per
-  (year, assay) in `data/sweep_results.csv` (keyed by `dms_id`).
-- One protein per sweep: sandboxes are keyed by year only, so proteins must be
-  run serially (README's "Running the sweep"). Scaling to many proteins is the
-  planned point to switch to a single manifest CSV instead of one YAML each.
-- Tracking state (don't re-churn it): `data/sweep/` sandboxes are intentionally
-  **tracked** in git — kept as the analysis record of the completed sweep. The
-  hand-run `data/pssm_pipeline/` scratch dir is **gitignored** (a regenerable,
-  redundant duplicate of the 2010 sweep point). Don't untrack the sweep or
-  re-commit `data/pssm_pipeline/`.
+  (protein, year, assay) in `data/sweep_results.csv` (keyed by
+  `(protein, tag, dms_id)`).
+- Sandboxes are keyed by (protein, year) — `$SWEEP_ROOT/<protein>/<year>`, with
+  a per-protein PID lock — so proteins no longer overwrite each other and can
+  sweep concurrently (README's "Running the sweep"). Scaling to many proteins is
+  the planned point to switch to a single manifest CSV instead of one YAML each.
 
 **Progress:**
 - `run_tier_b_download.sh` downloads and parses each year with independently-

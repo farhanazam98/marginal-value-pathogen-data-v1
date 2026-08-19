@@ -19,9 +19,15 @@
 set -euo pipefail
 
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
-LOG_DIR="$REPO_ROOT/logs/sweep"
 SWEEP_ROOT="${SWEEP_ROOT:-$REPO_ROOT/data/sweep}"
-PID_FILE="$SWEEP_ROOT/.run_sweep.pid"
+
+# Key the lock, logs, and sandboxes by protein (config filename stem) so a second
+# protein's sweep can't collide with the first. Export the config so run_year.sh
+# derives the identical tag.
+export PROTEIN_CONFIG="${PROTEIN_CONFIG:-config/spike.yaml}"
+PROTEIN_TAG="$(basename "${PROTEIN_CONFIG%.*}")"   # config/spike.yaml -> spike
+LOG_DIR="$REPO_ROOT/logs/sweep/$PROTEIN_TAG"
+PID_FILE="$SWEEP_ROOT/$PROTEIN_TAG/.run_sweep.pid"
 JOBS=6
 
 while getopts ":j:" opt; do
@@ -34,7 +40,7 @@ shift $((OPTIND - 1))
 
 [ "$#" -gt 0 ] || { echo "usage: run_sweep.sh [-j N] <year|year:tag> ..." >&2; exit 2; }
 
-mkdir -p "$LOG_DIR" "$SWEEP_ROOT"
+mkdir -p "$LOG_DIR" "$(dirname "$PID_FILE")"
 
 if [ -f "$PID_FILE" ] && kill -0 "$(cat "$PID_FILE")" 2>/dev/null; then
   echo "Sweep already running (PID $(cat "$PID_FILE")). Not starting a second copy." >&2
@@ -76,5 +82,5 @@ echo
 echo "Sweep finished $(date +%Y-%m-%dT%H:%M:%S%z)"
 for spec in $SORTED; do
   tag="${spec##*:}"
-  printf '  %-16s %s\n' "$tag" "$(cat "$SWEEP_ROOT/$tag/STATUS" 2>/dev/null || echo MISSING)"
+  printf '  %-16s %s\n' "$tag" "$(cat "$SWEEP_ROOT/$PROTEIN_TAG/$tag/STATUS" 2>/dev/null || echo MISSING)"
 done
