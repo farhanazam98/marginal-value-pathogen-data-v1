@@ -220,9 +220,14 @@ rather than assuming another machine's state.
   — the two Starr 2020 DMS assays (ACE2 binding and RBD expression, RBD
   positions 331–531), both in the same numbering as the query — no coordinate
   offset needed anywhere in the pipeline.
-- `data/pssm_pipeline/` — checkpoints written by pipeline steps
-  00–06; steps 05–06 write one set per assay (`predictions_<id>.csv`,
-  `scatter_<id>.png`, …). Regenerate by rerunning the relevant script.
+- `data/pssm_pipeline/` — gitignored scratch/checkpoint dir written by pipeline
+  steps 00–06 when run by hand from the repo root; steps 05–06 write one set per
+  assay (`predictions_<id>.csv`, `scatter_<id>.png`, …). Regenerate by rerunning
+  the relevant script.
+- `data/sweep/<year>/` — per-year sweep sandboxes, each a self-contained pipeline
+  working dir (its own `data/pssm_pipeline/` plus input symlinks). Tracked in git
+  as the analysis record of the completed 2010–2026 sweep; not regenerated on
+  machines missing snapshots. See Running the sweep across years.
 - `data/snapshots/` — gitignored multi-GB UniRef100 FASTA snapshots (one per
   acquired year) plus `.stats.json` sidecars; typically a symlink to
   scratch/NVMe, not committed or kept on the root volume.
