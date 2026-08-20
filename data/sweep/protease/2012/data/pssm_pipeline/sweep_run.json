@@ -1,0 +1,8 @@
+{
+  "tag": "2012",
+  "year": 2012,
+  "snapshot": "/home/ec2-user/marginal-value-pathogen-data-v1/data/snapshots/uniref100_2012_01.fasta",
+  "snapshot_bytes": 6617777514,
+  "protein_config": "config/protease.yaml",
+  "started": "2026-08-19T12:51:36+0000"
+}
