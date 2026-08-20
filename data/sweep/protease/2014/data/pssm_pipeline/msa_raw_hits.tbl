@@ -1,0 +1,826 @@
+#                                                                  --- full sequence ---- --- best 1 domain ---- --- domain number estimation ----
+# target name           accession  query name           accession    E-value  score  bias   E-value  score  bias   exp reg clu  ov env dom rep inc description of target
+#   ------------------- ---------- -------------------- ---------- --------- ------ ----- --------- ------ -----   --- --- --- --- --- --- --- --- ---------------------
+UniRef100_UPI00005D3C74 -          protease_protein     -           1.3e-148  505.1   0.2  1.5e-148  504.9   0.2   1.0   1   0   0   1   1   1   1 Cluster: 3C-like proteinase
+UniRef100_UPI00005AB3AA -          protease_protein     -           1.4e-148  505.0   0.2  1.6e-148  504.8   0.2   1.0   1   0   0   1   1   1   1 Cluster: 3C-like proteinase
+UniRef100_UPI0002003D78 -          protease_protein     -           3.8e-148  503.6   0.2  4.2e-148  503.4   0.2   1.0   1   0   0   1   1   1   1 Cluster: 3C-like proteinase
+UniRef100_UPI0002003D76 -          protease_protein     -             4e-148  503.5   0.3  4.5e-148  503.3   0.3   1.0   1   0   0   1   1   1   1 Cluster: 3C-like proteinase
+UniRef100_UPI000181CE16 -          protease_protein     -           4.3e-148  503.4   0.2  4.8e-148  503.2   0.2   1.0   1   0   0   1   1   1   1 Cluster: 3C-like proteinase
+UniRef100_UPI00032822AD -          protease_protein     -           4.4e-148  503.3   0.3  4.9e-148  503.2   0.3   1.0   1   0   0   1   1   1   1 Cluster: 3C-like proteinase
+UniRef100_UPI000181CE36 -          protease_protein     -           6.6e-148  502.7   0.2  7.5e-148  502.6   0.2   1.0   1   0   0   1   1   1   1 Cluster: 3C-like proteinase
+UniRef100_UPI0001B31090 -          protease_protein     -           6.8e-148  502.7   0.3  7.6e-148  502.6   0.3   1.0   1   0   0   1   1   1   1 Cluster: 3C-Like Proteinase
+UniRef100_UPI0001BE6413 -          protease_protein     -           7.9e-148  502.5   0.2  8.9e-148  502.3   0.2   1.0   1   0   0   1   1   1   1 Cluster: 3C-like proteinase
+UniRef100_UPI00001B4EF0 -          protease_protein     -           1.5e-147  501.5   0.2  1.8e-147  501.3   0.2   1.0   1   0   0   1   1   1   1 Cluster: nonstructural polyprotein pp1a
+UniRef100_UPI0000DBE0FD -          protease_protein     -           1.6e-147  501.5   0.3  1.7e-147  501.4   0.3   1.0   1   0   0   1   1   1   1 Cluster: Replicase polyprotein 1ab
+UniRef100_UPI0001BE63B1 -          protease_protein     -           2.4e-147  500.9   0.2  2.7e-147  500.7   0.2   1.0   1   0   0   1   1   1   1 Cluster: 3C-like proteinase
+UniRef100_UPI0001BE6414 -          protease_protein     -           4.4e-147  500.0   0.2    5e-147  499.9   0.2   1.0   1   0   0   1   1   1   1 Cluster: 3C-like proteinase
+UniRef100_UPI000181CE13 -          protease_protein     -           5.1e-147  499.8   0.2  5.7e-147  499.7   0.2   1.0   1   0   0   1   1   1   1 Cluster: severe acute respiratory syndrome coronavirus
+UniRef100_UPI000181D08E -          protease_protein     -           6.1e-147  499.6   0.2  6.9e-147  499.4   0.2   1.0   1   0   0   1   1   1   1 Cluster: SARS CORONAVIRUS MAIN PROTEINASE
+UniRef100_UPI000181D0FF -          protease_protein     -           6.7e-147  499.4   0.2  7.5e-147  499.3   0.2   1.0   1   0   0   1   1   1   1 Cluster: Replicase polyprotein 1ab
+UniRef100_D2E2M4        -          protease_protein     -           8.7e-147  499.1   0.2  2.4e-146  497.6   0.2   1.8   1   0   0   1   1   1   1 Cluster: Orf1a polyprotein
+UniRef100_D2DJW3        -          protease_protein     -             1e-146  498.8   0.4    3e-146  497.3   0.4   1.9   1   0   0   1   1   1   1 Cluster: Non-structural polyprotein pp1a
+UniRef100_U5WLL4        -          protease_protein     -           1.1e-146  498.8   0.2  3.6e-146  497.1   0.2   2.0   1   0   0   1   1   1   1 Cluster: Non-structural polyprotein 1a
+UniRef100_Q1EFN3        -          protease_protein     -           1.3e-146  498.5   0.2  3.6e-146  497.1   0.2   1.9   1   0   0   1   1   1   1 Cluster: Orf1a polyprotein
+UniRef100_Q3S2E3        -          protease_protein     -           1.3e-146  498.5   0.2  3.6e-146  497.1   0.2   1.9   1   0   0   1   1   1   1 Cluster: Orf1a polyprotein
+UniRef100_D2E1D1        -          protease_protein     -           1.3e-146  498.5   0.2  3.6e-146  497.1   0.2   1.9   1   0   0   1   1   1   1 Cluster: Orf1a polyprotein
+UniRef100_P0C6U8        -          protease_protein     -           1.3e-146  498.5   0.2  3.6e-146  497.1   0.2   1.9   1   0   0   1   1   1   1 Cluster: Replicase polyprotein 1a
+UniRef100_D3KDQ2        -          protease_protein     -           1.3e-146  498.5   0.2  3.6e-146  497.1   0.2   1.9   1   0   0   1   1   1   1 Cluster: Orf1a polyprotein
+UniRef100_Q6RCW6        -          protease_protein     -           1.3e-146  498.5   0.2  3.6e-146  497.1   0.2   1.9   1   0   0   1   1   1   1 Cluster: Orf1a polyprotein
+UniRef100_Q692E5        -          protease_protein     -           1.3e-146  498.5   0.2  3.6e-146  497.1   0.2   1.9   1   0   0   1   1   1   1 Cluster: Orf1a polyprotein
+UniRef100_H9CHT9        -          protease_protein     -           1.3e-146  498.5   0.2  3.6e-146  497.1   0.2   1.9   1   0   0   1   1   1   1 Cluster: Orf1a polyprotein
+UniRef100_Q6RD32        -          protease_protein     -           1.3e-146  498.5   0.2  3.6e-146  497.1   0.2   1.9   1   0   0   1   1   1   1 Cluster: Orf1a polyprotein
+UniRef100_J9TE70        -          protease_protein     -           1.3e-146  498.5   0.2  3.6e-146  497.1   0.2   1.9   1   0   0   1   1   1   1 Cluster: Polyprotein orf1a
+UniRef100_D2E2D7        -          protease_protein     -           1.3e-146  498.5   0.2  3.6e-146  497.1   0.2   1.9   1   0   0   1   1   1   1 Cluster: Orf1a polyprotein
+UniRef100_D2E1K5        -          protease_protein     -           1.3e-146  498.5   0.2  3.6e-146  497.1   0.2   1.9   1   0   0   1   1   1   1 Cluster: Orf1a polyprotein
+UniRef100_D2E205        -          protease_protein     -           1.3e-146  498.5   0.2  3.6e-146  497.1   0.2   1.8   1   0   0   1   1   1   1 Cluster: Orf1a polyprotein
+UniRef100_D2E2T3        -          protease_protein     -           1.3e-146  498.5   0.2  3.6e-146  497.1   0.2   1.8   1   0   0   1   1   1   1 Cluster: Orf1a polyprotein
+UniRef100_P0C6F5        -          protease_protein     -           1.3e-146  498.5   0.2  3.5e-146  497.1   0.2   1.8   1   0   0   1   1   1   1 Cluster: Replicase polyprotein 1a
+UniRef100_D2E2K9        -          protease_protein     -           1.3e-146  498.5   0.2  3.6e-146  497.1   0.2   1.8   1   0   0   1   1   1   1 Cluster: Orf1a polyprotein
+UniRef100_D2E1H6        -          protease_protein     -           1.3e-146  498.5   0.2  3.6e-146  497.1   0.2   1.8   1   0   0   1   1   1   1 Cluster: Orf1a polyprotein
+UniRef100_F2YKG1        -          protease_protein     -           1.3e-146  498.5   0.2  3.6e-146  497.1   0.2   1.8   1   0   0   1   1   1   1 Cluster: Polyprotein orf1a
+UniRef100_S5Z0C7        -          protease_protein     -           1.3e-146  498.5   0.2  3.6e-146  497.1   0.2   1.8   1   0   0   1   1   1   1 Cluster: Replicase polyprotein 1a
+UniRef100_I6QSR0        -          protease_protein     -           1.3e-146  498.5   0.2  3.6e-146  497.1   0.2   1.8   1   0   0   1   1   1   1 Cluster: Polyprotein orf1a
+UniRef100_Q6RD54        -          protease_protein     -           1.3e-146  498.5   0.2  3.6e-146  497.1   0.2   1.8   1   0   0   1   1   1   1 Cluster: Orf1a polyprotein
+UniRef100_Q6JH39        -          protease_protein     -           1.3e-146  498.5   0.2  3.6e-146  497.1   0.2   1.8   1   0   0   1   1   1   1 Cluster: Orf1a polyprotein
+UniRef100_D2E1G1        -          protease_protein     -           1.3e-146  498.5   0.2  3.6e-146  497.1   0.2   1.8   1   0   0   1   1   1   1 Cluster: Orf1a polyprotein
+UniRef100_B8Q8V8        -          protease_protein     -           1.3e-146  498.5   0.2  3.6e-146  497.1   0.2   1.8   1   0   0   1   1   1   1 Cluster: Orf1a polyprotein
+UniRef100_B8Q8R3        -          protease_protein     -           1.3e-146  498.5   0.2  3.6e-146  497.1   0.2   1.8   1   0   0   1   1   1   1 Cluster: Orf1a polyprotein
+UniRef100_UPI0003AFF964 -          protease_protein     -           1.4e-146  498.4   0.1  1.5e-146  498.3   0.1   1.0   1   0   0   1   1   1   1 Cluster: 3C-like proteinase
+UniRef100_D2E249        -          protease_protein     -           1.4e-146  498.4   0.2  3.6e-146  497.1   0.2   1.8   1   0   0   1   1   1   1 Cluster: Orf1a polyprotein
+UniRef100_R9QTH2        -          protease_protein     -           1.4e-146  498.4   0.2  3.6e-146  497.1   0.2   1.8   1   0   0   1   1   1   1 Cluster: ORF1a protein
+UniRef100_Q6RD21        -          protease_protein     -           1.4e-146  498.4   0.2  3.6e-146  497.1   0.2   1.8   1   0   0   1   1   1   1 Cluster: Orf1a polyprotein
+UniRef100_R9QTB2        -          protease_protein     -           1.4e-146  498.4   0.2  3.6e-146  497.1   0.2   1.8   1   0   0   1   1   1   1 Cluster: ORF1a protein
+UniRef100_Q0QDZ2        -          protease_protein     -           1.5e-146  498.3   0.2  3.5e-146  497.1   0.2   1.7   1   0   0   1   1   1   1 Cluster: P1a
+UniRef100_D2E2M3        -          protease_protein     -           1.7e-146  498.1   0.2  4.2e-146  496.8   0.2   1.7   1   0   0   1   1   1   1 Cluster: Orf1ab polyprotein
+UniRef100_Q6JH47        -          protease_protein     -           1.7e-146  498.1   0.2  4.8e-146  496.7   0.2   1.9   1   0   0   1   1   1   1 Cluster: Orf1a polyprotein
+UniRef100_D2E1E6        -          protease_protein     -           1.8e-146  498.1   0.2  4.9e-146  496.6   0.2   1.9   1   0   0   1   1   1   1 Cluster: Orf1a polyprotein
+UniRef100_D2E1U5        -          protease_protein     -           1.8e-146  498.1   0.2  4.9e-146  496.6   0.2   1.9   1   0   0   1   1   1   1 Cluster: Orf1a polyprotein
+UniRef100_U5WI22        -          protease_protein     -           1.8e-146  498.0   0.2    6e-146  496.3   0.2   2.0   1   0   0   1   1   1   1 Cluster: Non-structural polyprotein 1a
+UniRef100_U5WI49        -          protease_protein     -             2e-146  497.9   0.2  6.5e-146  496.2   0.2   2.0   1   0   0   1   1   1   1 Cluster: Non-structural polyprotein 1a
+UniRef100_D5HJT3        -          protease_protein     -           2.1e-146  497.8   0.2  6.2e-146  496.3   0.2   1.9   1   0   0   1   1   1   1 Cluster: Orf1ab polyprotein
+UniRef100_Q6R7Y7        -          protease_protein     -           2.1e-146  497.8   0.2  5.8e-146  496.4   0.2   1.9   1   0   0   1   1   1   1 Cluster: Orf1a polyprotein
+UniRef100_D2DJW2        -          protease_protein     -           2.1e-146  497.8   0.4  5.3e-146  496.5   0.4   1.8   1   0   0   1   1   1   1 Cluster: Non-structural polyprotein pp1ab
+UniRef100_Q1T6X7        -          protease_protein     -           2.1e-146  497.8   0.3  5.8e-146  496.4   0.3   1.8   1   0   0   1   1   1   1 Cluster: Polyprotein 1a
+UniRef100_F2YDB2        -          protease_protein     -           2.1e-146  497.8   0.2  5.9e-146  496.3   0.2   1.9   1   0   0   1   1   1   1 Cluster: Polyprotein orf1a
+UniRef100_D2E2I0        -          protease_protein     -           2.1e-146  497.8   0.2  5.9e-146  496.3   0.2   1.9   1   0   0   1   1   1   1 Cluster: Orf1a polyprotein
+UniRef100_D2E2Q4        -          protease_protein     -           2.1e-146  497.8   0.2  5.9e-146  496.3   0.2   1.9   1   0   0   1   1   1   1 Cluster: Orf1a polyprotein
+UniRef100_F2YJW6        -          protease_protein     -           2.1e-146  497.8   0.2  5.9e-146  496.3   0.2   1.9   1   0   0   1   1   1   1 Cluster: Polyprotein orf1a
+UniRef100_D2E264        -          protease_protein     -           2.1e-146  497.8   0.2  5.9e-146  496.3   0.2   1.9   1   0   0   1   1   1   1 Cluster: Orf1a polyprotein
+UniRef100_D2E2A7        -          protease_protein     -           2.1e-146  497.8   0.2  5.9e-146  496.3   0.2   1.9   1   0   0   1   1   1   1 Cluster: Orf1a polyprotein
+UniRef100_D2E234        -          protease_protein     -           2.1e-146  497.8   0.2  5.9e-146  496.3   0.2   1.9   1   0   0   1   1   1   1 Cluster: Orf1a polyprotein
+UniRef100_D2E2N9        -          protease_protein     -           2.1e-146  497.8   0.2  5.9e-146  496.3   0.2   1.9   1   0   0   1   1   1   1 Cluster: Orf1a polyprotein
+UniRef100_F2YD22        -          protease_protein     -           2.1e-146  497.8   0.2  5.9e-146  496.3   0.2   1.9   1   0   0   1   1   1   1 Cluster: Polyprotein orf1a
+UniRef100_Q19QX1        -          protease_protein     -           2.1e-146  497.8   0.2  5.9e-146  496.3   0.2   1.9   1   0   0   1   1   1   1 Cluster: Nonstructural polyprotein pp1a
+UniRef100_F2YJM6        -          protease_protein     -           2.1e-146  497.8   0.2  5.9e-146  496.3   0.2   1.9   1   0   0   1   1   1   1 Cluster: Polyprotein orf1a
+UniRef100_F2YJQ6        -          protease_protein     -           2.1e-146  497.8   0.2  5.9e-146  496.3   0.2   1.9   1   0   0   1   1   1   1 Cluster: Polyprotein orf1a
+UniRef100_U5WIN0        -          protease_protein     -           2.3e-146  497.7   0.2  6.3e-146  496.3   0.2   1.9   1   0   0   1   1   1   1 Cluster: Non-structural polyprotein 1ab
+UniRef100_Q6S8D8        -          protease_protein     -           2.5e-146  497.6   0.2  6.1e-146  496.3   0.2   1.8   1   0   0   1   1   1   1 Cluster: Orf1ab
+UniRef100_Q1EFP7        -          protease_protein     -           2.5e-146  497.5   0.2  6.3e-146  496.3   0.2   1.8   1   0   0   1   1   1   1 Cluster: Orf1ab polyprotein
+UniRef100_Q1EFN4        -          protease_protein     -           2.5e-146  497.5   0.2  6.3e-146  496.3   0.2   1.8   1   0   0   1   1   1   1 Cluster: Orf1ab polyprotein
+UniRef100_P0C6V9        -          protease_protein     -           2.5e-146  497.5   0.2  6.1e-146  496.3   0.2   1.7   1   0   0   1   1   1   1 Cluster: Replicase polyprotein 1ab
+UniRef100_Q4JDQ5        -          protease_protein     -           2.5e-146  497.5   0.2  6.3e-146  496.3   0.2   1.8   1   0   0   1   1   1   1 Cluster: Replicase 1AB
+UniRef100_Q3S2E4        -          protease_protein     -           2.5e-146  497.5   0.2  6.3e-146  496.3   0.2   1.8   1   0   0   1   1   1   1 Cluster: Orf1ab polyprotein
+UniRef100_Q6RCX8        -          protease_protein     -           2.5e-146  497.5   0.2  6.3e-146  496.3   0.2   1.8   1   0   0   1   1   1   1 Cluster: Putative polyprotein
+UniRef100_Q6UZF1        -          protease_protein     -           2.5e-146  497.5   0.2  6.3e-146  496.3   0.2   1.8   1   0   0   1   1   1   1 Cluster: Putative orf1ab polyprotein
+UniRef100_Q6TPE9        -          protease_protein     -           2.6e-146  497.5   0.2  6.3e-146  496.3   0.2   1.8   1   0   0   1   1   1   1 Cluster: Nonstructural polyprotein
+UniRef100_Q3ZTC6        -          protease_protein     -           2.6e-146  497.5   0.2  6.3e-146  496.3   0.2   1.8   1   0   0   1   1   1   1 Cluster: Replicase p1AB
+UniRef100_Q6VA80        -          protease_protein     -           2.6e-146  497.5   0.2  6.3e-146  496.3   0.2   1.8   1   0   0   1   1   1   1 Cluster: Putative orf1ab polyprotein
+UniRef100_P0C6X7        -          protease_protein     -           2.6e-146  497.5   0.2  6.3e-146  496.3   0.2   1.8   1   0   0   1   1   1   1 Cluster: Replicase polyprotein 1ab
+UniRef100_D3KDQ1        -          protease_protein     -           2.6e-146  497.5   0.2  6.3e-146  496.3   0.2   1.8   1   0   0   1   1   1   1 Cluster: Orf1ab polyprotein
+UniRef100_Q6RCW7        -          protease_protein     -           2.6e-146  497.5   0.2  6.3e-146  496.3   0.2   1.8   1   0   0   1   1   1   1 Cluster: Putative polyprotein
+UniRef100_H9CHT8        -          protease_protein     -           2.6e-146  497.5   0.2  6.3e-146  496.3   0.2   1.8   1   0   0   1   1   1   1 Cluster: Orf1ab polyprotein
+UniRef100_D2E1D0        -          protease_protein     -           2.6e-146  497.5   0.2  6.3e-146  496.3   0.2   1.8   1   0   0   1   1   1   1 Cluster: Orf1ab polyprotein
+UniRef100_Q6RD33        -          protease_protein     -           2.6e-146  497.5   0.2  6.3e-146  496.3   0.2   1.8   1   0   0   1   1   1   1 Cluster: Putative polyprotein
+UniRef100_J9TBE8        -          protease_protein     -           2.6e-146  497.5   0.2  6.3e-146  496.3   0.2   1.8   1   0   0   1   1   1   1 Cluster: Polyprotein orf1ab
+UniRef100_Q692E6        -          protease_protein     -           2.6e-146  497.5   0.2  6.3e-146  496.3   0.2   1.8   1   0   0   1   1   1   1 Cluster: Replicase 1ab
+UniRef100_D2E2J4        -          protease_protein     -           2.6e-146  497.5   0.2  6.3e-146  496.3   0.2   1.7   1   0   0   1   1   1   1 Cluster: Orf1ab polyprotein
+UniRef100_D2E2D6        -          protease_protein     -           2.6e-146  497.5   0.2  6.3e-146  496.3   0.2   1.7   1   0   0   1   1   1   1 Cluster: Orf1ab polyprotein
+UniRef100_D2E1K4        -          protease_protein     -           2.6e-146  497.5   0.2  6.3e-146  496.3   0.2   1.7   1   0   0   1   1   1   1 Cluster: Orf1ab polyprotein
+UniRef100_D2E204        -          protease_protein     -           2.6e-146  497.5   0.2  6.3e-146  496.3   0.2   1.7   1   0   0   1   1   1   1 Cluster: Orf1ab polyprotein
+UniRef100_D2E2T2        -          protease_protein     -           2.6e-146  497.5   0.2  6.3e-146  496.3   0.2   1.7   1   0   0   1   1   1   1 Cluster: Orf1ab polyprotein
+UniRef100_Q4JDR8        -          protease_protein     -           2.6e-146  497.5   0.2  6.3e-146  496.3   0.2   1.7   1   0   0   1   1   1   1 Cluster: Replicase 1AB
+UniRef100_Q3ZTF4        -          protease_protein     -           2.6e-146  497.5   0.2  6.3e-146  496.3   0.2   1.7   1   0   0   1   1   1   1 Cluster: Replicase p1AB
+UniRef100_D2E2K8        -          protease_protein     -           2.6e-146  497.5   0.2  6.3e-146  496.3   0.2   1.7   1   0   0   1   1   1   1 Cluster: Orf1ab polyprotein
+UniRef100_D2E1H5        -          protease_protein     -           2.6e-146  497.5   0.2  6.3e-146  496.3   0.2   1.7   1   0   0   1   1   1   1 Cluster: Orf1ab polyprotein
+UniRef100_I6REE7        -          protease_protein     -           2.6e-146  497.5   0.2  6.3e-146  496.3   0.2   1.7   1   0   0   1   1   1   1 Cluster: Polyprotein orf1ab
+UniRef100_F2YKG0        -          protease_protein     -           2.6e-146  497.5   0.2  6.3e-146  496.3   0.2   1.7   1   0   0   1   1   1   1 Cluster: Polyprotein orf1ab
+UniRef100_Q6JH40        -          protease_protein     -           2.6e-146  497.5   0.2  6.3e-146  496.3   0.2   1.7   1   0   0   1   1   1   1 Cluster: Orf1ab polyprotein
+UniRef100_Q6RD55        -          protease_protein     -           2.6e-146  497.5   0.2  6.3e-146  496.3   0.2   1.7   1   0   0   1   1   1   1 Cluster: Putative polyprotein
+UniRef100_S5Y9F0        -          protease_protein     -           2.6e-146  497.5   0.2  6.3e-146  496.3   0.2   1.7   1   0   0   1   1   1   1 Cluster: Replicase polyprotein 1ab
+UniRef100_D2E1G0        -          protease_protein     -           2.6e-146  497.5   0.2  6.3e-146  496.3   0.2   1.7   1   0   0   1   1   1   1 Cluster: Orf1ab polyprotein
+UniRef100_B8Q8V7        -          protease_protein     -           2.6e-146  497.5   0.2  6.3e-146  496.3   0.2   1.7   1   0   0   1   1   1   1 Cluster: Orf1ab
+UniRef100_B8Q8T5        -          protease_protein     -           2.6e-146  497.5   0.2  6.3e-146  496.3   0.2   1.7   1   0   0   1   1   1   1 Cluster: Orf1ab
+UniRef100_B8Q8R2        -          protease_protein     -           2.6e-146  497.5   0.2  6.3e-146  496.3   0.2   1.7   1   0   0   1   1   1   1 Cluster: Orf1ab
+UniRef100_D2E248        -          protease_protein     -           2.6e-146  497.5   0.2  6.3e-146  496.3   0.2   1.7   1   0   0   1   1   1   1 Cluster: Orf1ab polyprotein
+UniRef100_D5HJZ0        -          protease_protein     -           2.7e-146  497.5   0.2  6.2e-146  496.3   0.2   1.7   1   0   0   1   1   1   1 Cluster: Orf1ab polyprotein
+UniRef100_Q6RD22        -          protease_protein     -           2.7e-146  497.5   0.2  6.3e-146  496.3   0.2   1.7   1   0   0   1   1   1   1 Cluster: Putative polyprotein
+UniRef100_P0C6T7        -          protease_protein     -           2.7e-146  497.5   0.2  7.4e-146  496.0   0.2   1.9   1   0   0   1   1   1   1 Cluster: Replicase polyprotein 1a
+UniRef100_Q0Q485        -          protease_protein     -           2.7e-146  497.5   0.2  6.1e-146  496.3   0.2   1.7   1   0   0   1   1   1   1 Cluster: ORF1
+UniRef100_D2E1W0        -          protease_protein     -           2.8e-146  497.4   0.2  7.7e-146  496.0   0.2   1.9   1   0   0   1   1   1   1 Cluster: Orf1a polyprotein
+UniRef100_P0C6F8        -          protease_protein     -           3.4e-146  497.1   0.2  8.9e-146  495.8   0.2   1.8   1   0   0   1   1   1   1 Cluster: Replicase polyprotein 1a
+UniRef100_Q6JH48        -          protease_protein     -           3.4e-146  497.1   0.2  8.4e-146  495.8   0.2   1.8   1   0   0   1   1   1   1 Cluster: Orf1ab polyprotein
+UniRef100_D2E1X4        -          protease_protein     -           3.5e-146  497.1   0.2  8.7e-146  495.8   0.2   1.8   1   0   0   1   1   1   1 Cluster: Orf1ab polyprotein
+UniRef100_D2E1E5        -          protease_protein     -           3.5e-146  497.1   0.2  8.7e-146  495.8   0.2   1.8   1   0   0   1   1   1   1 Cluster: Orf1ab polyprotein
+UniRef100_D2E1L9        -          protease_protein     -           3.5e-146  497.1   0.2  8.7e-146  495.8   0.2   1.8   1   0   0   1   1   1   1 Cluster: Orf1ab polyprotein
+UniRef100_D2E1U4        -          protease_protein     -           3.5e-146  497.1   0.2  8.7e-146  495.8   0.2   1.8   1   0   0   1   1   1   1 Cluster: Orf1ab polyprotein
+UniRef100_U5WL93        -          protease_protein     -           3.9e-146  497.0   0.2  1.1e-145  495.5   0.2   1.9   1   0   0   1   1   1   1 Cluster: Non-structural polyprotein 1ab
+UniRef100_D5HJU4        -          protease_protein     -           4.1e-146  496.9   0.3  1.2e-145  495.3   0.3   1.9   1   0   0   1   1   1   1 Cluster: Orf1ab polyprotein
+UniRef100_Q6R7Y8        -          protease_protein     -           4.1e-146  496.8   0.2    1e-145  495.6   0.2   1.8   1   0   0   1   1   1   1 Cluster: Nonstructural polyprotein
+UniRef100_Q1T6X8        -          protease_protein     -           4.2e-146  496.8   0.3    1e-145  495.6   0.3   1.7   1   0   0   1   1   1   1 Cluster: Polyprotein 1ab
+UniRef100_U5WLB9        -          protease_protein     -           4.2e-146  496.8   0.2  1.2e-145  495.4   0.2   1.9   1   0   0   1   1   1   1 Cluster: Non-structural polyprotein 1ab
+UniRef100_F2YDB1        -          protease_protein     -           4.3e-146  496.8   0.2    1e-145  495.5   0.2   1.7   1   0   0   1   1   1   1 Cluster: Polyprotein orf1ab
+UniRef100_D2E2H9        -          protease_protein     -           4.3e-146  496.8   0.2    1e-145  495.5   0.2   1.7   1   0   0   1   1   1   1 Cluster: Orf1ab polyprotein
+UniRef100_D2E2Q3        -          protease_protein     -           4.3e-146  496.8   0.2    1e-145  495.5   0.2   1.7   1   0   0   1   1   1   1 Cluster: Orf1ab polyprotein
+UniRef100_F2YJW5        -          protease_protein     -           4.3e-146  496.8   0.2    1e-145  495.5   0.2   1.7   1   0   0   1   1   1   1 Cluster: Polyprotein orf1ab
+UniRef100_D2E2G4        -          protease_protein     -           4.3e-146  496.8   0.2    1e-145  495.5   0.2   1.7   1   0   0   1   1   1   1 Cluster: Orf1ab polyprotein
+UniRef100_D2E263        -          protease_protein     -           4.3e-146  496.8   0.2    1e-145  495.5   0.2   1.7   1   0   0   1   1   1   1 Cluster: Orf1ab polyprotein
+UniRef100_D2E2A6        -          protease_protein     -           4.3e-146  496.8   0.2    1e-145  495.5   0.2   1.7   1   0   0   1   1   1   1 Cluster: Orf1ab polyprotein
+UniRef100_D2E2N8        -          protease_protein     -           4.3e-146  496.8   0.2    1e-145  495.5   0.2   1.7   1   0   0   1   1   1   1 Cluster: Orf1ab polyprotein
+UniRef100_Q19QX2        -          protease_protein     -           4.3e-146  496.8   0.2    1e-145  495.5   0.2   1.7   1   0   0   1   1   1   1 Cluster: Nonstructural polyprotein pp1ab
+UniRef100_D2E233        -          protease_protein     -           4.3e-146  496.8   0.2    1e-145  495.5   0.2   1.7   1   0   0   1   1   1   1 Cluster: Orf1ab polyprotein
+UniRef100_F2YCN6        -          protease_protein     -           4.3e-146  496.8   0.2    1e-145  495.5   0.2   1.7   1   0   0   1   1   1   1 Cluster: Polyprotein orf1ab
+UniRef100_F2YD21        -          protease_protein     -           4.3e-146  496.8   0.2    1e-145  495.5   0.2   1.7   1   0   0   1   1   1   1 Cluster: Polyprotein orf1ab
+UniRef100_F2YJM5        -          protease_protein     -           4.3e-146  496.8   0.2    1e-145  495.5   0.2   1.7   1   0   0   1   1   1   1 Cluster: Polyprotein orf1ab
+UniRef100_F2YJQ5        -          protease_protein     -           4.3e-146  496.8   0.2    1e-145  495.5   0.2   1.7   1   0   0   1   1   1   1 Cluster: Polyprotein orf1ab
+UniRef100_Q3ZTE1        -          protease_protein     -           4.9e-146  496.6   0.2  1.2e-145  495.3   0.2   1.7   1   0   0   1   1   1   1 Cluster: Replicase p1AB
+UniRef100_P0C6W6        -          protease_protein     -           5.3e-146  496.5   0.2  1.3e-145  495.2   0.2   1.8   1   0   0   1   1   1   1 Cluster: Replicase polyprotein 1ab
+UniRef100_D2E1V9        -          protease_protein     -           5.5e-146  496.4   0.2  1.4e-145  495.2   0.2   1.8   1   0   0   1   1   1   1 Cluster: Orf1ab polyprotein
+UniRef100_D2E2W3        -          protease_protein     -           6.3e-146  496.3   0.2  1.7e-145  494.8   0.2   1.9   1   0   0   1   1   1   1 Cluster: Orf1a polyprotein
+UniRef100_D2E220        -          protease_protein     -           6.3e-146  496.3   0.2  1.7e-145  494.8   0.2   1.9   1   0   0   1   1   1   1 Cluster: Orf1a polyprotein
+UniRef100_D2E2R9        -          protease_protein     -           6.3e-146  496.3   0.2  1.7e-145  494.8   0.2   1.9   1   0   0   1   1   1   1 Cluster: Orf1a polyprotein
+UniRef100_P0C6W2        -          protease_protein     -           6.6e-146  496.2   0.2  1.6e-145  494.9   0.2   1.7   1   0   0   1   1   1   1 Cluster: Replicase polyprotein 1ab
+UniRef100_D5HK01        -          protease_protein     -           6.7e-146  496.2   0.2  1.6e-145  494.9   0.2   1.7   1   0   0   1   1   1   1 Cluster: Orf1ab polyprotein
+UniRef100_D5HJS2        -          protease_protein     -           6.7e-146  496.2   0.2  1.6e-145  494.9   0.2   1.7   1   0   0   1   1   1   1 Cluster: Orf1ab polyprotein
+UniRef100_Q3LZV4        -          protease_protein     -           6.7e-146  496.2   0.2  1.6e-145  494.9   0.2   1.7   1   0   0   1   1   1   1 Cluster: Orf1ab polyprotein
+UniRef100_D5HJQ0        -          protease_protein     -           6.7e-146  496.2   0.2  1.6e-145  494.9   0.2   1.7   1   0   0   1   1   1   1 Cluster: Orf1ab polyprotein
+UniRef100_D5HJR1        -          protease_protein     -           6.7e-146  496.2   0.2  1.6e-145  494.9   0.2   1.7   1   0   0   1   1   1   1 Cluster: Orf1ab polyprotein
+UniRef100_D2E2F1        -          protease_protein     -             7e-146  496.1   0.2  1.7e-145  494.8   0.2   1.8   1   0   0   1   1   1   1 Cluster: Orf1a polyprotein
+UniRef100_UPI000181CE93 -          protease_protein     -           7.4e-146  496.0   0.1  8.3e-146  495.9   0.1   1.0   1   0   0   1   1   1   1 Cluster: Replicase polyprotein 1ab
+UniRef100_C8YZ74        -          protease_protein     -           1.1e-145  495.4   0.1  3.1e-145  494.0   0.1   1.8   1   0   0   1   1   1   1 Cluster: Replicase 1AB polyprotein
+UniRef100_D2E2W2        -          protease_protein     -           1.3e-145  495.3   0.2    3e-145  494.0   0.2   1.7   1   0   0   1   1   1   1 Cluster: Orf1ab polyprotein
+UniRef100_D2E219        -          protease_protein     -           1.3e-145  495.3   0.2    3e-145  494.0   0.2   1.7   1   0   0   1   1   1   1 Cluster: Orf1ab polyprotein
+UniRef100_D2E2R8        -          protease_protein     -           1.3e-145  495.3   0.2    3e-145  494.0   0.2   1.7   1   0   0   1   1   1   1 Cluster: Orf1ab polyprotein
+UniRef100_D2E2F0        -          protease_protein     -           1.3e-145  495.2   0.2    3e-145  494.0   0.2   1.7   1   0   0   1   1   1   1 Cluster: Orf1ab polyprotein
+UniRef100_J9SE37        -          protease_protein     -           1.4e-145  495.1   0.2  3.8e-145  493.7   0.2   1.9   1   0   0   1   1   1   1 Cluster: Polyprotein orf1a
+UniRef100_Q0QDY1        -          protease_protein     -           1.4e-145  495.1   0.3  3.8e-145  493.7   0.3   1.8   1   0   0   1   1   1   1 Cluster: P1a
+UniRef100_E0XIZ2        -          protease_protein     -           1.9e-145  494.7   0.7  5.1e-145  493.3   0.7   1.8   1   0   0   1   1   1   1 Cluster: ORF1ab
+UniRef100_D5HJX9        -          protease_protein     -           1.9e-145  494.7   0.2  4.5e-145  493.5   0.2   1.7   1   0   0   1   1   1   1 Cluster: Orf1ab polyprotein
+UniRef100_D5HJV7        -          protease_protein     -           1.9e-145  494.7   0.2  4.5e-145  493.5   0.2   1.7   1   0   0   1   1   1   1 Cluster: Orf1ab polyprotein
+UniRef100_J9T4N3        -          protease_protein     -           2.7e-145  494.2   0.2  6.7e-145  492.9   0.2   1.8   1   0   0   1   1   1   1 Cluster: Polyprotein orf1ab
+UniRef100_UPI0001D192D5 -          protease_protein     -           9.1e-145  492.4   0.1    1e-144  492.3   0.1   1.0   1   0   0   1   1   1   1 Cluster: 3C-like proteinase
+UniRef100_Q5DIC6        -          protease_protein     -           1.2e-144  492.1   0.1  3.2e-144  490.6   0.1   1.8   1   0   0   1   1   1   1 Cluster: Orf1a polyprotein
+UniRef100_Q5DIC7        -          protease_protein     -           2.4e-144  491.1   0.1  5.7e-144  489.8   0.1   1.7   1   0   0   1   1   1   1 Cluster: Orf1ab polyprotein
+UniRef100_C6GHQ7        -          protease_protein     -           9.7e-144  489.1   4.1  9.7e-144  489.1   4.1   2.1   2   0   0   2   2   1   1 Cluster: Orf1a polyprotein
+UniRef100_K7W8K8        -          protease_protein     -           9.7e-144  489.1   4.1  9.7e-144  489.1   4.1   2.1   2   0   0   2   2   1   1 Cluster: Orf1a
+UniRef100_P0C6U1        -          protease_protein     -           9.7e-144  489.1   4.1  9.7e-144  489.1   4.1   2.1   2   0   0   2   2   1   1 Cluster: Replicase polyprotein 1a
+UniRef100_U3M6F3        -          protease_protein     -           1.5e-143  488.5   3.6  1.5e-143  488.5   3.6   2.5   2   0   0   2   2   1   1 Cluster: Replicase polyprotein 1a
+UniRef100_U3M6F7        -          protease_protein     -           1.5e-143  488.5   3.6  1.5e-143  488.5   3.6   2.4   2   0   0   2   2   1   1 Cluster: Replicase polyprotein 1a
+UniRef100_U3M6W5        -          protease_protein     -           1.5e-143  488.5   3.6  1.5e-143  488.5   3.6   2.4   2   0   0   2   2   1   1 Cluster: Replicase polyprotein 1a
+UniRef100_U3M6X8        -          protease_protein     -           1.5e-143  488.5   3.6  1.5e-143  488.5   3.6   2.4   2   0   0   2   2   1   1 Cluster: Replicase polyprotein 1a
+UniRef100_U3M725        -          protease_protein     -           1.5e-143  488.5   3.6  1.5e-143  488.5   3.6   2.4   2   0   0   2   2   1   1 Cluster: Replicase polyprotein 1a
+UniRef100_U3M749        -          protease_protein     -           1.5e-143  488.5   3.6  1.5e-143  488.5   3.6   2.4   2   0   0   2   2   1   1 Cluster: Replicase polyprotein 1a
+UniRef100_U3M768        -          protease_protein     -           1.5e-143  488.5   3.6  1.5e-143  488.5   3.6   2.4   2   0   0   2   2   1   1 Cluster: Replicase polyprotein 1a
+UniRef100_U3M780        -          protease_protein     -           1.5e-143  488.5   3.6  1.5e-143  488.5   3.6   2.5   2   0   0   2   2   1   1 Cluster: Replicase polyprotein 1a
+UniRef100_U3M797        -          protease_protein     -           1.5e-143  488.5   3.6  1.5e-143  488.5   3.6   2.4   2   0   0   2   2   1   1 Cluster: Replicase polyprotein 1a
+UniRef100_A4ZTX1        -          protease_protein     -           1.6e-143  488.4   3.9  1.6e-143  488.4   3.9   2.0   2   0   0   2   2   1   1 Cluster: ORF1a polyprotein
+UniRef100_A4ZTY2        -          protease_protein     -           1.6e-143  488.4   3.9  1.6e-143  488.4   3.9   2.1   2   0   0   2   2   1   1 Cluster: ORF1a polyprotein
+UniRef100_A4ZTZ3        -          protease_protein     -           1.6e-143  488.4   3.9  1.6e-143  488.4   3.9   2.1   2   0   0   2   2   1   1 Cluster: ORF1a polyprotein
+UniRef100_A4ZU04        -          protease_protein     -           1.6e-143  488.4   3.9  1.6e-143  488.4   3.9   2.1   2   0   0   2   2   1   1 Cluster: ORF1a polyprotein
+UniRef100_A4ZU15        -          protease_protein     -           1.6e-143  488.4   3.9  1.6e-143  488.4   3.9   1.9   2   0   0   2   2   1   1 Cluster: ORF1a polyprotein
+UniRef100_A4ZU26        -          protease_protein     -           1.6e-143  488.4   3.9  1.6e-143  488.4   3.9   2.1   2   0   0   2   2   1   1 Cluster: ORF1a polyprotein
+UniRef100_A4ZU37        -          protease_protein     -           1.6e-143  488.4   3.9  1.6e-143  488.4   3.9   2.1   2   0   0   2   2   1   1 Cluster: ORF1a polyprotein
+UniRef100_A4ZU59        -          protease_protein     -           1.6e-143  488.4   3.9  1.6e-143  488.4   3.9   2.1   2   0   0   2   2   1   1 Cluster: ORF1a polyprotein
+UniRef100_B7U2K7        -          protease_protein     -           1.6e-143  488.4   3.9  1.6e-143  488.4   3.9   2.1   2   0   0   2   2   1   1 Cluster: ORF1a polyprotein
+UniRef100_B7U2P0        -          protease_protein     -           1.6e-143  488.4   3.9  1.6e-143  488.4   3.9   2.1   2   0   0   2   2   1   1 Cluster: ORF1a polyprotein
+UniRef100_B7U2Q0        -          protease_protein     -           1.6e-143  488.4   3.9  1.6e-143  488.4   3.9   2.1   2   0   0   2   2   1   1 Cluster: ORF1a polyprotein
+UniRef100_B7U2R1        -          protease_protein     -           1.6e-143  488.4   3.9  1.6e-143  488.4   3.9   2.1   2   0   0   2   2   1   1 Cluster: ORF1a polyprotein
+UniRef100_C6GHL0        -          protease_protein     -           1.6e-143  488.4   3.9  1.6e-143  488.4   3.9   2.1   2   0   0   2   2   1   1 Cluster: Orf1a polyprotein
+UniRef100_P0C6T8        -          protease_protein     -           1.6e-143  488.4   3.9  1.6e-143  488.4   3.9   2.1   2   0   0   2   2   1   1 Cluster: Replicase polyprotein 1a
+UniRef100_P0C6T9        -          protease_protein     -           1.6e-143  488.4   3.9  1.6e-143  488.4   3.9   2.1   2   0   0   2   2   1   1 Cluster: Replicase polyprotein 1a
+UniRef100_Q06BE1        -          protease_protein     -           1.6e-143  488.4   3.9  1.6e-143  488.4   3.9   2.1   2   0   0   2   2   1   1 Cluster: Replicase
+UniRef100_A8R4C5        -          protease_protein     -           1.6e-143  488.4   3.9  1.6e-143  488.4   3.9   2.3   2   0   0   2   2   1   1 Cluster: ORF1a polyprotein
+UniRef100_P0C6X0        -          protease_protein     -           1.7e-143  488.3   4.1  1.7e-143  488.3   4.1   2.2   2   0   0   2   2   1   1 Cluster: Replicase polyprotein 1ab
+UniRef100_A7BKB9        -          protease_protein     -           1.7e-143  488.3   4.1  1.7e-143  488.3   4.1   2.2   2   0   0   2   2   1   1 Cluster: ORF1ab polyprotein
+UniRef100_B7TYG6        -          protease_protein     -           1.7e-143  488.3   4.1  1.7e-143  488.3   4.1   2.2   2   0   0   2   2   1   1 Cluster: Orf1ab polyprotein
+UniRef100_C6GHQ6        -          protease_protein     -           1.7e-143  488.3   4.1  1.7e-143  488.3   4.1   2.2   2   0   0   2   2   1   1 Cluster: Orf1ab polyprotein
+UniRef100_K7X361        -          protease_protein     -           1.7e-143  488.3   4.1  1.7e-143  488.3   4.1   2.2   2   0   0   2   2   1   1 Cluster: Orf1ab
+UniRef100_U3M6C7        -          protease_protein     -             2e-143  488.1   3.4    2e-143  488.1   3.4   2.4   2   0   0   2   2   1   1 Cluster: Replicase polyprotein 1a
+UniRef100_A4ZU48        -          protease_protein     -           2.1e-143  488.0   3.8  2.1e-143  488.0   3.8   2.1   2   0   0   2   2   1   1 Cluster: ORF1a polyprotein
+UniRef100_U3M6R3        -          protease_protein     -           2.5e-143  487.7   3.6  2.5e-143  487.7   3.6   2.5   2   0   0   2   2   1   1 Cluster: Putative replicase polyprotein 1ab (Fragment)
+UniRef100_U3M7V4        -          protease_protein     -           2.5e-143  487.7   3.6  2.5e-143  487.7   3.6   2.5   2   0   0   2   2   1   1 Cluster: Putative replicase polyprotein 1ab (Fragment)
+UniRef100_U3M7H6        -          protease_protein     -           2.5e-143  487.7   3.6  2.5e-143  487.7   3.6   2.5   2   0   0   2   2   1   1 Cluster: Putative replicase polyprotein 1ab (Fragment)
+UniRef100_U3M6G6        -          protease_protein     -           2.6e-143  487.7   3.6  2.6e-143  487.7   3.6   2.5   2   0   0   2   2   1   1 Cluster: Replicase polyprotein 1ab
+UniRef100_U3M6K0        -          protease_protein     -           2.6e-143  487.7   3.6  2.6e-143  487.7   3.6   2.5   2   0   0   2   2   1   1 Cluster: Replicase polyprotein 1ab
+UniRef100_U3M6L4        -          protease_protein     -           2.6e-143  487.7   3.6  2.6e-143  487.7   3.6   2.5   2   0   0   2   2   1   1 Cluster: Replicase polyprotein 1ab
+UniRef100_U3M6M0        -          protease_protein     -           2.6e-143  487.7   3.6  2.6e-143  487.7   3.6   2.5   2   0   0   2   2   1   1 Cluster: Replicase polyprotein 1ab
+UniRef100_U3M6U4        -          protease_protein     -           2.6e-143  487.7   3.6  2.6e-143  487.7   3.6   2.6   2   0   0   2   2   1   1 Cluster: Replicase polyprotein 1ab
+UniRef100_U3M740        -          protease_protein     -           2.6e-143  487.7   3.6  2.6e-143  487.7   3.6   2.6   2   0   0   2   2   1   1 Cluster: Replicase polyprotein 1ab
+UniRef100_U3M744        -          protease_protein     -           2.6e-143  487.7   3.6  2.6e-143  487.7   3.6   2.5   2   0   0   2   2   1   1 Cluster: Replicase polyprotein 1ab
+UniRef100_U3M7V0        -          protease_protein     -           2.6e-143  487.7   3.6  2.6e-143  487.7   3.6   2.5   2   0   0   2   2   1   1 Cluster: Replicase polyprotein 1ab
+UniRef100_P0C6U7        -          protease_protein     -           2.8e-143  487.6   3.0  2.8e-143  487.6   3.0   2.4   2   0   0   2   2   1   1 Cluster: Replicase polyprotein 1a
+UniRef100_U3M6B9        -          protease_protein     -           2.8e-143  487.6   3.0  2.8e-143  487.6   3.0   2.4   2   0   0   2   2   1   1 Cluster: Replicase polyprotein 1a
+UniRef100_U3M6C1        -          protease_protein     -           2.8e-143  487.6   3.0  2.8e-143  487.6   3.0   2.4   2   0   0   2   2   1   1 Cluster: Replicase polyprotein 1a
+UniRef100_U3M6D1        -          protease_protein     -           2.8e-143  487.6   3.0  2.8e-143  487.6   3.0   2.4   2   0   0   2   2   1   1 Cluster: Replicase polyprotein 1a
+UniRef100_U3M6D5        -          protease_protein     -           2.8e-143  487.6   3.0  2.8e-143  487.6   3.0   2.4   2   0   0   2   2   1   1 Cluster: Replicase polyprotein 1a
+UniRef100_U3M6D8        -          protease_protein     -           2.8e-143  487.6   3.0  2.8e-143  487.6   3.0   2.4   2   0   0   2   2   1   1 Cluster: Replicase polyprotein 1a
+UniRef100_U3M6E2        -          protease_protein     -           2.8e-143  487.6   3.0  2.8e-143  487.6   3.0   2.4   2   0   0   2   2   1   1 Cluster: Replicase polyprotein 1a
+UniRef100_U3M6E6        -          protease_protein     -           2.8e-143  487.6   3.0  2.8e-143  487.6   3.0   2.4   2   0   0   2   2   1   1 Cluster: Replicase polyprotein 1a
+UniRef100_U3M6E8        -          protease_protein     -           2.8e-143  487.6   3.0  2.8e-143  487.6   3.0   2.4   2   0   0   2   2   1   1 Cluster: Replicase polyprotein 1a
+UniRef100_U3M6G1        -          protease_protein     -           2.8e-143  487.6   3.0  2.8e-143  487.6   3.0   2.4   2   0   0   2   2   1   1 Cluster: Replicase polyprotein 1a
+UniRef100_U3M729        -          protease_protein     -           2.8e-143  487.6   3.0  2.8e-143  487.6   3.0   2.4   2   0   0   2   2   1   1 Cluster: Replicase polyprotein 1a
+UniRef100_U3M733        -          protease_protein     -           2.8e-143  487.6   3.0  2.8e-143  487.6   3.0   2.4   2   0   0   2   2   1   1 Cluster: Replicase polyprotein 1a
+UniRef100_U3M737        -          protease_protein     -           2.8e-143  487.6   3.0  2.8e-143  487.6   3.0   2.4   2   0   0   2   2   1   1 Cluster: Replicase polyprotein 1a
+UniRef100_U3M741        -          protease_protein     -           2.8e-143  487.6   3.0  2.8e-143  487.6   3.0   2.4   2   0   0   2   2   1   1 Cluster: Replicase polyprotein 1a
+UniRef100_U3M745        -          protease_protein     -           2.8e-143  487.6   3.0  2.8e-143  487.6   3.0   2.4   2   0   0   2   2   1   1 Cluster: Replicase polyprotein 1a
+UniRef100_U3M772        -          protease_protein     -           2.8e-143  487.6   3.0  2.8e-143  487.6   3.0   2.4   2   0   0   2   2   1   1 Cluster: Replicase polyprotein 1a
+UniRef100_U3M776        -          protease_protein     -           2.8e-143  487.6   3.0  2.8e-143  487.6   3.0   2.4   2   0   0   2   2   1   1 Cluster: Replicase polyprotein 1a
+UniRef100_U3M785        -          protease_protein     -           2.8e-143  487.6   3.0  2.8e-143  487.6   3.0   2.4   2   0   0   2   2   1   1 Cluster: Replicase polyprotein 1a
+UniRef100_U3M789        -          protease_protein     -           2.8e-143  487.6   3.0  2.8e-143  487.6   3.0   2.4   2   0   0   2   2   1   1 Cluster: Replicase polyprotein 1a
+UniRef100_U3M7A1        -          protease_protein     -           2.8e-143  487.6   3.0  2.8e-143  487.6   3.0   2.4   2   0   0   2   2   1   1 Cluster: Replicase polyprotein 1a
+UniRef100_U3M7A8        -          protease_protein     -           2.8e-143  487.6   3.0  2.8e-143  487.6   3.0   2.4   2   0   0   2   2   1   1 Cluster: Replicase polyprotein 1a
+UniRef100_C6GHK9        -          protease_protein     -           2.8e-143  487.6   3.9  2.8e-143  487.6   3.9   2.2   2   0   0   2   2   1   1 Cluster: Orf1ab polyprotein
+UniRef100_C6GHM1        -          protease_protein     -           2.8e-143  487.6   3.9  2.8e-143  487.6   3.9   2.2   2   0   0   2   2   1   1 Cluster: Orf1ab polyprotein
+UniRef100_P0C6W7        -          protease_protein     -           2.8e-143  487.6   3.9  2.8e-143  487.6   3.9   2.2   2   0   0   2   2   1   1 Cluster: Replicase polyprotein 1ab
+UniRef100_P0C6W8        -          protease_protein     -           2.8e-143  487.6   3.9  2.8e-143  487.6   3.9   2.2   2   0   0   2   2   1   1 Cluster: Replicase polyprotein 1ab
+UniRef100_A8R4C0        -          protease_protein     -           2.8e-143  487.6   3.9  2.8e-143  487.6   3.9   2.2   2   0   0   2   2   1   1 Cluster: ORF1ab polyprotein
+UniRef100_Q2QKN6        -          protease_protein     -           2.9e-143  487.5   3.7  2.9e-143  487.5   3.7   2.2   2   0   0   2   2   1   1 Cluster: Replicase polyprotein
+UniRef100_H9AA28        -          protease_protein     -             3e-143  487.5   2.8    3e-143  487.5   2.8   3.0   3   0   0   3   3   1   1 Cluster: Polyprotein
+UniRef100_H9AA39        -          protease_protein     -             3e-143  487.5   2.8    3e-143  487.5   2.8   2.8   3   0   0   3   3   1   1 Cluster: Polyprotein
+UniRef100_H9AA49        -          protease_protein     -             3e-143  487.5   2.8    3e-143  487.5   2.8   2.9   3   0   0   3   3   1   1 Cluster: Polyprotein
+UniRef100_U3M753        -          protease_protein     -           3.2e-143  487.4   3.6  3.2e-143  487.4   3.6   2.4   2   0   0   2   2   1   1 Cluster: Replicase polyprotein 1a
+UniRef100_U3M7B2        -          protease_protein     -           3.2e-143  487.4   3.6  3.2e-143  487.4   3.6   2.4   2   0   0   2   2   1   1 Cluster: Replicase polyprotein 1a
+UniRef100_U3M705        -          protease_protein     -           3.5e-143  487.2   3.4  3.5e-143  487.2   3.4   2.5   2   0   0   2   2   1   1 Cluster: Replicase polyprotein 1ab
+UniRef100_C6GHP6        -          protease_protein     -           4.6e-143  486.8   4.2  4.6e-143  486.8   4.2   2.1   2   0   0   2   2   1   1 Cluster: Orf1a polyprotein
+UniRef100_G5CJA8        -          protease_protein     -           4.9e-143  486.8   3.0  4.9e-143  486.8   3.0   2.6   2   0   0   2   2   1   1 Cluster: Replicase polyprotein
+UniRef100_G5CJB6        -          protease_protein     -           4.9e-143  486.8   3.0  4.9e-143  486.8   3.0   2.6   2   0   0   2   2   1   1 Cluster: Replicase polyprotein
+UniRef100_P0C6X6        -          protease_protein     -           4.9e-143  486.8   3.0  4.9e-143  486.8   3.0   2.6   2   0   0   2   2   1   1 Cluster: Replicase polyprotein 1ab
+UniRef100_U3M6H2        -          protease_protein     -           4.9e-143  486.8   3.0  4.9e-143  486.8   3.0   2.6   2   0   0   2   2   1   1 Cluster: Replicase polyprotein 1ab
+UniRef100_U3M6H8        -          protease_protein     -           4.9e-143  486.8   3.0  4.9e-143  486.8   3.0   2.6   2   0   0   2   2   1   1 Cluster: Replicase polyprotein 1ab
+UniRef100_U3M6I4        -          protease_protein     -           4.9e-143  486.8   3.0  4.9e-143  486.8   3.0   2.6   2   0   0   2   2   1   1 Cluster: Replicase polyprotein 1ab
+UniRef100_U3M6I9        -          protease_protein     -           4.9e-143  486.8   3.0  4.9e-143  486.8   3.0   2.6   2   0   0   2   2   1   1 Cluster: Replicase polyprotein 1ab
+UniRef100_U3M6J5        -          protease_protein     -           4.9e-143  486.8   3.0  4.9e-143  486.8   3.0   2.6   2   0   0   2   2   1   1 Cluster: Replicase polyprotein 1ab
+UniRef100_U3M6M4        -          protease_protein     -           4.9e-143  486.8   3.0  4.9e-143  486.8   3.0   2.6   2   0   0   2   2   1   1 Cluster: Replicase polyprotein 1ab
+UniRef100_U3M6N0        -          protease_protein     -           4.9e-143  486.8   3.0  4.9e-143  486.8   3.0   2.6   2   0   0   2   2   1   1 Cluster: Replicase polyprotein 1ab
+UniRef100_U3M6P2        -          protease_protein     -           4.9e-143  486.8   3.0  4.9e-143  486.8   3.0   2.6   2   0   0   2   2   1   1 Cluster: Replicase polyprotein 1ab
+UniRef100_U3M6P9        -          protease_protein     -           4.9e-143  486.8   3.0  4.9e-143  486.8   3.0   2.6   2   0   0   2   2   1   1 Cluster: Replicase polyprotein 1ab
+UniRef100_U3M6S3        -          protease_protein     -           4.9e-143  486.8   3.0  4.9e-143  486.8   3.0   2.6   2   0   0   2   2   1   1 Cluster: Replicase polyprotein 1ab
+UniRef100_U3M6T2        -          protease_protein     -           4.9e-143  486.8   3.0  4.9e-143  486.8   3.0   2.6   2   0   0   2   2   1   1 Cluster: Replicase polyprotein 1ab
+UniRef100_U3M6V8        -          protease_protein     -           4.9e-143  486.8   3.0  4.9e-143  486.8   3.0   2.6   2   0   0   2   2   1   1 Cluster: Replicase polyprotein 1ab
+UniRef100_U3M6Y6        -          protease_protein     -           4.9e-143  486.8   3.0  4.9e-143  486.8   3.0   2.6   2   0   0   2   2   1   1 Cluster: Replicase polyprotein 1ab
+UniRef100_U3M6Z4        -          protease_protein     -           4.9e-143  486.8   3.0  4.9e-143  486.8   3.0   2.6   2   0   0   2   2   1   1 Cluster: Replicase polyprotein 1ab
+UniRef100_U3M708        -          protease_protein     -           4.9e-143  486.8   3.0  4.9e-143  486.8   3.0   2.6   2   0   0   2   2   1   1 Cluster: Replicase polyprotein 1ab
+UniRef100_U3M713        -          protease_protein     -           4.9e-143  486.8   3.0  4.9e-143  486.8   3.0   2.6   2   0   0   2   2   1   1 Cluster: Replicase polyprotein 1ab
+UniRef100_U3M719        -          protease_protein     -           4.9e-143  486.8   3.0  4.9e-143  486.8   3.0   2.6   2   0   0   2   2   1   1 Cluster: Replicase polyprotein 1ab
+UniRef100_U3M724        -          protease_protein     -           4.9e-143  486.8   3.0  4.9e-143  486.8   3.0   2.6   2   0   0   2   2   1   1 Cluster: Replicase polyprotein 1ab
+UniRef100_U3M728        -          protease_protein     -           4.9e-143  486.8   3.0  4.9e-143  486.8   3.0   2.6   2   0   0   2   2   1   1 Cluster: Replicase polyprotein 1ab
+UniRef100_U3M732        -          protease_protein     -           4.9e-143  486.8   3.0  4.9e-143  486.8   3.0   2.6   2   0   0   2   2   1   1 Cluster: Replicase polyprotein 1ab
+UniRef100_U3M748        -          protease_protein     -           4.9e-143  486.8   3.0  4.9e-143  486.8   3.0   2.6   2   0   0   2   2   1   1 Cluster: Replicase polyprotein 1ab
+UniRef100_U3M6K4        -          protease_protein     -           5.6e-143  486.6   3.6  5.6e-143  486.6   3.6   2.6   2   0   0   2   2   1   1 Cluster: Replicase polyprotein 1ab
+UniRef100_U3M6V1        -          protease_protein     -           5.6e-143  486.6   3.6  5.6e-143  486.6   3.6   2.6   2   0   0   2   2   1   1 Cluster: Replicase polyprotein 1ab
+UniRef100_U3M758        -          protease_protein     -           5.8e-143  486.5   3.6  5.8e-143  486.5   3.6   2.4   2   0   0   2   2   1   1 Cluster: Replicase polyprotein 1a
+UniRef100_H9AA60        -          protease_protein     -           6.5e-143  486.3   2.6  6.5e-143  486.3   2.6   2.9   3   0   0   3   3   1   1 Cluster: Polyprotein
+UniRef100_UPI00001D958E -          protease_protein     -           6.9e-143  486.3   4.2  6.9e-143  486.3   4.2   2.6   2   0   0   2   2   1   1 Cluster: replicase polyprotein
+UniRef100_C6GHP5        -          protease_protein     -           8.1e-143  486.0   4.2  8.1e-143  486.0   4.2   2.2   2   0   0   2   2   1   1 Cluster: Orf1ab polyprotein
+UniRef100_U3M6K9        -          protease_protein     -             1e-142  485.7   3.6    1e-142  485.7   3.6   2.5   2   0   0   2   2   1   1 Cluster: Replicase polyprotein 1ab
+UniRef100_C0KYR7        -          protease_protein     -           1.8e-142  484.9   2.5  1.8e-142  484.9   2.5   2.0   2   0   0   2   2   1   1 Cluster: ORF1a polyprotein
+UniRef100_C0KYU7        -          protease_protein     -           1.8e-142  484.9   2.5  1.8e-142  484.9   2.5   2.0   2   0   0   2   2   1   1 Cluster: ORF1a polyprotein
+UniRef100_C0KYY5        -          protease_protein     -           1.8e-142  484.9   2.5  1.8e-142  484.9   2.5   2.0   2   0   0   2   2   1   1 Cluster: ORF1a polyprotein
+UniRef100_C0KYW7        -          protease_protein     -           2.5e-142  484.4   3.1  2.5e-142  484.4   3.1   1.9   2   0   0   2   2   1   1 Cluster: ORF1a polyprotein
+UniRef100_H9BZX6        -          protease_protein     -           2.8e-142  484.3   2.8  2.8e-142  484.3   2.8   1.8   2   0   0   2   2   1   1 Cluster: 1a
+UniRef100_I7B5F2        -          protease_protein     -           3.5e-142  484.0   2.4  3.5e-142  484.0   2.4   2.0   2   0   0   2   2   1   1 Cluster: Polyprotein ORF1a
+UniRef100_P0C6V1        -          protease_protein     -           3.5e-142  484.0   2.4  3.5e-142  484.0   2.4   2.0   2   0   0   2   2   1   1 Cluster: Replicase polyprotein 1a
+UniRef100_C6GHR9        -          protease_protein     -           3.8e-142  483.8   2.3  3.8e-142  483.8   2.3   2.2   2   0   0   2   2   1   1 Cluster: Orf1a polyprotein
+UniRef100_H9BZX5        -          protease_protein     -           4.8e-142  483.5   2.8  4.8e-142  483.5   2.8   1.8   2   0   0   2   2   1   1 Cluster: 1ab
+UniRef100_C3VPE6        -          protease_protein     -           5.8e-142  483.2   2.5  5.8e-142  483.2   2.5   2.0   2   0   0   2   2   1   1 Cluster: Orf1a polyprotein
+UniRef100_P0C6Y0        -          protease_protein     -             6e-142  483.2   2.4    6e-142  483.2   2.4   2.0   2   0   0   2   2   1   1 Cluster: Replicase polyprotein 1ab
+UniRef100_UPI00004E0146 -          protease_protein     -             6e-142  483.2   2.4    6e-142  483.2   2.4   2.0   2   0   0   2   2   1   1 Cluster: orf1ab
+UniRef100_C6GHR8        -          protease_protein     -           6.6e-142  483.1   2.3  6.6e-142  483.1   2.3   2.2   2   0   0   2   2   1   1 Cluster: Orf1ab polyprotein
+UniRef100_Q9J3E9        -          protease_protein     -           7.5e-142  482.9   2.5  7.5e-142  482.9   2.5   2.0   2   0   0   2   2   1   1 Cluster: RNA-directed RNA polymerase
+UniRef100_C0KYQ8        -          protease_protein     -           7.5e-142  482.9   2.5  7.5e-142  482.9   2.5   2.0   2   0   0   2   2   1   1 Cluster: ORF1a polyprotein
+UniRef100_C0KYX6        -          protease_protein     -           7.5e-142  482.9   2.5  7.5e-142  482.9   2.5   2.0   2   0   0   2   2   1   1 Cluster: ORF1a polyprotein
+UniRef100_C3VPF5        -          protease_protein     -           7.5e-142  482.9   2.5  7.5e-142  482.9   2.5   2.0   2   0   0   2   2   1   1 Cluster: Orf1a polyprotein
+UniRef100_S5ZBJ9        -          protease_protein     -           7.5e-142  482.9   2.5  7.5e-142  482.9   2.5   2.0   2   0   0   2   2   1   1 Cluster: Replicase polyprotein 1a
+UniRef100_UPI0000110249 -          protease_protein     -           7.5e-142  482.9   2.5  7.5e-142  482.9   2.5   2.0   2   0   0   2   2   1   1 Cluster: ORF1a polyprotein
+UniRef100_C0KYV8        -          protease_protein     -           7.7e-142  482.8   2.9  7.7e-142  482.8   2.9   2.2   2   0   0   2   2   1   1 Cluster: ORF1a polyprotein
+UniRef100_I7A0D5        -          protease_protein     -           8.2e-142  482.7   2.4  8.2e-142  482.7   2.4   2.0   2   0   0   2   2   1   1 Cluster: Polyprotein ORF1a
+UniRef100_D7PJX9        -          protease_protein     -           8.7e-142  482.7   2.8  8.7e-142  482.7   2.8   1.8   2   0   0   2   2   1   1 Cluster: Replicase polyprotein 1a
+UniRef100_D4QFJ8        -          protease_protein     -           9.6e-142  482.5   2.8  9.6e-142  482.5   2.8   1.9   2   0   0   2   2   1   1 Cluster: Replicase polyprotein 1a
+UniRef100_P0C6U0        -          protease_protein     -           9.7e-142  482.5   5.1  9.7e-142  482.5   5.1   2.1   2   0   0   2   2   1   1 Cluster: Replicase polyprotein 1a
+UniRef100_I1TMI1        -          protease_protein     -           1.3e-141  482.1   2.3  1.3e-141  482.1   2.3   2.2   2   0   0   2   2   1   1 Cluster: 1a polyprotein
+UniRef100_Q66WN6        -          protease_protein     -           1.3e-141  482.1   2.5  1.3e-141  482.1   2.5   2.0   2   0   0   2   2   1   1 Cluster: Replicative polyprotein 1ab
+UniRef100_S5Y3L9        -          protease_protein     -           1.3e-141  482.1   2.5  1.3e-141  482.1   2.5   2.0   2   0   0   2   2   1   1 Cluster: Replicase polyprotein 1ab
+UniRef100_S5Y9X8        -          protease_protein     -           1.3e-141  482.1   2.5  1.3e-141  482.1   2.5   2.0   2   0   0   2   2   1   1 Cluster: Replicase polyprotein 1ab
+UniRef100_UPI000016867C -          protease_protein     -           1.3e-141  482.1   2.5  1.3e-141  482.1   2.5   2.0   2   0   0   2   2   1   1 Cluster: ORF1ab polyprotein
+UniRef100_I7B5G2        -          protease_protein     -           1.4e-141  481.9   2.4  1.4e-141  481.9   2.4   2.0   2   0   0   2   2   1   1 Cluster: Polyprotein ORF1ab
+UniRef100_D7PJX8        -          protease_protein     -           1.5e-141  481.9   2.8  1.5e-141  481.9   2.8   1.8   2   0   0   2   2   1   1 Cluster: Replicase polyprotein 1ab
+UniRef100_D4QFJ7        -          protease_protein     -           1.7e-141  481.7   2.8  1.7e-141  481.7   2.8   1.9   2   0   0   2   2   1   1 Cluster: Replicase polyprotein 1ab
+UniRef100_P0C6W9        -          protease_protein     -           1.7e-141  481.7   5.1  1.7e-141  481.7   5.1   2.2   2   0   0   2   2   1   1 Cluster: Replicase polyprotein 1ab
+UniRef100_I1TMI0        -          protease_protein     -           2.3e-141  481.3   2.3  2.3e-141  481.3   2.3   2.2   2   0   0   2   2   1   1 Cluster: 1ab polyprotein
+UniRef100_P0C6U9        -          protease_protein     -           7.4e-141  479.6   4.0  7.4e-141  479.6   4.0   2.0   2   0   0   2   2   1   1 Cluster: Replicase polyprotein 1a
+UniRef100_UPI000181D29D -          protease_protein     -           7.4e-141  479.6   3.1  8.4e-141  479.4   3.1   1.0   1   0   0   1   1   1   1 Cluster: 3C-like proteinase
+UniRef100_Q9J3F3        -          protease_protein     -           1.3e-140  478.8   3.2  1.3e-140  478.8   3.2   2.0   2   0   0   2   2   1   1 Cluster: RNA-directed RNA polymerase
+UniRef100_P0C6X8        -          protease_protein     -           1.3e-140  478.8   4.0  1.3e-140  478.8   4.0   2.0   2   0   0   2   2   1   1 Cluster: Replicase polyprotein 1ab
+UniRef100_U3N7M1        -          protease_protein     -           2.5e-140  477.8   3.2  2.5e-140  477.8   3.2   2.3   2   0   0   2   2   1   1 Cluster: Replicase polyprotein 1a
+UniRef100_U3NEX6        -          protease_protein     -           2.5e-140  477.8   3.2  2.5e-140  477.8   3.2   2.3   2   0   0   2   2   1   1 Cluster: Replicase polyprotein 1a
+UniRef100_U3N9L7        -          protease_protein     -           2.6e-140  477.8   3.2  2.6e-140  477.8   3.2   2.3   2   0   0   2   2   1   1 Cluster: Replicase polyprotein 1a
+UniRef100_P0C6U3        -          protease_protein     -           2.6e-140  477.8   3.2  2.6e-140  477.8   3.2   2.3   2   0   0   2   2   1   1 Cluster: Replicase polyprotein 1a
+UniRef100_S5Y3P7        -          protease_protein     -           2.6e-140  477.8   3.2  2.6e-140  477.8   3.2   2.3   2   0   0   2   2   1   1 Cluster: Replicase polyprotein 1a
+UniRef100_U3N827        -          protease_protein     -           2.6e-140  477.8   3.2  2.6e-140  477.8   3.2   2.3   2   0   0   2   2   1   1 Cluster: Replicase polyprotein 1a
+UniRef100_U3N895        -          protease_protein     -           2.6e-140  477.8   3.2  2.6e-140  477.8   3.2   2.3   2   0   0   2   2   1   1 Cluster: Replicase polyprotein 1a
+UniRef100_Q9J3F8        -          protease_protein     -           3.6e-140  477.3   3.7  3.6e-140  477.3   3.7   2.0   2   0   0   2   2   1   1 Cluster: RNA-directed RNA polymerase
+UniRef100_Q0ZJF1        -          protease_protein     -           3.8e-140  477.3   2.9  3.8e-140  477.3   2.9   2.2   2   0   0   2   2   1   1 Cluster: Orf1ab polyprotein
+UniRef100_Q0ZJG7        -          protease_protein     -           4.4e-140  477.1   3.2  4.4e-140  477.1   3.2   2.2   2   0   0   2   2   1   1 Cluster: Orf1ab polyprotein
+UniRef100_U3NAM3        -          protease_protein     -           4.5e-140  477.0   3.2  4.5e-140  477.0   3.2   2.2   2   0   0   2   2   1   1 Cluster: Replicase polyprotein 1ab
+UniRef100_Q0ZJC7        -          protease_protein     -           4.5e-140  477.0   3.2  4.5e-140  477.0   3.2   2.2   2   0   0   2   2   1   1 Cluster: Orf1ab polyprotein
+UniRef100_U3N9P4        -          protease_protein     -           4.5e-140  477.0   3.2  4.5e-140  477.0   3.2   2.2   2   0   0   2   2   1   1 Cluster: Replicase polyprotein 1ab
+UniRef100_Q0ZJB9        -          protease_protein     -           4.5e-140  477.0   3.2  4.5e-140  477.0   3.2   2.2   2   0   0   2   2   1   1 Cluster: Orf1ab polyprotein
+UniRef100_Q0ZJJ9        -          protease_protein     -           4.5e-140  477.0   3.2  4.5e-140  477.0   3.2   2.2   2   0   0   2   2   1   1 Cluster: Orf1ab polyprotein
+UniRef100_Q0ZJF9        -          protease_protein     -           4.5e-140  477.0   3.2  4.5e-140  477.0   3.2   2.2   2   0   0   2   2   1   1 Cluster: Orf1ab polyprotein
+UniRef100_Q0ZJN1        -          protease_protein     -           4.5e-140  477.0   3.2  4.5e-140  477.0   3.2   2.2   2   0   0   2   2   1   1 Cluster: Orf1ab polyprotein
+UniRef100_U3N841        -          protease_protein     -           4.5e-140  477.0   3.2  4.5e-140  477.0   3.2   2.2   2   0   0   2   2   1   1 Cluster: Replicase polyprotein 1ab
+UniRef100_Q0ZJ87        -          protease_protein     -           4.5e-140  477.0   3.2  4.5e-140  477.0   3.2   2.2   2   0   0   2   2   1   1 Cluster: Orf1ab polyprotein
+UniRef100_Q0ZJE3        -          protease_protein     -           4.5e-140  477.0   3.2  4.5e-140  477.0   3.2   2.2   2   0   0   2   2   1   1 Cluster: Orf1ab polyprotein
+UniRef100_E0YJ42        -          protease_protein     -           4.5e-140  477.0   3.2  4.5e-140  477.0   3.2   2.2   2   0   0   2   2   1   1 Cluster: Polyprotein 1ab
+UniRef100_P0C6X2        -          protease_protein     -           4.5e-140  477.0   3.2  4.5e-140  477.0   3.2   2.2   2   0   0   2   2   1   1 Cluster: Replicase polyprotein 1ab
+UniRef100_Q0ZJH5        -          protease_protein     -           4.5e-140  477.0   3.2  4.5e-140  477.0   3.2   2.2   2   0   0   2   2   1   1 Cluster: Orf1ab polyprotein
+UniRef100_S5YGF5        -          protease_protein     -           4.5e-140  477.0   3.2  4.5e-140  477.0   3.2   2.2   2   0   0   2   2   1   1 Cluster: Replicase polyprotein 1ab
+UniRef100_U3N7G2        -          protease_protein     -           4.5e-140  477.0   3.2  4.5e-140  477.0   3.2   2.2   2   0   0   2   2   1   1 Cluster: Replicase polyprotein 1ab
+UniRef100_U3N7N3        -          protease_protein     -           4.5e-140  477.0   3.2  4.5e-140  477.0   3.2   2.2   2   0   0   2   2   1   1 Cluster: Replicase polyprotein 1ab
+UniRef100_Q0ZJJ1        -          protease_protein     -           4.5e-140  477.0   3.2  4.5e-140  477.0   3.2   2.2   2   0   0   2   2   1   1 Cluster: Orf1ab polyprotein
+UniRef100_P0C6U4        -          protease_protein     -             7e-140  476.4   3.1    7e-140  476.4   3.1   2.3   2   0   0   2   2   1   1 Cluster: Replicase polyprotein 1a
+UniRef100_I1TMH1        -          protease_protein     -           7.6e-140  476.3   2.0  7.6e-140  476.3   2.0   2.2   2   0   0   2   2   1   1 Cluster: 1a polyprotein
+UniRef100_Q0ZJD5        -          protease_protein     -           9.3e-140  476.0   2.8  9.3e-140  476.0   2.8   2.2   2   0   0   2   2   1   1 Cluster: Orf1ab polyprotein
+UniRef100_P0C6X3        -          protease_protein     -           1.2e-139  475.6   3.1  1.2e-139  475.6   3.1   2.2   2   0   0   2   2   1   1 Cluster: Replicase polyprotein 1ab
+UniRef100_Q0ZJI3        -          protease_protein     -           1.2e-139  475.6   3.1  1.2e-139  475.6   3.1   2.2   2   0   0   2   2   1   1 Cluster: Orf1ab polyprotein
+UniRef100_Q0ZJB1        -          protease_protein     -           1.2e-139  475.6   3.1  1.2e-139  475.6   3.1   2.2   2   0   0   2   2   1   1 Cluster: Orf1ab polyprotein
+UniRef100_S5REM6        -          protease_protein     -           1.3e-139  475.6   2.8  3.7e-139  474.0   2.8   1.9   1   0   0   1   1   1   1 Cluster: Polyprotein
+UniRef100_M4M6R0        -          protease_protein     -           1.3e-139  475.5   2.8  3.7e-139  474.0   2.8   1.9   1   0   0   1   1   1   1 Cluster: Polyprotein
+UniRef100_P0C6U5        -          protease_protein     -           1.3e-139  475.5   3.1  1.3e-139  475.5   3.1   2.4   2   0   0   2   2   1   1 Cluster: Replicase polyprotein 1a
+UniRef100_U6BS80        -          protease_protein     -           1.3e-139  475.5   2.8  3.7e-139  474.0   2.8   1.9   1   0   0   1   1   1   1 Cluster: Polyprotein
+UniRef100_I7F440        -          protease_protein     -           1.3e-139  475.5   2.8  3.8e-139  474.0   2.8   1.9   1   0   0   1   1   1   1 Cluster: Polyprotein
+UniRef100_U5NMW9        -          protease_protein     -           1.3e-139  475.5   2.8  3.8e-139  474.0   2.8   1.9   1   0   0   1   1   1   1 Cluster: Polyprotein
+UniRef100_S0AP56        -          protease_protein     -           1.3e-139  475.5   2.8  3.8e-139  474.0   2.8   1.9   1   0   0   1   1   1   1 Cluster: Polyprotein
+UniRef100_L0H8I0        -          protease_protein     -           1.3e-139  475.5   2.8  3.8e-139  474.0   2.8   1.9   1   0   0   1   1   1   1 Cluster: Polyprotein
+UniRef100_U5NMS1        -          protease_protein     -           1.3e-139  475.5   2.8  3.8e-139  474.0   2.8   1.9   1   0   0   1   1   1   1 Cluster: Polyprotein
+UniRef100_U5NJK2        -          protease_protein     -           1.3e-139  475.5   2.8  3.8e-139  474.0   2.8   1.9   1   0   0   1   1   1   1 Cluster: Polyprotein
+UniRef100_I1TMH0        -          protease_protein     -           1.3e-139  475.5   2.0  1.3e-139  475.5   2.0   2.2   2   0   0   2   2   1   1 Cluster: 1ab polyprotein
+UniRef100_R4JK63        -          protease_protein     -           1.8e-139  475.0   3.0  5.3e-139  473.5   3.0   1.9   1   0   0   1   1   1   1 Cluster: Polyprotein
+UniRef100_K4L9I6        -          protease_protein     -           1.8e-139  475.0   3.0  5.3e-139  473.5   3.0   1.9   1   0   0   1   1   1   1 Cluster: Polyprotein 1ab
+UniRef100_J7IL17        -          protease_protein     -           1.8e-139  475.0   3.0  5.3e-139  473.5   3.0   1.9   1   0   0   1   1   1   1 Cluster: Polyprotein
+UniRef100_UPI00005B2EEE -          protease_protein     -           1.8e-139  475.0   2.5  2.1e-139  474.9   2.5   1.0   1   0   0   1   1   1   1 Cluster: 3C-like proteinase
+UniRef100_P0C6V0        -          protease_protein     -             2e-139  474.9   2.5    2e-139  474.9   2.5   2.0   2   0   0   2   2   1   1 Cluster: Replicase polyprotein 1a
+UniRef100_UPI00027FCE8C -          protease_protein     -             2e-139  474.9   2.5  2.2e-139  474.8   2.5   1.0   1   0   0   1   1   1   1 Cluster: 3C-like proteinase
+UniRef100_J7GP31        -          protease_protein     -           2.1e-139  474.8   2.4  6.1e-139  473.3   2.4   1.9   1   0   0   1   1   1   1 Cluster: Polyprotein
+UniRef100_K7W6J4        -          protease_protein     -           2.1e-139  474.8   2.4  6.1e-139  473.3   2.4   1.9   1   0   0   1   1   1   1 Cluster: Polyprotein
+UniRef100_U6BNE4        -          protease_protein     -           2.1e-139  474.8   2.8  2.1e-139  474.8   2.8   2.4   3   0   0   3   3   1   1 Cluster: Polyprotein 1a
+UniRef100_U6BP67        -          protease_protein     -           2.1e-139  474.8   2.8  2.1e-139  474.8   2.8   2.4   3   0   0   3   3   1   1 Cluster: Polyprotein 1a
+UniRef100_U6BPB1        -          protease_protein     -           2.1e-139  474.8   2.8  2.1e-139  474.8   2.8   2.4   3   0   0   3   3   1   1 Cluster: Polyprotein 1a
+UniRef100_U6BPB2        -          protease_protein     -           2.1e-139  474.8   2.8  2.1e-139  474.8   2.8   2.4   3   0   0   3   3   1   1 Cluster: Polyprotein 1a
+UniRef100_J9S2I6        -          protease_protein     -           2.1e-139  474.8   2.4  6.1e-139  473.3   2.4   1.9   1   0   0   1   1   1   1 Cluster: Polyprotein
+UniRef100_P0C6X4        -          protease_protein     -           2.2e-139  474.7   3.1  2.2e-139  474.7   3.1   2.4   2   0   0   2   2   1   1 Cluster: Replicase polyprotein 1ab
+UniRef100_Q0ZJL5        -          protease_protein     -           2.2e-139  474.7   3.1  2.2e-139  474.7   3.1   2.1   2   0   0   2   2   1   1 Cluster: Orf1ab polyprotein
+UniRef100_Q0ZJA3        -          protease_protein     -           2.2e-139  474.7   3.1  2.2e-139  474.7   3.1   2.1   2   0   0   2   2   1   1 Cluster: Orf1ab polyprotein
+UniRef100_Q0ZJM3        -          protease_protein     -           2.2e-139  474.7   3.1  2.2e-139  474.7   3.1   2.1   2   0   0   2   2   1   1 Cluster: Orf1ab polyprotein
+UniRef100_Q0ZJK7        -          protease_protein     -           2.2e-139  474.7   3.1  2.2e-139  474.7   3.1   2.1   2   0   0   2   2   1   1 Cluster: Orf1ab polyprotein
+UniRef100_I1TLC8        -          protease_protein     -           2.3e-139  474.7   2.4  6.1e-139  473.3   2.4   1.8   1   0   0   1   1   1   1 Cluster: Polyprotein
+UniRef100_P0C6X9        -          protease_protein     -           3.4e-139  474.1   2.5  3.4e-139  474.1   2.5   2.0   2   0   0   2   2   1   1 Cluster: Replicase polyprotein 1ab
+UniRef100_H9A5F9        -          protease_protein     -           3.8e-139  474.0   2.8  3.8e-139  474.0   2.8   1.9   2   0   0   2   2   1   1 Cluster: Polyprotein
+UniRef100_M4M7S8        -          protease_protein     -           3.8e-139  474.0   2.8  3.8e-139  474.0   2.8   1.9   2   0   0   2   2   1   1 Cluster: Polyprotein
+UniRef100_U6BN79        -          protease_protein     -           3.8e-139  474.0   2.8  3.8e-139  474.0   2.8   2.0   2   0   0   2   2   1   1 Cluster: Polyprotein 1ab
+UniRef100_U6BNF9        -          protease_protein     -           3.8e-139  474.0   2.8  3.8e-139  474.0   2.8   2.0   2   0   0   2   2   1   1 Cluster: Polyprotein 1ab
+UniRef100_U6BP95        -          protease_protein     -           3.8e-139  474.0   2.8  3.8e-139  474.0   2.8   2.0   2   0   0   2   2   1   1 Cluster: Polyprotein 1ab
+UniRef100_U6BRU0        -          protease_protein     -           3.8e-139  474.0   2.8  3.8e-139  474.0   2.8   2.0   2   0   0   2   2   1   1 Cluster: Polyprotein 1ab
+UniRef100_K4NS01        -          protease_protein     -           5.5e-139  473.5   2.3  1.6e-138  471.9   2.3   1.9   1   0   0   1   1   1   1 Cluster: Polyprotein
+UniRef100_H6WQB5        -          protease_protein     -           5.6e-139  473.4   3.0  1.6e-138  471.9   3.0   1.9   1   0   0   1   1   1   1 Cluster: Polyprotein
+UniRef100_A2IB74        -          protease_protein     -             6e-139  473.3   2.8    6e-139  473.3   2.8   1.9   2   0   0   2   2   1   1 Cluster: Pol1
+UniRef100_K7Z262        -          protease_protein     -           6.4e-139  473.2   2.4  1.9e-138  471.7   2.4   1.9   1   0   0   1   1   1   1 Cluster: Polyprotein
+UniRef100_I1TLC9        -          protease_protein     -           6.4e-139  473.2   2.4  1.9e-138  471.7   2.4   1.9   1   0   0   1   1   1   1 Cluster: Polyprotein
+UniRef100_L7Y896        -          protease_protein     -           6.4e-139  473.2   2.4  1.9e-138  471.7   2.4   1.9   1   0   0   1   1   1   1 Cluster: Polyprotein
+UniRef100_Q0ZJ95        -          protease_protein     -           7.8e-139  473.0   3.0  7.8e-139  473.0   3.0   2.1   2   0   0   2   2   1   1 Cluster: Orf1ab polyprotein
+UniRef100_P0C6V6        -          protease_protein     -           8.7e-139  472.8   2.6  8.7e-139  472.8   2.6   2.5   3   0   0   3   3   1   1 Cluster: Replicase polyprotein 1a
+UniRef100_G5D077        -          protease_protein     -           1.5e-138  472.0   2.7  4.8e-138  470.4   2.7   1.9   1   0   0   1   1   1   1 Cluster: Polyprotein
+UniRef100_P0C6Y4        -          protease_protein     -           1.6e-138  472.0   2.6  1.6e-138  472.0   2.6   2.1   2   0   0   2   2   1   1 Cluster: Replicase polyprotein 1ab
+UniRef100_UPI0000110238 -          protease_protein     -           1.6e-138  472.0   2.6  1.6e-138  472.0   2.6   1.9   2   0   0   2   2   1   1 Cluster: Pol1
+UniRef100_M4M7S5        -          protease_protein     -           1.8e-138  471.7   2.3  1.8e-138  471.7   2.3   2.4   2   0   0   2   2   1   1 Cluster: Polyprotein
+UniRef100_C6GHJ9        -          protease_protein     -           3.6e-138  470.8   2.3  1.1e-137  469.2   2.3   1.9   1   0   0   1   1   1   1 Cluster: Orf1a polyprotein
+UniRef100_S5MJA7        -          protease_protein     -           3.7e-138  470.7   2.6  3.7e-138  470.7   2.6   1.9   2   0   0   2   2   1   1 Cluster: Polyprotein
+UniRef100_E0AGV3        -          protease_protein     -             6e-138  470.1   2.0  1.8e-137  468.5   2.0   1.9   1   0   0   1   1   1   1 Cluster: Orf1ab polyprotein
+UniRef100_Q09PH4        -          protease_protein     -           6.7e-138  469.9   1.8  2.2e-137  468.2   1.8   2.0   1   0   0   1   1   1   1 Cluster: Polyprotein 1a
+UniRef100_C6GHJ8        -          protease_protein     -           7.7e-138  469.7   2.3    2e-137  468.3   2.3   1.8   1   0   0   1   1   1   1 Cluster: Orf1ab polyprotein
+UniRef100_C6GHE4        -          protease_protein     -           8.6e-138  469.5   1.8  2.5e-137  468.0   1.8   1.9   1   0   0   1   1   1   1 Cluster: Orf1ab polyprotein
+UniRef100_E0AGX4        -          protease_protein     -           8.7e-138  469.5   1.9  2.8e-137  467.9   1.9   2.0   1   0   0   1   1   1   1 Cluster: Orf1ab polyprotein
+UniRef100_C6GH94        -          protease_protein     -           9.5e-138  469.4   2.4  3.1e-137  467.7   2.4   2.0   1   0   0   1   1   1   1 Cluster: Orf1a polyprotein
+UniRef100_C6GHG6        -          protease_protein     -           9.6e-138  469.4   2.4  3.1e-137  467.7   2.4   2.0   1   0   0   1   1   1   1 Cluster: Orf1a polyprotein
+UniRef100_E0AGV4        -          protease_protein     -           9.9e-138  469.3   2.0  9.9e-138  469.3   2.0   2.1   2   0   0   2   2   1   1 Cluster: Polyprotein orf1a
+UniRef100_B7T071        -          protease_protein     -           1.1e-137  469.2   2.8  1.1e-137  469.2   2.8   2.4   2   0   0   2   2   1   1 Cluster: Polyprotein 1a (Fragment)
+UniRef100_C6GHA4        -          protease_protein     -           1.2e-137  469.1   2.0  3.6e-137  467.5   2.0   1.9   1   0   0   1   1   1   1 Cluster: Orf1ab polyprotein
+UniRef100_C6GHB6        -          protease_protein     -           1.2e-137  469.0   2.2  3.8e-137  467.4   2.2   1.9   1   0   0   1   1   1   1 Cluster: Orf1a polyprotein
+UniRef100_C6K2T4        -          protease_protein     -           1.3e-137  469.0   2.7  3.5e-137  467.5   2.7   1.9   1   0   0   1   1   1   1 Cluster: Polyprotein 1a
+UniRef100_B0LJR0        -          protease_protein     -           1.3e-137  469.0   2.5  4.2e-137  467.3   2.5   2.0   1   0   0   1   1   1   1 Cluster: Polyprotein 1a
+UniRef100_C6GHC5        -          protease_protein     -           1.3e-137  468.9   2.6  4.4e-137  467.2   2.6   2.0   1   0   0   1   1   1   1 Cluster: Orf1a polyprotein
+UniRef100_I0B0S8        -          protease_protein     -           1.3e-137  468.9   2.6  3.5e-137  467.5   2.6   1.8   1   0   0   1   1   1   1 Cluster: Polyprotein 1ab
+UniRef100_C6GHE5        -          protease_protein     -           1.4e-137  468.9   1.8  1.4e-137  468.9   1.8   2.1   2   0   0   2   2   1   1 Cluster: Orf1a polyprotein
+UniRef100_K7YHS3        -          protease_protein     -           1.4e-137  468.8   2.3  4.2e-137  467.3   2.3   1.9   1   0   0   1   1   1   1 Cluster: ORF1a polyprotein
+UniRef100_Q09PH5        -          protease_protein     -           1.4e-137  468.8   1.8  4.1e-137  467.3   1.8   1.9   1   0   0   1   1   1   1 Cluster: Polyprotein 1ab
+UniRef100_E0AGX5        -          protease_protein     -           1.5e-137  468.7   1.9  1.5e-137  468.7   1.9   2.2   3   0   0   3   3   1   1 Cluster: Polyprotein orf1a
+UniRef100_C6GHH7        -          protease_protein     -           1.6e-137  468.7   1.8  5.7e-137  466.8   1.8   2.1   1   0   0   1   1   1   1 Cluster: Orf1a polyprotein
+UniRef100_B7T060        -          protease_protein     -           1.6e-137  468.6   3.0  1.6e-137  468.6   3.0   2.4   2   0   0   2   2   1   1 Cluster: Polyprotein 1a (Fragment)
+UniRef100_T1SR70        -          protease_protein     -           1.6e-137  468.6   1.5    5e-137  467.0   1.5   1.9   1   0   0   1   1   1   1 Cluster: ORF1ab polyprotein
+UniRef100_G1FEX4        -          protease_protein     -           1.8e-137  468.5   1.5    5e-137  467.0   1.5   1.9   1   0   0   1   1   1   1 Cluster: Polyprotein orf1ab
+UniRef100_H9TEX0        -          protease_protein     -           1.9e-137  468.4   2.8  5.4e-137  466.9   2.8   1.9   1   0   0   1   1   1   1 Cluster: 1ab
+UniRef100_C6GHA5        -          protease_protein     -           1.9e-137  468.4   2.0  1.9e-137  468.4   2.0   2.1   2   0   0   2   2   1   1 Cluster: Orf1a polyprotein
+UniRef100_C6GH93        -          protease_protein     -           2.1e-137  468.3   2.4  5.7e-137  466.8   2.4   1.8   1   0   0   1   1   1   1 Cluster: Orf1ab polyprotein
+UniRef100_C6GHG5        -          protease_protein     -           2.1e-137  468.3   2.4  5.7e-137  466.8   2.4   1.8   1   0   0   1   1   1   1 Cluster: Orf1ab polyprotein
+UniRef100_D3KDK2        -          protease_protein     -           2.3e-137  468.2   2.3  7.1e-137  466.5   2.3   1.9   1   0   0   1   1   1   1 Cluster: Orf1a polyprotein
+UniRef100_E0AGZ6        -          protease_protein     -           2.3e-137  468.1   2.3  7.1e-137  466.5   2.3   1.9   1   0   0   1   1   1   1 Cluster: Polyprotein orf1a
+UniRef100_E0AGW5        -          protease_protein     -           2.3e-137  468.1   2.3  7.1e-137  466.5   2.3   1.9   1   0   0   1   1   1   1 Cluster: Polyprotein orf1a
+UniRef100_C6GH83        -          protease_protein     -           2.5e-137  468.0   1.6  8.1e-137  466.3   1.6   2.0   1   0   0   1   1   1   1 Cluster: Orf1a polyprotein
+UniRef100_C6GHB5        -          protease_protein     -           2.7e-137  467.9   2.2  6.9e-137  466.6   2.2   1.8   1   0   0   1   1   1   1 Cluster: Orf1ab polyprotein
+UniRef100_I0B0R9        -          protease_protein     -           2.7e-137  467.9   2.6  6.8e-137  466.6   2.6   1.8   1   0   0   1   1   1   1 Cluster: Polyprotein 1ab
+UniRef100_T1STP3        -          protease_protein     -           2.7e-137  467.9   1.5  2.7e-137  467.9   1.5   2.1   2   0   0   2   2   1   1 Cluster: ORF1a polyprotein
+UniRef100_G1FEX5        -          protease_protein     -           2.7e-137  467.9   1.5  2.7e-137  467.9   1.5   2.0   2   0   0   2   2   1   1 Cluster: Polyprotein orf1a
+UniRef100_G1FEY4        -          protease_protein     -           2.8e-137  467.9   1.7  7.5e-137  466.4   1.7   1.8   1   0   0   1   1   1   1 Cluster: Polyprotein orf1ab
+UniRef100_P0C6Y5        -          protease_protein     -           2.8e-137  467.9   2.5  8.2e-137  466.3   2.5   1.9   1   0   0   1   1   1   1 Cluster: Replicase polyprotein 1ab
+UniRef100_B0LJQ9        -          protease_protein     -           2.8e-137  467.9   2.5  7.7e-137  466.4   2.5   1.9   1   0   0   1   1   1   1 Cluster: Polyprotein 1ab
+UniRef100_C6GHF5        -          protease_protein     -           2.8e-137  467.9   1.9  9.8e-137  466.1   1.9   2.1   1   0   0   1   1   1   1 Cluster: Polyprotein orf1ab
+UniRef100_Q98VG9        -          protease_protein     -           2.9e-137  467.8   2.3  7.6e-137  466.4   2.3   1.8   1   0   0   1   1   1   1 Cluster: Replicase polyprotein 1ab
+UniRef100_K7XQY2        -          protease_protein     -           2.9e-137  467.8   2.3  7.6e-137  466.4   2.3   1.8   1   0   0   1   1   1   1 Cluster: ORF1ab polyprotein
+UniRef100_H9TEW9        -          protease_protein     -           2.9e-137  467.8   2.8  2.9e-137  467.8   2.8   2.0   2   0   0   2   2   1   1 Cluster: 1a
+UniRef100_C6GHC4        -          protease_protein     -           2.9e-137  467.8   2.6  8.1e-137  466.3   2.6   1.9   1   0   0   1   1   1   1 Cluster: Orf1ab polyprotein
+UniRef100_Q0PKZ6        -          protease_protein     -             3e-137  467.8   2.5  8.2e-137  466.3   2.5   1.9   1   0   0   1   1   1   1 Cluster: Polyprotein orf1ab
+UniRef100_E0AGU4        -          protease_protein     -           3.1e-137  467.7   2.3  8.5e-137  466.3   2.3   1.8   1   0   0   1   1   1   1 Cluster: Orf1ab polyprotein
+UniRef100_E3W5G6        -          protease_protein     -           3.1e-137  467.7   2.3  8.5e-137  466.3   2.3   1.8   1   0   0   1   1   1   1 Cluster: Polyprotein orf1ab
+UniRef100_D3KDL3        -          protease_protein     -           3.6e-137  467.5   2.1  1.1e-136  465.9   2.1   1.9   1   0   0   1   1   1   1 Cluster: Orf1a polyprotein
+UniRef100_C6GHH6        -          protease_protein     -           3.6e-137  467.5   1.8    1e-136  466.0   1.8   1.9   1   0   0   1   1   1   1 Cluster: Orf1ab polyprotein
+UniRef100_G1FEY5        -          protease_protein     -           4.1e-137  467.3   1.7  4.1e-137  467.3   1.7   2.1   2   0   0   2   2   1   1 Cluster: Polyprotein orf1a
+UniRef100_B7T070        -          protease_protein     -           4.3e-137  467.2   2.8  4.3e-137  467.2   2.8   2.1   2   0   0   2   2   1   1 Cluster: Polyprotein 1ab (Fragment)
+UniRef100_A7UJ00        -          protease_protein     -           4.5e-137  467.2   2.5  4.5e-137  467.2   2.5   2.2   2   0   0   2   2   1   1 Cluster: Replicase polyprotein 1a
+UniRef100_C8YR33        -          protease_protein     -           4.5e-137  467.2   2.5  4.5e-137  467.2   2.5   2.2   2   0   0   2   2   1   1 Cluster: Replicase 1a
+UniRef100_P0C6V2        -          protease_protein     -           4.5e-137  467.2   2.5  4.5e-137  467.2   2.5   2.0   2   0   0   2   2   1   1 Cluster: Replicase polyprotein 1a
+UniRef100_Q0PKZ7        -          protease_protein     -           4.5e-137  467.2   2.5  4.5e-137  467.2   2.5   2.0   2   0   0   2   2   1   1 Cluster: Polyprotein orf1a
+UniRef100_Q0PL06        -          protease_protein     -           4.5e-137  467.2   2.5  4.5e-137  467.2   2.5   2.0   2   0   0   2   2   1   1 Cluster: Replicase 1a
+UniRef100_Q0PL23        -          protease_protein     -           4.5e-137  467.2   2.5  4.5e-137  467.2   2.5   2.2   2   0   0   2   2   1   1 Cluster: Polyprotein orf1a
+UniRef100_Q0PL32        -          protease_protein     -           4.5e-137  467.2   2.5  4.5e-137  467.2   2.5   2.2   2   0   0   2   2   1   1 Cluster: Replicase 1a
+UniRef100_R9RZ85        -          protease_protein     -           4.5e-137  467.2   2.5  4.5e-137  467.2   2.5   2.0   2   0   0   2   2   1   1 Cluster: Replicase 1a
+UniRef100_E0AGU5        -          protease_protein     -           4.6e-137  467.1   2.3  4.6e-137  467.1   2.3   2.0   2   0   0   2   2   1   1 Cluster: Polyprotein orf1a
+UniRef100_E3W5G7        -          protease_protein     -           4.6e-137  467.1   2.3  4.6e-137  467.1   2.3   2.0   2   0   0   2   2   1   1 Cluster: Polyprotein orf1a
+UniRef100_K7XK97        -          protease_protein     -           4.9e-137  467.1   2.7  4.9e-137  467.1   2.7   2.2   2   0   0   2   2   1   1 Cluster: ORF1a polyprotein
+UniRef100_D3KDK1        -          protease_protein     -           4.9e-137  467.1   2.3  1.3e-136  465.7   2.3   1.8   1   0   0   1   1   1   1 Cluster: Orf1ab polyprotein
+UniRef100_E0AGZ5        -          protease_protein     -           4.9e-137  467.0   2.3  1.3e-136  465.7   2.3   1.8   1   0   0   1   1   1   1 Cluster: Orf1ab polyprotein
+UniRef100_E0AGW4        -          protease_protein     -             5e-137  467.0   2.3  1.3e-136  465.7   2.3   1.8   1   0   0   1   1   1   1 Cluster: Orf1ab polyprotein
+UniRef100_C6GHD4        -          protease_protein     -           5.1e-137  467.0   2.8  1.5e-136  465.4   2.8   1.9   1   0   0   1   1   1   1 Cluster: Orf1ab polyprotein
+UniRef100_Q2LJ80        -          protease_protein     -           5.2e-137  467.0   2.1  5.2e-137  467.0   2.1   2.1   2   0   0   2   2   1   1 Cluster: Replicase polyprotein 1a
+UniRef100_Q0PL14        -          protease_protein     -           5.2e-137  467.0   2.6  5.2e-137  467.0   2.6   2.2   2   0   0   2   2   1   1 Cluster: Replicase 1a
+UniRef100_C6GHF6        -          protease_protein     -           5.3e-137  466.9   1.9  5.3e-137  466.9   1.9   2.3   2   0   0   2   2   1   1 Cluster: Polyprotein orf1a
+UniRef100_C6GH82        -          protease_protein     -           5.6e-137  466.9   1.6  1.5e-136  465.5   1.6   1.8   1   0   0   1   1   1   1 Cluster: Orf1ab polyprotein
+UniRef100_E3W5H7        -          protease_protein     -           5.9e-137  466.8   1.8  1.7e-136  465.3   1.8   1.9   1   0   0   1   1   1   1 Cluster: Polyprotein orf1ab
+UniRef100_K7Y4M3        -          protease_protein     -             6e-137  466.8   3.0    6e-137  466.8   3.0   2.2   2   0   0   2   2   1   1 Cluster: ORF1a polyprotein
+UniRef100_H9TEW8        -          protease_protein     -             6e-137  466.8   3.0    6e-137  466.8   3.0   2.2   2   0   0   2   2   1   1 Cluster: 1a
+UniRef100_B7T059        -          protease_protein     -           6.4e-137  466.7   3.0  6.4e-137  466.7   3.0   2.1   2   0   0   2   2   1   1 Cluster: Polyprotein 1ab (Fragment)
+UniRef100_D2WXL6        -          protease_protein     -           6.5e-137  466.6   2.6  6.5e-137  466.6   2.6   2.2   2   0   0   2   2   1   1 Cluster: ORF1a polyprotein
+UniRef100_D3KDL2        -          protease_protein     -           7.8e-137  466.4   2.1  2.1e-136  465.0   2.1   1.8   1   0   0   1   1   1   1 Cluster: Orf1ab polyprotein
+UniRef100_Q0PL22        -          protease_protein     -           8.2e-137  466.3   2.5  8.2e-137  466.3   2.5   2.0   2   0   0   2   2   1   1 Cluster: Polyprotein orf1ab
+UniRef100_C6GHD5        -          protease_protein     -           8.3e-137  466.3   2.8  8.3e-137  466.3   2.8   2.1   2   0   0   2   2   1   1 Cluster: Orf1a polyprotein
+UniRef100_G8J7G4        -          protease_protein     -           8.9e-137  466.2   2.7  8.9e-137  466.2   2.7   2.1   2   0   0   2   2   1   1 Cluster: ORF1ab polyprotein
+UniRef100_E3W5F5        -          protease_protein     -           9.1e-137  466.2   2.5  2.7e-136  464.6   2.5   1.9   1   0   0   1   1   1   1 Cluster: Polyprotein orf1ab
+UniRef100_Q27PR5        -          protease_protein     -           9.1e-137  466.2   2.8  2.6e-136  464.7   2.8   1.9   1   0   0   1   1   1   1 Cluster: Replicase 1a
+UniRef100_E3W5H8        -          protease_protein     -           9.2e-137  466.2   1.8  9.2e-137  466.2   1.8   2.0   2   0   0   2   2   1   1 Cluster: Polyprotein orf1a
+UniRef100_E3W5I8        -          protease_protein     -           9.5e-137  466.1   2.5  2.7e-136  464.6   2.5   1.9   1   0   0   1   1   1   1 Cluster: Polyprotein orf1ab
+UniRef100_R9TDM7        -          protease_protein     -           9.8e-137  466.1   1.9  2.8e-136  464.6   1.9   1.9   1   0   0   1   1   1   1 Cluster: Polyprotein
+UniRef100_K7XSF6        -          protease_protein     -           1.1e-136  465.9   3.0  1.1e-136  465.9   3.0   2.1   2   0   0   2   2   1   1 Cluster: ORF1ab polyprotein
+UniRef100_H9TEW7        -          protease_protein     -           1.1e-136  465.9   3.0  1.1e-136  465.9   3.0   2.0   2   0   0   2   2   1   1 Cluster: 1ab
+UniRef100_D2WXL5        -          protease_protein     -           1.2e-136  465.8   2.6  1.2e-136  465.8   2.6   2.1   2   0   0   2   2   1   1 Cluster: ORF 1ab polyprotein
+UniRef100_C6GHI8        -          protease_protein     -           1.3e-136  465.7   1.8  4.6e-136  463.9   1.8   2.1   1   0   0   1   1   1   1 Cluster: Orf1a polyprotein
+UniRef100_J7FAC6        -          protease_protein     -           1.3e-136  465.7   2.3  1.3e-136  465.7   2.3   2.2   2   0   0   2   2   1   1 Cluster: 1a polyprotein
+UniRef100_E0AGY4        -          protease_protein     -           1.3e-136  465.6   2.3  3.9e-136  464.1   2.3   1.9   1   0   0   1   1   1   1 Cluster: Orf1ab polyprotein
+UniRef100_E3W5F6        -          protease_protein     -           1.5e-136  465.5   2.5  1.5e-136  465.5   2.5   2.2   2   0   0   2   2   1   1 Cluster: Polyprotein orf1a
+UniRef100_E3W5I9        -          protease_protein     -           1.5e-136  465.5   2.5  1.5e-136  465.5   2.5   2.2   2   0   0   2   2   1   1 Cluster: Polyprotein orf1a
+UniRef100_K7Y4N0        -          protease_protein     -           2.1e-136  465.0   2.9  2.1e-136  465.0   2.9   2.2   2   0   0   2   2   1   1 Cluster: ORF1a polyprotein
+UniRef100_E0AGY5        -          protease_protein     -           2.1e-136  465.0   2.3  2.1e-136  465.0   2.3   2.2   2   0   0   2   2   1   1 Cluster: Polyprotein orf1a
+UniRef100_J7FAV5        -          protease_protein     -           2.4e-136  464.8   2.3  2.4e-136  464.8   2.3   2.0   2   0   0   2   2   1   1 Cluster: 1ab polyprotein
+UniRef100_C6GHI7        -          protease_protein     -           2.9e-136  464.5   1.8  8.4e-136  463.0   1.8   1.9   1   0   0   1   1   1   1 Cluster: Orf1ab polyprotein
+UniRef100_K7XSG6        -          protease_protein     -           3.8e-136  464.1   2.9  3.8e-136  464.1   2.9   2.1   2   0   0   2   2   1   1 Cluster: ORF1ab polyprotein
+UniRef100_Q3Y5H1        -          protease_protein     -           1.1e-135  462.6   0.2  1.2e-135  462.5   0.2   1.0   1   0   0   1   1   1   1 Cluster: 3C-like protease (Fragment)
+UniRef100_K4K2V5        -          protease_protein     -           1.1e-134  459.4   6.9  2.1e-134  458.4   6.9   1.6   1   0   0   1   1   1   1 Cluster: Orf1ab polyprotein
+UniRef100_K4JZB7        -          protease_protein     -           1.1e-134  459.3   6.9  2.1e-134  458.4   6.9   1.5   1   0   0   1   1   1   1 Cluster: Orf1ab polyprotein
+UniRef100_K4JZT2        -          protease_protein     -           1.1e-134  459.3   6.9  2.1e-134  458.4   6.9   1.5   1   0   0   1   1   1   1 Cluster: Orf1ab polyprotein
+UniRef100_T2BB88        -          protease_protein     -           1.3e-134  459.1   5.2  2.4e-134  458.2   5.2   1.5   1   0   0   1   1   1   1 Cluster: ORF1ab (Fragment)
+UniRef100_K4K1U5        -          protease_protein     -           1.4e-134  459.0   6.6  2.6e-134  458.1   6.6   1.5   1   0   0   1   1   1   1 Cluster: Orf1ab polyprotein
+UniRef100_K4K2P7        -          protease_protein     -           1.4e-134  459.0   6.6  2.6e-134  458.1   6.6   1.5   1   0   0   1   1   1   1 Cluster: Orf1ab polyprotein
+UniRef100_K4KCJ9        -          protease_protein     -           1.4e-134  459.0   6.6  2.6e-134  458.1   6.6   1.5   1   0   0   1   1   1   1 Cluster: Orf1ab polyprotein
+UniRef100_K4KCN1        -          protease_protein     -           1.4e-134  459.0   6.6  2.6e-134  458.1   6.6   1.5   1   0   0   1   1   1   1 Cluster: Orf1ab polyprotein
+UniRef100_K4K1Z6        -          protease_protein     -           1.4e-134  459.0   6.6  2.6e-134  458.1   6.6   1.5   1   0   0   1   1   1   1 Cluster: Orf1ab polyprotein
+UniRef100_Q5MNZ4        -          protease_protein     -           1.7e-134  458.7   0.2  3.5e-134  457.7   0.2   1.6   1   0   0   1   1   1   1 Cluster: Polyprotein 1a
+UniRef100_Q4ZJT4        -          protease_protein     -           1.8e-134  458.7   0.2  3.5e-134  457.7   0.2   1.6   1   0   0   1   1   1   1 Cluster: Polyprotein 1a
+UniRef100_P0C6V3        -          protease_protein     -           1.8e-134  458.7   0.2  3.5e-134  457.7   0.2   1.6   1   0   0   1   1   1   1 Cluster: Replicase polyprotein 1a
+UniRef100_G3C7B8        -          protease_protein     -           1.8e-134  458.6   0.2  3.5e-134  457.7   0.2   1.6   1   0   0   1   1   1   1 Cluster: Polyprotein 1a
+UniRef100_T2BBD9        -          protease_protein     -           2.1e-134  458.4   5.5  4.3e-134  457.4   5.5   1.6   1   0   0   1   1   1   1 Cluster: ORF1a (Fragment)
+UniRef100_G4XMR5        -          protease_protein     -           2.1e-134  458.4   0.2  4.5e-134  457.3   0.2   1.6   1   0   0   1   1   1   1 Cluster: 1a protein
+UniRef100_F1KCQ8        -          protease_protein     -           2.1e-134  458.4   0.2  4.5e-134  457.3   0.2   1.6   1   0   0   1   1   1   1 Cluster: 1a polyprotein
+UniRef100_C1KAA9        -          protease_protein     -           2.1e-134  458.4   0.2  4.5e-134  457.3   0.2   1.6   1   0   0   1   1   1   1 Cluster: ORF 1a polyprotein
+UniRef100_C7S7X9        -          protease_protein     -           2.1e-134  458.4   0.2  4.5e-134  457.3   0.2   1.6   1   0   0   1   1   1   1 Cluster: 1a polyprotein
+UniRef100_E5D088        -          protease_protein     -           2.2e-134  458.4   0.1  4.5e-134  457.3   0.1   1.6   1   0   0   1   1   1   1 Cluster: Polyprotein 1a
+UniRef100_B8QAY7        -          protease_protein     -           2.7e-134  458.1   0.1  5.5e-134  457.0   0.1   1.6   1   0   0   1   1   1   1 Cluster: 1a
+UniRef100_B8QAZ7        -          protease_protein     -           2.7e-134  458.1   0.1  5.5e-134  457.0   0.1   1.6   1   0   0   1   1   1   1 Cluster: 1a
+UniRef100_E5D066        -          protease_protein     -           2.7e-134  458.1   0.1  5.6e-134  457.0   0.1   1.6   1   0   0   1   1   1   1 Cluster: Polyprotein 1a
+UniRef100_G3C767        -          protease_protein     -           2.7e-134  458.1   0.1  5.6e-134  457.0   0.1   1.6   1   0   0   1   1   1   1 Cluster: Polyprotein 1a
+UniRef100_E5D077        -          protease_protein     -           2.7e-134  458.1   0.1  5.5e-134  457.0   0.1   1.6   1   0   0   1   1   1   1 Cluster: Polyprotein 1a
+UniRef100_F4MIU5        -          protease_protein     -           2.7e-134  458.1   0.2  5.3e-134  457.1   0.2   1.5   1   0   0   1   1   1   1 Cluster: Replicase polyprotein 1a
+UniRef100_F4MIT5        -          protease_protein     -           2.8e-134  458.0   0.1  5.6e-134  457.0   0.1   1.6   1   0   0   1   1   1   1 Cluster: Replicase polyprotein 1a
+UniRef100_F4MIV5        -          protease_protein     -           2.8e-134  458.0   0.1  5.6e-134  457.0   0.1   1.6   1   0   0   1   1   1   1 Cluster: Replicase polyprotein 1a
+UniRef100_F4MIS5        -          protease_protein     -           2.8e-134  458.0   0.1  5.6e-134  457.0   0.1   1.6   1   0   0   1   1   1   1 Cluster: Replicase polyprotein 1a
+UniRef100_G3C793        -          protease_protein     -           2.8e-134  458.0   0.1  5.6e-134  457.0   0.1   1.6   1   0   0   1   1   1   1 Cluster: Polyprotein 1a
+UniRef100_F4MIX5        -          protease_protein     -           2.9e-134  458.0   0.2  5.6e-134  457.0   0.2   1.5   1   0   0   1   1   1   1 Cluster: Replicase polyprotein 1a
+UniRef100_E5D0C1        -          protease_protein     -           3.1e-134  457.9   0.2  5.7e-134  457.0   0.2   1.5   1   0   0   1   1   1   1 Cluster: Polyprotein 1a
+UniRef100_G3C7B7        -          protease_protein     -           3.1e-134  457.8   0.2  6.6e-134  456.8   0.2   1.6   1   0   0   1   1   1   1 Cluster: Polyprotein 1ab
+UniRef100_P0C6Y1        -          protease_protein     -           3.2e-134  457.8   0.2  6.5e-134  456.8   0.2   1.6   1   0   0   1   1   1   1 Cluster: Replicase polyprotein 1ab
+UniRef100_P0C6Y2        -          protease_protein     -           3.2e-134  457.8   0.2  6.5e-134  456.8   0.2   1.6   1   0   0   1   1   1   1 Cluster: Replicase polyprotein 1ab
+UniRef100_T2BBG8        -          protease_protein     -           3.5e-134  457.7   5.5    1e-133  456.1   5.5   1.9   1   0   0   1   1   1   1 Cluster: ORF1ab (Fragment)
+UniRef100_E5D087        -          protease_protein     -           3.7e-134  457.6   0.1  8.4e-134  456.4   0.1   1.7   1   0   0   1   1   1   1 Cluster: Polyprotein 1ab
+UniRef100_M9WVH3        -          protease_protein     -           3.7e-134  457.6   0.2  8.4e-134  456.4   0.2   1.7   1   0   0   1   1   1   1 Cluster: ORF1ab
+UniRef100_C7S7X8        -          protease_protein     -           3.8e-134  457.5   0.2  8.4e-134  456.4   0.2   1.6   1   0   0   1   1   1   1 Cluster: 1ab polyprotein
+UniRef100_G3C780        -          protease_protein     -           4.1e-134  457.5   0.2  8.1e-134  456.5   0.2   1.6   1   0   0   1   1   1   1 Cluster: Polyprotein 1a
+UniRef100_J7I7P3        -          protease_protein     -           4.2e-134  457.4   0.1  9.5e-134  456.3   0.1   1.7   1   0   0   1   1   1   1 Cluster: Polymerase/replicase
+UniRef100_E5D076        -          protease_protein     -           4.3e-134  457.4   0.1    1e-133  456.1   0.1   1.7   1   0   0   1   1   1   1 Cluster: Polyprotein 1ab
+UniRef100_R9UPC1        -          protease_protein     -           4.3e-134  457.4   5.5  1.2e-133  455.9   5.5   1.9   1   0   0   1   1   1   1 Cluster: Orf1ab
+UniRef100_T2BB35        -          protease_protein     -           4.4e-134  457.4   5.5  1.2e-133  455.9   5.5   1.9   1   0   0   1   1   1   1 Cluster: ORF1ab
+UniRef100_C9DSU7        -          protease_protein     -           4.4e-134  457.4   0.3  8.6e-134  456.4   0.3   1.5   1   0   0   1   1   1   1 Cluster: Polyprotein 1a
+UniRef100_F4MIU4        -          protease_protein     -           4.4e-134  457.3   0.2  9.9e-134  456.2   0.2   1.7   1   0   0   1   1   1   1 Cluster: Replicase polyprotein 1ab
+UniRef100_T2B9S2        -          protease_protein     -           4.5e-134  457.3   5.5  1.2e-133  455.9   5.5   1.9   1   0   0   1   1   1   1 Cluster: ORF1ab
+UniRef100_R9UNV9        -          protease_protein     -           4.5e-134  457.3   5.5  1.2e-133  455.9   5.5   1.9   1   0   0   1   1   1   1 Cluster: ORF1ab
+UniRef100_T2BBY7        -          protease_protein     -           4.5e-134  457.3   5.5  1.2e-133  455.9   5.5   1.9   1   0   0   1   1   1   1 Cluster: ORF1ab
+UniRef100_T2BBH6        -          protease_protein     -           4.5e-134  457.3   5.5  1.2e-133  455.9   5.5   1.9   1   0   0   1   1   1   1 Cluster: ORF1ab
+UniRef100_T2B9U0        -          protease_protein     -           4.5e-134  457.3   5.5  1.2e-133  455.9   5.5   1.9   1   0   0   1   1   1   1 Cluster: ORF1ab
+UniRef100_T2B9Z0        -          protease_protein     -           4.5e-134  457.3   5.5  1.2e-133  455.9   5.5   1.9   1   0   0   1   1   1   1 Cluster: ORF1ab
+UniRef100_R9UQ29        -          protease_protein     -           4.5e-134  457.3   5.5  1.2e-133  455.9   5.5   1.9   1   0   0   1   1   1   1 Cluster: ORF1ab
+UniRef100_K0BWD0        -          protease_protein     -           4.5e-134  457.3   5.5  1.2e-133  455.9   5.5   1.9   1   0   0   1   1   1   1 Cluster: ORF1ab
+UniRef100_M1S8Z6        -          protease_protein     -           4.5e-134  457.3   5.5  1.2e-133  455.9   5.5   1.9   1   0   0   1   1   1   1 Cluster: ORF1ab
+UniRef100_K9N7C7        -          protease_protein     -           4.5e-134  457.3   5.5  1.2e-133  455.9   5.5   1.9   1   0   0   1   1   1   1 Cluster: Replicase polyprotein 1ab
+UniRef100_T2B9N1        -          protease_protein     -           4.5e-134  457.3   5.5  1.2e-133  455.9   5.5   1.9   1   0   0   1   1   1   1 Cluster: ORF1ab
+UniRef100_M4STU1        -          protease_protein     -           4.5e-134  457.3   5.5  1.2e-133  455.9   5.5   1.9   1   0   0   1   1   1   1 Cluster: ORF1ab protein
+UniRef100_G3C766        -          protease_protein     -           4.5e-134  457.3   0.1    1e-133  456.1   0.1   1.7   1   0   0   1   1   1   1 Cluster: Polyprotein 1ab
+UniRef100_B8QAY6        -          protease_protein     -           4.5e-134  457.3   0.1    1e-133  456.1   0.1   1.7   1   0   0   1   1   1   1 Cluster: 1ab polyprotein
+UniRef100_B8QAZ6        -          protease_protein     -           4.5e-134  457.3   0.1    1e-133  456.1   0.1   1.7   1   0   0   1   1   1   1 Cluster: 1ab polyprotein
+UniRef100_E5D065        -          protease_protein     -           4.5e-134  457.3   0.1    1e-133  456.1   0.1   1.7   1   0   0   1   1   1   1 Cluster: Polyprotein 1ab
+UniRef100_F4MIT4        -          protease_protein     -           4.6e-134  457.3   0.1    1e-133  456.1   0.1   1.7   1   0   0   1   1   1   1 Cluster: Replicase polyprotein 1ab
+UniRef100_F4MIS4        -          protease_protein     -           4.6e-134  457.3   0.1    1e-133  456.1   0.1   1.7   1   0   0   1   1   1   1 Cluster: Replicase polyprotein 1ab
+UniRef100_G3C792        -          protease_protein     -           4.6e-134  457.3   0.1    1e-133  456.1   0.1   1.7   1   0   0   1   1   1   1 Cluster: Polyprotein 1ab
+UniRef100_F4MIV4        -          protease_protein     -           4.8e-134  457.2   0.1    1e-133  456.1   0.1   1.6   1   0   0   1   1   1   1 Cluster: Replicase polyprotein 1ab
+UniRef100_F4MIP5        -          protease_protein     -           4.8e-134  457.2   0.1  9.5e-134  456.3   0.1   1.6   1   0   0   1   1   1   1 Cluster: Replicase polyprotein 1a
+UniRef100_F4MIX4        -          protease_protein     -           4.8e-134  457.2   0.2    1e-133  456.1   0.2   1.6   1   0   0   1   1   1   1 Cluster: Replicase polyprotein 1ab
+UniRef100_D7SCA5        -          protease_protein     -           4.8e-134  457.2   0.3  9.4e-134  456.3   0.3   1.5   1   0   0   1   1   1   1 Cluster: 1a polyprotein
+UniRef100_C9DSV8        -          protease_protein     -           5.4e-134  457.1   0.1  1.1e-133  456.1   0.1   1.6   1   0   0   1   1   1   1 Cluster: Polyprotein 1a
+UniRef100_E5D0C0        -          protease_protein     -           5.5e-134  457.0   0.2  1.1e-133  456.1   0.2   1.5   1   0   0   1   1   1   1 Cluster: Polyprotein 1ab
+UniRef100_P0C6F6        -          protease_protein     -           6.2e-134  456.9   3.1  1.2e-133  456.0   3.1   1.5   1   0   0   1   1   1   1 Cluster: Replicase polyprotein 1a
+UniRef100_H9EJ15        -          protease_protein     -           6.5e-134  456.8   3.6  6.5e-134  456.8   3.6   2.2   2   0   0   2   2   1   1 Cluster: Replicase polyprotein orf1a
+UniRef100_H9EJ22        -          protease_protein     -           6.5e-134  456.8   3.6  6.5e-134  456.8   3.6   2.2   2   0   0   2   2   1   1 Cluster: Replicase polyprotein orf1a
+UniRef100_H9EJ29        -          protease_protein     -           6.5e-134  456.8   3.6  6.5e-134  456.8   3.6   2.2   2   0   0   2   2   1   1 Cluster: Replicase polyprotein orf1a
+UniRef100_H9EJ57        -          protease_protein     -           6.5e-134  456.8   3.6  6.5e-134  456.8   3.6   2.2   2   0   0   2   2   1   1 Cluster: Replicase polyprotein orf1a
+UniRef100_H9EJ64        -          protease_protein     -           6.5e-134  456.8   3.6  6.5e-134  456.8   3.6   2.2   2   0   0   2   2   1   1 Cluster: Replicase polyprotein orf1a
+UniRef100_U3M6U7        -          protease_protein     -           6.5e-134  456.8   3.6  6.5e-134  456.8   3.6   2.2   2   0   0   2   2   1   1 Cluster: Replicase polyprotein 1a
+UniRef100_H9EJ50        -          protease_protein     -           6.5e-134  456.8   3.6  6.5e-134  456.8   3.6   2.3   2   0   0   2   2   1   1 Cluster: Replicase polyprotein orf1a
+UniRef100_H9EJ71        -          protease_protein     -           6.5e-134  456.8   3.6  6.5e-134  456.8   3.6   2.3   2   0   0   2   2   1   1 Cluster: Replicase polyprotein orf1a
+UniRef100_H9EJ78        -          protease_protein     -           6.5e-134  456.8   3.6  6.5e-134  456.8   3.6   2.3   2   0   0   2   2   1   1 Cluster: Replicase polyprotein orf1a
+UniRef100_H9EJ85        -          protease_protein     -           6.5e-134  456.8   3.6  6.5e-134  456.8   3.6   2.3   2   0   0   2   2   1   1 Cluster: Replicase polyprotein orf1a
+UniRef100_H9EJ99        -          protease_protein     -           6.5e-134  456.8   3.6  6.5e-134  456.8   3.6   2.3   2   0   0   2   2   1   1 Cluster: Replicase polyprotein orf1a
+UniRef100_G3C779        -          protease_protein     -             7e-134  456.7   0.2  1.5e-133  455.6   0.2   1.6   1   0   0   1   1   1   1 Cluster: Polyprotein 1ab
+UniRef100_Q6R4P6        -          protease_protein     -             7e-134  456.7   0.2  1.5e-133  455.6   0.2   1.6   1   0   0   1   1   1   1 Cluster: 1a
+UniRef100_K4LC41        -          protease_protein     -           7.1e-134  456.7   5.5  7.1e-134  456.7   5.5   2.0   2   0   0   2   2   1   1 Cluster: ORF1a
+UniRef100_K9N638        -          protease_protein     -           7.1e-134  456.7   5.5  7.1e-134  456.7   5.5   2.0   2   0   0   2   2   1   1 Cluster: Replicase polyprotein 1a
+UniRef100_M4T780        -          protease_protein     -           7.1e-134  456.7   5.5  7.1e-134  456.7   5.5   2.0   2   0   0   2   2   1   1 Cluster: ORF1a protein
+UniRef100_R9UM70        -          protease_protein     -           7.1e-134  456.7   5.5  7.1e-134  456.7   5.5   2.0   2   0   0   2   2   1   1 Cluster: ORF1a
+UniRef100_R9UQM1        -          protease_protein     -           7.1e-134  456.7   5.5  7.1e-134  456.7   5.5   2.0   2   0   0   2   2   1   1 Cluster: Orf1ab
+UniRef100_R9UQN3        -          protease_protein     -           7.1e-134  456.7   5.5  7.1e-134  456.7   5.5   2.0   2   0   0   2   2   1   1 Cluster: ORF1a
+UniRef100_T2B9A8        -          protease_protein     -           7.1e-134  456.7   5.5  7.1e-134  456.7   5.5   2.0   2   0   0   2   2   1   1 Cluster: ORF1a
+UniRef100_T2B9G2        -          protease_protein     -           7.1e-134  456.7   5.5  7.1e-134  456.7   5.5   2.0   2   0   0   2   2   1   1 Cluster: ORF1a
+UniRef100_T2B9I2        -          protease_protein     -           7.1e-134  456.7   5.5  7.1e-134  456.7   5.5   2.0   2   0   0   2   2   1   1 Cluster: ORF1a
+UniRef100_T2BA45        -          protease_protein     -           7.1e-134  456.7   5.5  7.1e-134  456.7   5.5   2.0   2   0   0   2   2   1   1 Cluster: ORF1a
+UniRef100_T2BB45        -          protease_protein     -           7.1e-134  456.7   5.5  7.1e-134  456.7   5.5   2.0   2   0   0   2   2   1   1 Cluster: ORF1a
+UniRef100_T2BBL2        -          protease_protein     -           7.1e-134  456.7   5.5  7.1e-134  456.7   5.5   2.0   2   0   0   2   2   1   1 Cluster: ORF1a
+UniRef100_J7I0T0        -          protease_protein     -           7.6e-134  456.6   0.1  1.8e-133  455.4   0.1   1.7   1   0   0   1   1   1   1 Cluster: Polymerase/replicase
+UniRef100_C9DSU6        -          protease_protein     -           7.7e-134  456.6   0.3  1.6e-133  455.5   0.3   1.6   1   0   0   1   1   1   1 Cluster: Polyprotein 1ab
+UniRef100_G3C7E3        -          protease_protein     -           8.2e-134  456.5   0.1  1.7e-133  455.5   0.1   1.6   1   0   0   1   1   1   1 Cluster: Polyprotein 1a
+UniRef100_F4MIP4        -          protease_protein     -           8.2e-134  456.5   0.1  1.8e-133  455.4   0.1   1.6   1   0   0   1   1   1   1 Cluster: Replicase polyprotein 1ab
+UniRef100_G3C7D1        -          protease_protein     -           8.7e-134  456.4   0.1  1.7e-133  455.5   0.1   1.5   1   0   0   1   1   1   1 Cluster: Polyprotein 1a
+UniRef100_U3M6Q5        -          protease_protein     -           8.8e-134  456.4   3.7  8.8e-134  456.4   3.7   2.2   2   0   0   2   2   1   1 Cluster: Replicase polyprotein 1a
+UniRef100_H9EJ36        -          protease_protein     -           8.8e-134  456.4   3.7  8.8e-134  456.4   3.7   2.3   2   0   0   2   2   1   1 Cluster: Replicase polyprotein orf1a
+UniRef100_H9EJ43        -          protease_protein     -           8.8e-134  456.4   3.7  8.8e-134  456.4   3.7   2.3   2   0   0   2   2   1   1 Cluster: Replicase polyprotein orf1a
+UniRef100_H9EJ92        -          protease_protein     -           8.8e-134  456.4   3.7  8.8e-134  456.4   3.7   2.1   2   0   0   2   2   1   1 Cluster: Replicase polyprotein orf1a
+UniRef100_U3M6B0        -          protease_protein     -           8.8e-134  456.4   3.7  8.8e-134  456.4   3.7   2.3   2   0   0   2   2   1   1 Cluster: Replicase polyprotein 1a
+UniRef100_U3M6S1        -          protease_protein     -           8.8e-134  456.4   3.7  8.8e-134  456.4   3.7   2.3   2   0   0   2   2   1   1 Cluster: Replicase polyprotein 1a
+UniRef100_U3M7G6        -          protease_protein     -           8.8e-134  456.4   3.7  8.8e-134  456.4   3.7   2.3   2   0   0   2   2   1   1 Cluster: Replicase polyprotein 1a
+UniRef100_U3M7H3        -          protease_protein     -           8.8e-134  456.4   3.7  8.8e-134  456.4   3.7   2.1   2   0   0   2   2   1   1 Cluster: Replicase polyprotein 1a
+UniRef100_U3M7T4        -          protease_protein     -           8.8e-134  456.4   3.7  8.8e-134  456.4   3.7   2.3   2   0   0   2   2   1   1 Cluster: Replicase polyprotein 1a
+UniRef100_U3M7U1        -          protease_protein     -           8.8e-134  456.4   3.7  8.8e-134  456.4   3.7   2.3   2   0   0   2   2   1   1 Cluster: Replicase polyprotein 1a
+UniRef100_C9DSV7        -          protease_protein     -           8.9e-134  456.3   0.1    2e-133  455.2   0.1   1.7   1   0   0   1   1   1   1 Cluster: Polyprotein 1ab
+UniRef100_C3VPK2        -          protease_protein     -           1.1e-133  456.1   0.2  2.2e-133  455.0   0.2   1.6   1   0   0   1   1   1   1 Cluster: Polyprotein 1a
+UniRef100_P0C6W0        -          protease_protein     -           1.1e-133  456.1   3.1  2.1e-133  455.1   3.1   1.5   1   0   0   1   1   1   1 Cluster: Replicase polyprotein 1ab
+UniRef100_Q6R4P7        -          protease_protein     -           1.2e-133  456.0   0.2  2.7e-133  454.8   0.2   1.7   1   0   0   1   1   1   1 Cluster: 1ab
+UniRef100_H9EJ14        -          protease_protein     -           1.2e-133  455.9   3.6  1.2e-133  455.9   3.6   2.1   2   0   0   2   2   1   1 Cluster: Replicase polyprotein orf1ab
+UniRef100_H9EJ21        -          protease_protein     -           1.2e-133  455.9   3.6  1.2e-133  455.9   3.6   2.1   2   0   0   2   2   1   1 Cluster: Replicase polyprotein orf1ab
+UniRef100_H9EJ28        -          protease_protein     -           1.2e-133  455.9   3.6  1.2e-133  455.9   3.6   2.1   2   0   0   2   2   1   1 Cluster: Replicase polyprotein orf1ab
+UniRef100_H9EJ56        -          protease_protein     -           1.2e-133  455.9   3.6  1.2e-133  455.9   3.6   2.1   2   0   0   2   2   1   1 Cluster: Replicase polyprotein orf1ab
+UniRef100_H9EJ63        -          protease_protein     -           1.2e-133  455.9   3.6  1.2e-133  455.9   3.6   2.1   2   0   0   2   2   1   1 Cluster: Replicase polyprotein orf1ab
+UniRef100_I7D9J9        -          protease_protein     -           1.2e-133  455.9   3.6  1.2e-133  455.9   3.6   2.0   2   0   0   2   2   1   1 Cluster: 1ab polyprotein
+UniRef100_J7JIB1        -          protease_protein     -           1.2e-133  455.9   3.6  1.2e-133  455.9   3.6   2.0   2   0   0   2   2   1   1 Cluster: Replicase polyprotein 1ab
+UniRef100_Q06Y11        -          protease_protein     -           1.2e-133  455.9   3.6  1.2e-133  455.9   3.6   2.1   2   0   0   2   2   1   1 Cluster: 1ab polyprotein
+UniRef100_U3M7U4        -          protease_protein     -           1.2e-133  455.9   3.6  1.2e-133  455.9   3.6   2.1   2   0   0   2   2   1   1 Cluster: Replicase polyprotein 1ab
+UniRef100_H9EJ49        -          protease_protein     -           1.2e-133  455.9   3.6  1.2e-133  455.9   3.6   2.2   2   0   0   2   2   1   1 Cluster: Replicase polyprotein orf1ab
+UniRef100_H9EJ70        -          protease_protein     -           1.2e-133  455.9   3.6  1.2e-133  455.9   3.6   2.2   2   0   0   2   2   1   1 Cluster: Replicase polyprotein orf1ab
+UniRef100_H9EJ77        -          protease_protein     -           1.2e-133  455.9   3.6  1.2e-133  455.9   3.6   2.2   2   0   0   2   2   1   1 Cluster: Replicase polyprotein orf1ab
+UniRef100_H9EJ84        -          protease_protein     -           1.2e-133  455.9   3.6  1.2e-133  455.9   3.6   2.2   2   0   0   2   2   1   1 Cluster: Replicase polyprotein orf1ab
+UniRef100_H9EJ98        -          protease_protein     -           1.2e-133  455.9   3.6  1.2e-133  455.9   3.6   2.2   2   0   0   2   2   1   1 Cluster: Replicase polyprotein orf1ab
+UniRef100_Q06Y17        -          protease_protein     -           1.2e-133  455.9   3.6  1.2e-133  455.9   3.6   2.2   2   0   0   2   2   1   1 Cluster: 1ab polyprotein
+UniRef100_B1PHK1        -          protease_protein     -           1.4e-133  455.7   2.1  1.4e-133  455.7   2.1   1.8   2   0   0   2   2   1   1 Cluster: ORF1a polyprotein
+UniRef100_G3C7E2        -          protease_protein     -           1.4e-133  455.7   0.1  3.1e-133  454.6   0.1   1.6   1   0   0   1   1   1   1 Cluster: Polyprotein 1ab
+UniRef100_G3C7D0        -          protease_protein     -           1.5e-133  455.6   0.1  3.1e-133  454.6   0.1   1.6   1   0   0   1   1   1   1 Cluster: Polyprotein 1ab
+UniRef100_F4MIQ5        -          protease_protein     -           1.6e-133  455.5   0.1  3.2e-133  454.5   0.1   1.6   1   0   0   1   1   1   1 Cluster: Replicase polyprotein 1a
+UniRef100_P0C6V5        -          protease_protein     -           1.6e-133  455.5   0.2  3.1e-133  454.6   0.2   1.5   1   0   0   1   1   1   1 Cluster: Replicase polyprotein 1a
+UniRef100_F4MIZ5        -          protease_protein     -           1.6e-133  455.5   0.2  3.1e-133  454.6   0.2   1.5   1   0   0   1   1   1   1 Cluster: Replicase polyprotein 1a
+UniRef100_F4MIW5        -          protease_protein     -           1.6e-133  455.5   0.2  3.1e-133  454.6   0.2   1.5   1   0   0   1   1   1   1 Cluster: Replicase polyprotein 1a
+UniRef100_U3M699        -          protease_protein     -           1.6e-133  455.5   3.7  1.6e-133  455.5   3.7   2.1   2   0   0   2   2   1   1 Cluster: Replicase polyprotein 1ab
+UniRef100_H9EJ35        -          protease_protein     -           1.6e-133  455.5   3.7  1.6e-133  455.5   3.7   2.2   2   0   0   2   2   1   1 Cluster: Replicase polyprotein orf1ab
+UniRef100_H9EJ42        -          protease_protein     -           1.6e-133  455.5   3.7  1.6e-133  455.5   3.7   2.2   2   0   0   2   2   1   1 Cluster: Replicase polyprotein orf1ab
+UniRef100_H9EJ91        -          protease_protein     -           1.6e-133  455.5   3.7  1.6e-133  455.5   3.7   2.0   2   0   0   2   2   1   1 Cluster: Replicase polyprotein orf1ab
+UniRef100_U3M6A6        -          protease_protein     -           1.6e-133  455.5   3.7  1.6e-133  455.5   3.7   2.2   2   0   0   2   2   1   1 Cluster: Replicase polyprotein 1ab
+UniRef100_U3M6R1        -          protease_protein     -           1.6e-133  455.5   3.7  1.6e-133  455.5   3.7   2.2   2   0   0   2   2   1   1 Cluster: Replicase polyprotein 1ab
+UniRef100_U3M6R9        -          protease_protein     -           1.6e-133  455.5   3.7  1.6e-133  455.5   3.7   2.2   2   0   0   2   2   1   1 Cluster: Replicase polyprotein 1ab
+UniRef100_U3M6T1        -          protease_protein     -           1.6e-133  455.5   3.7  1.6e-133  455.5   3.7   2.0   2   0   0   2   2   1   1 Cluster: Replicase polyprotein 1ab
+UniRef100_U3M6V5        -          protease_protein     -           1.6e-133  455.5   3.7  1.6e-133  455.5   3.7   2.2   2   0   0   2   2   1   1 Cluster: Replicase polyprotein 1ab
+UniRef100_U3M7G2        -          protease_protein     -           1.6e-133  455.5   3.7  1.6e-133  455.5   3.7   2.2   2   0   0   2   2   1   1 Cluster: Replicase polyprotein 1ab
+UniRef100_U3M7G9        -          protease_protein     -           1.6e-133  455.5   3.7  1.6e-133  455.5   3.7   2.2   2   0   0   2   2   1   1 Cluster: Replicase polyprotein 1ab
+UniRef100_U3M7T7        -          protease_protein     -           1.6e-133  455.5   3.7  1.6e-133  455.5   3.7   2.2   2   0   0   2   2   1   1 Cluster: Replicase polyprotein 1ab
+UniRef100_J7KEW9        -          protease_protein     -           1.6e-133  455.5   0.3  3.4e-133  454.4   0.3   1.6   1   0   0   1   1   1   1 Cluster: ORF1ab
+UniRef100_F4MIR5        -          protease_protein     -           1.6e-133  455.5   0.2  3.4e-133  454.4   0.2   1.6   1   0   0   1   1   1   1 Cluster: Replicase polyprotein 1a
+UniRef100_J7K855        -          protease_protein     -           1.6e-133  455.5   0.3  3.4e-133  454.4   0.3   1.6   1   0   0   1   1   1   1 Cluster: ORF1ab
+UniRef100_D9J1Z3        -          protease_protein     -           1.7e-133  455.4   0.3  4.1e-133  454.2   0.3   1.7   1   0   0   1   1   1   1 Cluster: Orf1a polyprotein
+UniRef100_T2BBA9        -          protease_protein     -           1.8e-133  455.4   5.4    5e-133  453.9   5.4   1.9   1   0   0   1   1   1   1 Cluster: ORF1ab
+UniRef100_T2BAY3        -          protease_protein     -           1.8e-133  455.3   5.4    5e-133  453.9   5.4   1.9   1   0   0   1   1   1   1 Cluster: ORF1ab
+UniRef100_C3VPK1        -          protease_protein     -           1.9e-133  455.3   0.2  4.1e-133  454.2   0.2   1.6   1   0   0   1   1   1   1 Cluster: Polyprotein 1ab
+UniRef100_C9DST6        -          protease_protein     -             2e-133  455.2   0.2    4e-133  454.2   0.2   1.6   1   0   0   1   1   1   1 Cluster: Polyprotein 1a
+UniRef100_U3M6A3        -          protease_protein     -           2.3e-133  455.0   3.5  2.3e-133  455.0   3.5   2.3   2   0   0   2   2   1   1 Cluster: Replicase polyprotein 1a
+UniRef100_D9J203        -          protease_protein     -           2.4e-133  454.9   0.3  8.2e-133  453.2   0.3   2.0   1   0   0   1   1   1   1 Cluster: Orf1a polyprotein
+UniRef100_B1PHK0        -          protease_protein     -           2.5e-133  454.9   2.1  2.5e-133  454.9   2.1   1.7   2   0   0   2   2   1   1 Cluster: ORF1ab polyprotein
+UniRef100_F4MIQ4        -          protease_protein     -           2.6e-133  454.8   0.1  5.9e-133  453.7   0.1   1.7   1   0   0   1   1   1   1 Cluster: Replicase polyprotein 1ab
+UniRef100_P0C6Y3        -          protease_protein     -           2.6e-133  454.8   0.2  5.8e-133  453.7   0.2   1.7   1   0   0   1   1   1   1 Cluster: Replicase polyprotein 1ab
+UniRef100_F4MIW4        -          protease_protein     -           2.7e-133  454.8   0.2  5.8e-133  453.7   0.2   1.6   1   0   0   1   1   1   1 Cluster: Replicase polyprotein 1ab
+UniRef100_F4MIZ4        -          protease_protein     -           2.7e-133  454.8   0.2  5.8e-133  453.7   0.2   1.6   1   0   0   1   1   1   1 Cluster: Replicase polyprotein 1ab
+UniRef100_P0C6U6        -          protease_protein     -           2.7e-133  454.8   4.2  2.7e-133  454.8   4.2   2.3   2   0   0   2   2   1   1 Cluster: Replicase polyprotein 1a
+UniRef100_Q6DV55        -          protease_protein     -           2.7e-133  454.8   0.2  5.8e-133  453.7   0.2   1.6   1   0   0   1   1   1   1 Cluster: Replicase polyprotein 1ab
+UniRef100_F4MIR4        -          protease_protein     -           2.8e-133  454.7   0.2  6.4e-133  453.5   0.2   1.7   1   0   0   1   1   1   1 Cluster: Replicase polyprotein 1ab
+UniRef100_F4MIY5        -          protease_protein     -           2.8e-133  454.7   0.2  5.5e-133  453.7   0.2   1.5   1   0   0   1   1   1   1 Cluster: Replicase polyprotein 1a
+UniRef100_T2BBC3        -          protease_protein     -           2.8e-133  454.7   5.4  2.8e-133  454.7   5.4   2.0   2   0   0   2   2   1   1 Cluster: ORF1a
+UniRef100_D9J1Z2        -          protease_protein     -           3.2e-133  454.5   0.3  7.6e-133  453.3   0.3   1.7   1   0   0   1   1   1   1 Cluster: Orf1ab polyprotein
+UniRef100_C9DST5        -          protease_protein     -           3.3e-133  454.5   0.2  7.5e-133  453.3   0.2   1.7   1   0   0   1   1   1   1 Cluster: Polyprotein 1ab
+UniRef100_F1BYL7        -          protease_protein     -           3.9e-133  454.2   0.1  7.3e-133  453.4   0.1   1.5   1   0   0   1   1   1   1 Cluster: Putative 1a polyprotein (Fragment)
+UniRef100_U3M6T7        -          protease_protein     -           4.1e-133  454.2   3.5  4.1e-133  454.2   3.5   2.2   2   0   0   2   2   1   1 Cluster: Replicase polyprotein 1ab
+UniRef100_I1YZH5        -          protease_protein     -           4.1e-133  454.2   0.2  8.9e-133  453.1   0.2   1.6   1   0   0   1   1   1   1 Cluster: ORF1a
+UniRef100_C9DSS5        -          protease_protein     -           4.5e-133  454.0   0.2  8.6e-133  453.1   0.2   1.5   1   0   0   1   1   1   1 Cluster: Polyprotein 1ab
+UniRef100_J7I0S0        -          protease_protein     -           4.8e-133  454.0   0.1  9.6e-133  453.0   0.1   1.6   1   0   0   1   1   1   1 Cluster: Polymerase/replicase
+UniRef100_G3C7F6        -          protease_protein     -           4.8e-133  453.9   0.2  9.9e-133  452.9   0.2   1.6   1   0   0   1   1   1   1 Cluster: Polyprotein 1a
+UniRef100_K4PE35        -          protease_protein     -           4.9e-133  453.9   4.2  4.9e-133  453.9   4.2   2.2   2   0   0   2   2   1   1 Cluster: Replicase polyprotein 1ab
+UniRef100_P0C6X5        -          protease_protein     -           4.9e-133  453.9   4.2  4.9e-133  453.9   4.2   2.2   2   0   0   2   2   1   1 Cluster: Replicase polyprotein 1ab
+UniRef100_G1CRJ1        -          protease_protein     -             5e-133  453.9   0.3  9.5e-133  453.0   0.3   1.5   1   0   0   1   1   1   1 Cluster: 1a polyprotein
+UniRef100_F4MIY4        -          protease_protein     -           5.1e-133  453.9   0.2    1e-132  452.9   0.2   1.6   1   0   0   1   1   1   1 Cluster: Replicase polyprotein 1ab
+UniRef100_D9J202        -          protease_protein     -           5.5e-133  453.7   0.3  1.5e-132  452.3   0.3   1.9   1   0   0   1   1   1   1 Cluster: Orf1ab polyprotein
+UniRef100_E5D0B0        -          protease_protein     -           5.8e-133  453.7   0.3  1.1e-132  452.7   0.3   1.5   1   0   0   1   1   1   1 Cluster: Polyprotein 1a
+UniRef100_C7S7Y9        -          protease_protein     -           6.3e-133  453.6   0.2  1.2e-132  452.6   0.2   1.5   1   0   0   1   1   1   1 Cluster: 1a polyprotein
+UniRef100_Q6R1L8        -          protease_protein     -           6.4e-133  453.5   3.9  6.4e-133  453.5   3.9   2.2   2   0   0   2   2   1   1 Cluster: ORF 1a
+UniRef100_I1YZH6        -          protease_protein     -           7.4e-133  453.3   0.2  1.6e-132  452.2   0.2   1.7   1   0   0   1   1   1   1 Cluster: ORF2b
+UniRef100_C9DSS4        -          protease_protein     -           7.8e-133  453.2   0.2  1.6e-132  452.2   0.2   1.6   1   0   0   1   1   1   1 Cluster: Polyprotein 1a
+UniRef100_G3C7F5        -          protease_protein     -           8.4e-133  453.2   0.2  1.8e-132  452.0   0.2   1.6   1   0   0   1   1   1   1 Cluster: Polyprotein 1ab
+UniRef100_Q7T834        -          protease_protein     -           8.5e-133  453.1   0.4  1.7e-132  452.2   0.4   1.5   1   0   0   1   1   1   1 Cluster: Replicase polyprotein 1a
+UniRef100_G4XMQ5        -          protease_protein     -           8.6e-133  453.1   0.2  1.7e-132  452.2   0.2   1.5   1   0   0   1   1   1   1 Cluster: 1a protein
+UniRef100_I1VWF4        -          protease_protein     -           9.4e-133  453.0   5.2    2e-132  451.9   5.2   1.6   1   0   0   1   1   1   1 Cluster: Replicase polyprotein 1a
+UniRef100_E5D0A9        -          protease_protein     -           9.7e-133  452.9   0.3  2.1e-132  451.8   0.3   1.6   1   0   0   1   1   1   1 Cluster: Polyprotein 1ab
+UniRef100_G3FER5        -          protease_protein     -           9.8e-133  452.9   0.7  1.9e-132  452.0   0.7   1.5   1   0   0   1   1   1   1 Cluster: 1a polyprotein
+UniRef100_C7S7Y8        -          protease_protein     -           1.1e-132  452.8   0.2  2.2e-132  451.8   0.2   1.6   1   0   0   1   1   1   1 Cluster: 1ab polyprotein
+UniRef100_J9V878        -          protease_protein     -           1.1e-132  452.7   4.3  2.7e-132  451.5   4.3   1.7   1   0   0   1   1   1   1 Cluster: Replicase polyprotein 1a
+UniRef100_Q6R1L9        -          protease_protein     -           1.2e-132  452.7   3.9  1.2e-132  452.7   3.9   2.1   2   0   0   2   2   1   1 Cluster: ORF 1ab
+UniRef100_P0C6T4        -          protease_protein     -           1.2e-132  452.6   5.9  2.2e-132  451.8   5.9   1.5   1   0   0   1   1   1   1 Cluster: Replicase polyprotein 1a
+UniRef100_J9V874        -          protease_protein     -           1.3e-132  452.6   4.4  3.1e-132  451.3   4.4   1.8   1   0   0   1   1   1   1 Cluster: Replicase polyprotein 1a
+UniRef100_S5YNN7        -          protease_protein     -           1.3e-132  452.5   4.4  3.1e-132  451.3   4.4   1.7   1   0   0   1   1   1   1 Cluster: Replicase polyprotein 1a
+UniRef100_S5YNM3        -          protease_protein     -           1.3e-132  452.5   4.4  3.1e-132  451.3   4.4   1.7   1   0   0   1   1   1   1 Cluster: Replicase polyprotein 1a
+UniRef100_S5YGU6        -          protease_protein     -           1.3e-132  452.5   4.4  3.1e-132  451.3   4.4   1.7   1   0   0   1   1   1   1 Cluster: Replicase polyprotein 1a
+UniRef100_I1VWF3        -          protease_protein     -           1.5e-132  452.3   5.2  3.7e-132  451.0   5.2   1.8   1   0   0   1   1   1   1 Cluster: Replicase polyprotein 1ab
+UniRef100_Q7T835        -          protease_protein     -           1.5e-132  452.3   0.4  3.1e-132  451.3   0.4   1.6   1   0   0   1   1   1   1 Cluster: Replicase polyprotein 1ab
+UniRef100_P0C6U2        -          protease_protein     -           1.6e-132  452.2   4.5  3.5e-132  451.1   4.5   1.6   1   0   0   1   1   1   1 Cluster: Replicase polyprotein 1a
+UniRef100_P0C6F7        -          protease_protein     -           1.7e-132  452.1   5.8  3.1e-132  451.3   5.8   1.5   1   0   0   1   1   1   1 Cluster: Replicase polyprotein 1a
+UniRef100_A3EXC0        -          protease_protein     -           1.8e-132  452.1   5.9  3.9e-132  451.0   5.9   1.6   1   0   0   1   1   1   1 Cluster: Orf1ab polyprotein
+UniRef100_P0C6W3        -          protease_protein     -           1.8e-132  452.0   5.9  3.9e-132  451.0   5.9   1.6   1   0   0   1   1   1   1 Cluster: Replicase polyprotein 1ab
+UniRef100_A3EXA2        -          protease_protein     -           1.8e-132  452.0   5.9  3.9e-132  451.0   5.9   1.6   1   0   0   1   1   1   1 Cluster: Orf1ab polyprotein
+UniRef100_J9UWL3        -          protease_protein     -           1.8e-132  452.0   4.3  4.8e-132  450.7   4.3   1.8   1   0   0   1   1   1   1 Cluster: Replicase polyprotein 1ab
+UniRef100_J9V7N5        -          protease_protein     -           2.1e-132  451.9   4.4  5.7e-132  450.4   4.4   1.9   1   0   0   1   1   1   1 Cluster: Replicase polyprotein 1ab
+UniRef100_S5ZJ03        -          protease_protein     -           2.2e-132  451.8   4.4  5.7e-132  450.4   4.4   1.8   1   0   0   1   1   1   1 Cluster: Replicase polyprotein 1ab
+UniRef100_S5ZIY6        -          protease_protein     -           2.2e-132  451.8   4.4  5.7e-132  450.4   4.4   1.8   1   0   0   1   1   1   1 Cluster: Replicase polyprotein 1ab
+UniRef100_S5Z1H0        -          protease_protein     -           2.2e-132  451.8   4.4  5.7e-132  450.4   4.4   1.8   1   0   0   1   1   1   1 Cluster: Replicase polyprotein 1ab
+UniRef100_P0C6X1        -          protease_protein     -           2.5e-132  451.6   4.5  6.4e-132  450.3   4.5   1.8   1   0   0   1   1   1   1 Cluster: Replicase polyprotein 1ab
+UniRef100_P0C6W1        -          protease_protein     -           2.8e-132  451.4   5.8  5.5e-132  450.5   5.8   1.5   1   0   0   1   1   1   1 Cluster: Replicase polyprotein 1ab
+UniRef100_P0C6T5        -          protease_protein     -           3.4e-132  451.1   7.4  8.6e-132  449.8   7.4   1.8   1   0   0   1   1   1   1 Cluster: Replicase polyprotein 1a
+UniRef100_U5LNN4        -          protease_protein     -           3.5e-132  451.1   7.4  6.9e-132  450.1   7.4   1.5   1   0   0   1   1   1   1 Cluster: ORF 1a
+UniRef100_G0ZGJ9        -          protease_protein     -           3.5e-132  451.1   0.1  7.8e-132  450.0   0.1   1.6   1   0   0   1   1   1   1 Cluster: 1ab polyprotein
+UniRef100_C7S858        -          protease_protein     -           3.6e-132  451.1   0.3  7.4e-132  450.1   0.3   1.6   1   0   0   1   1   1   1 Cluster: 1a
+UniRef100_U5LR11        -          protease_protein     -           4.3e-132  450.8   7.5    9e-132  449.8   7.5   1.6   1   0   0   1   1   1   1 Cluster: ORF 1a
+UniRef100_U5U6H2        -          protease_protein     -           5.2e-132  450.6   0.4  9.7e-132  449.7   0.4   1.5   1   0   0   1   1   1   1 Cluster: 1a protein
+UniRef100_B3FHU4        -          protease_protein     -           5.3e-132  450.5   0.1  9.8e-132  449.6   0.1   1.5   1   0   0   1   1   1   1 Cluster: ORF1a
+UniRef100_U5KNN1        -          protease_protein     -           5.9e-132  450.4   7.4  1.2e-131  449.4   7.4   1.6   1   0   0   1   1   1   1 Cluster: Orf1ab
+UniRef100_C7S857        -          protease_protein     -           6.2e-132  450.3   0.3  1.4e-131  449.2   0.3   1.7   1   0   0   1   1   1   1 Cluster: ORF1ab polyprotein
+UniRef100_K9N2E7        -          protease_protein     -           6.3e-132  450.3   0.5  1.3e-131  449.2   0.5   1.6   1   0   0   1   1   1   1 Cluster: ORF1ab
+UniRef100_K9N3M3        -          protease_protein     -           6.3e-132  450.3   0.5  1.3e-131  449.2   0.5   1.6   1   0   0   1   1   1   1 Cluster: ORF1ab
+UniRef100_B2MWL8        -          protease_protein     -           6.4e-132  450.3   0.1  1.6e-131  448.9   0.1   1.8   1   0   0   1   1   1   1 Cluster: 1a protein
+UniRef100_P0C6W4        -          protease_protein     -           6.4e-132  450.2   7.4  1.5e-131  449.0   7.4   1.7   1   0   0   1   1   1   1 Cluster: Replicase polyprotein 1ab
+UniRef100_U5KNA9        -          protease_protein     -           7.1e-132  450.1   7.5  1.6e-131  449.0   7.5   1.7   1   0   0   1   1   1   1 Cluster: Orf1ab
+UniRef100_U5QES2        -          protease_protein     -           8.9e-132  449.8   0.1  1.9e-131  448.7   0.1   1.6   1   0   0   1   1   1   1 Cluster: ORF 1ab
+UniRef100_B3FHU3        -          protease_protein     -             9e-132  449.8   0.1  1.8e-131  448.8   0.1   1.6   1   0   0   1   1   1   1 Cluster: ORF1ab polyprotein
+UniRef100_B1PHI7        -          protease_protein     -             1e-131  449.6   1.5  2.5e-131  448.3   1.5   1.7   1   0   0   1   1   1   1 Cluster: ORF1a polyprotein
+UniRef100_Q6DTV3        -          protease_protein     -           1.1e-131  449.5   0.1  2.1e-131  448.5   0.1   1.5   1   0   0   1   1   1   1 Cluster: Replicase 1a
+UniRef100_A3EXD8        -          protease_protein     -           1.2e-131  449.4   7.3  2.6e-131  448.3   7.3   1.7   1   0   0   1   1   1   1 Cluster: Orf1ab polyprotein
+UniRef100_A3EXF6        -          protease_protein     -           1.2e-131  449.4   7.3  2.6e-131  448.3   7.3   1.7   1   0   0   1   1   1   1 Cluster: Orf1ab polyprotein
+UniRef100_A3EXE7        -          protease_protein     -           1.2e-131  449.4   7.3  2.6e-131  448.3   7.3   1.7   1   0   0   1   1   1   1 Cluster: Orf1ab polyprotein
+UniRef100_F1KCP8        -          protease_protein     -           1.2e-131  449.3   0.1  3.4e-131  447.9   0.1   1.9   1   0   0   1   1   1   1 Cluster: 1a polyprotein
+UniRef100_B2MWL7        -          protease_protein     -           1.3e-131  449.3   0.1  3.1e-131  448.0   0.1   1.7   1   0   0   1   1   1   1 Cluster: 1ab polyprotein
+UniRef100_G3C7A6        -          protease_protein     -           1.4e-131  449.2   0.2  2.8e-131  448.2   0.2   1.6   1   0   0   1   1   1   1 Cluster: Polyprotein 1a
+UniRef100_D0R6Q5        -          protease_protein     -           1.4e-131  449.1   0.1  2.7e-131  448.2   0.1   1.5   1   0   0   1   1   1   1 Cluster: 1a
+UniRef100_B3TD47        -          protease_protein     -           1.6e-131  449.0   0.2  3.1e-131  448.0   0.2   1.5   1   0   0   1   1   1   1 Cluster: Polyprotein 1a
+UniRef100_A8JNZ9        -          protease_protein     -           1.7e-131  448.9   2.8  3.5e-131  447.8   2.8   1.6   1   0   0   1   1   1   1 Cluster: Orf1a polyprotein
+UniRef100_A8JP15        -          protease_protein     -           1.7e-131  448.9   2.8  3.5e-131  447.8   2.8   1.6   1   0   0   1   1   1   1 Cluster: Orf1a polyprotein
+UniRef100_A8JP07        -          protease_protein     -           1.7e-131  448.9   2.8  3.5e-131  447.8   2.8   1.6   1   0   0   1   1   1   1 Cluster: Orf1a polyprotein
+UniRef100_B1PHI6        -          protease_protein     -           1.8e-131  448.8   1.5  4.4e-131  447.5   1.5   1.8   1   0   0   1   1   1   1 Cluster: ORF1ab polyprotein
+UniRef100_Q6DTV4        -          protease_protein     -           1.9e-131  448.7   0.1    4e-131  447.6   0.1   1.6   1   0   0   1   1   1   1 Cluster: Replicase polyprotein 1ab
+UniRef100_G3C7A5        -          protease_protein     -           2.3e-131  448.4   0.2  5.1e-131  447.3   0.2   1.6   1   0   0   1   1   1   1 Cluster: Polyprotein 1ab
+UniRef100_D0R6Q4        -          protease_protein     -           2.4e-131  448.4   0.1    5e-131  447.3   0.1   1.6   1   0   0   1   1   1   1 Cluster: 1ab polyprotein
+UniRef100_Q6VMD5        -          protease_protein     -           2.4e-131  448.3   0.1  5.3e-131  447.2   0.1   1.6   1   0   0   1   1   1   1 Cluster: 1a protein
+UniRef100_K7WGM9        -          protease_protein     -           2.7e-131  448.2   0.4  5.3e-131  447.2   0.4   1.5   1   0   0   1   1   1   1 Cluster: 1a polyprotein
+UniRef100_B3TD46        -          protease_protein     -           2.8e-131  448.2   0.2  5.7e-131  447.1   0.2   1.6   1   0   0   1   1   1   1 Cluster: Polyprotein 1ab
+UniRef100_F5BDB9        -          protease_protein     -           2.8e-131  448.2   0.5  5.3e-131  447.2   0.5   1.5   1   0   0   1   1   1   1 Cluster: Polyprotein 1a
+UniRef100_A8JNZ8        -          protease_protein     -           3.1e-131  448.0   2.8  6.3e-131  447.0   2.8   1.6   1   0   0   1   1   1   1 Cluster: Orf1ab polyprotein
+UniRef100_A8JP14        -          protease_protein     -           3.1e-131  448.0   2.8  6.3e-131  447.0   2.8   1.6   1   0   0   1   1   1   1 Cluster: Orf1ab polyprotein
+UniRef100_A8JP06        -          protease_protein     -           3.1e-131  448.0   2.8  6.3e-131  447.0   2.8   1.6   1   0   0   1   1   1   1 Cluster: Orf1ab polyprotein
+UniRef100_U5JCL0        -          protease_protein     -           3.5e-131  447.8   0.3  7.4e-131  446.8   0.3   1.6   1   0   0   1   1   1   1 Cluster: Polyprotein 1ab
+UniRef100_B1PHJ4        -          protease_protein     -           3.5e-131  447.8   0.8  9.4e-131  446.4   0.8   1.8   1   0   0   1   1   1   1 Cluster: ORF1a polyprotein
+UniRef100_D7SC95        -          protease_protein     -           3.5e-131  447.8   0.8  6.6e-131  446.9   0.8   1.5   1   0   0   1   1   1   1 Cluster: 1a polyprotein
+UniRef100_B4UTZ9        -          protease_protein     -           3.6e-131  447.8   0.2  8.1e-131  446.6   0.2   1.7   1   0   0   1   1   1   1 Cluster: Pol protein
+UniRef100_S5Z1D1        -          protease_protein     -           3.9e-131  447.7   3.1  9.2e-131  446.5   3.1   1.7   1   0   0   1   1   1   1 Cluster: Replicase polyprotein 1a
+UniRef100_U5YDI3        -          protease_protein     -           4.1e-131  447.6   0.4  8.3e-131  446.6   0.4   1.6   1   0   0   1   1   1   1 Cluster: ORF1ab
+UniRef100_Q6VMD6        -          protease_protein     -           4.4e-131  447.5   0.1  9.8e-131  446.4   0.1   1.7   1   0   0   1   1   1   1 Cluster: 1ab polyprotein
+UniRef100_F5BDB8        -          protease_protein     -           5.1e-131  447.3   0.5  9.9e-131  446.3   0.5   1.5   1   0   0   1   1   1   1 Cluster: Polyprotein 1ab
+UniRef100_U5YDU3        -          protease_protein     -           6.1e-131  447.0   0.3  1.3e-130  446.0   0.3   1.6   1   0   0   1   1   1   1 Cluster: ORF 1ab
+UniRef100_I1U336        -          protease_protein     -           6.2e-131  447.0   0.5  1.2e-130  446.1   0.5   1.5   1   0   0   1   1   1   1 Cluster: 1a
+UniRef100_B1PHJ3        -          protease_protein     -           6.5e-131  446.9   0.8  1.7e-130  445.6   0.8   1.8   1   0   0   1   1   1   1 Cluster: ORF1ab polyprotein
+UniRef100_A8JNZ1        -          protease_protein     -           6.8e-131  446.9   3.1  1.4e-130  445.9   3.1   1.6   1   0   0   1   1   1   1 Cluster: Orf1a polyprotein
+UniRef100_S5YAF0        -          protease_protein     -             7e-131  446.8   3.1  1.6e-130  445.6   3.1   1.7   1   0   0   1   1   1   1 Cluster: Replicase polyprotein 1ab
+UniRef100_J7KCX4        -          protease_protein     -           8.2e-131  446.6   0.5  1.7e-130  445.6   0.5   1.6   1   0   0   1   1   1   1 Cluster: ORF1ab
+UniRef100_I1U343        -          protease_protein     -           1.1e-130  446.2   0.5  2.2e-130  445.2   0.5   1.6   1   0   0   1   1   1   1 Cluster: 1ab polyprotein
+UniRef100_A8JNZ0        -          protease_protein     -           1.2e-130  446.0   3.1  2.5e-130  445.0   3.1   1.6   1   0   0   1   1   1   1 Cluster: Orf1ab polyprotein
+UniRef100_F5BDA4        -          protease_protein     -           1.6e-130  445.7   0.6    3e-130  444.8   0.6   1.5   1   0   0   1   1   1   1 Cluster: Polyprotein 1a
+UniRef100_F5BDA3        -          protease_protein     -           2.6e-130  445.0   0.6  5.6e-130  443.9   0.6   1.6   1   0   0   1   1   1   1 Cluster: Polyprotein 1ab
+UniRef100_J7K9M7        -          protease_protein     -             7e-130  443.6   0.4  1.4e-129  442.6   0.4   1.6   1   0   0   1   1   1   1 Cluster: ORF1ab
+UniRef100_M1GMK1        -          protease_protein     -           1.2e-129  442.8   0.5  2.4e-129  441.8   0.5   1.6   1   0   0   1   1   1   1 Cluster: ORF1ab
+UniRef100_E0ZN51        -          protease_protein     -           1.5e-129  442.4   0.1  3.4e-129  441.3   0.1   1.6   1   0   0   1   1   1   1 Cluster: Orf1ab polyprotein
+UniRef100_A3EXI1        -          protease_protein     -           1.8e-129  442.2   0.1  4.1e-129  441.0   0.1   1.7   1   0   0   1   1   1   1 Cluster: Orf1ab polyprotein
+UniRef100_E0ZN35        -          protease_protein     -           1.9e-129  442.2   0.1  4.1e-129  441.0   0.1   1.6   1   0   0   1   1   1   1 Cluster: Orf1ab polyprotein
+UniRef100_A3EXI9        -          protease_protein     -             2e-129  442.0   0.0  5.1e-129  440.7   0.0   1.8   1   0   0   1   1   1   1 Cluster: Orf1ab polyprotein
+UniRef100_P0C6T6        -          protease_protein     -           3.1e-129  441.4   0.0  6.8e-129  440.3   0.0   1.6   1   0   0   1   1   1   1 Cluster: Replicase polyprotein 1a
+UniRef100_P0C6W5        -          protease_protein     -           4.6e-129  440.9   0.0  1.2e-128  439.5   0.0   1.8   1   0   0   1   1   1   1 Cluster: Replicase polyprotein 1ab
+UniRef100_L7RBM0        -          protease_protein     -           4.8e-129  440.8   0.3  9.7e-129  439.8   0.3   1.6   1   0   0   1   1   1   1 Cluster: Polyprotein 1a
+UniRef100_E0ZN59        -          protease_protein     -           9.2e-129  439.9   0.2  2.4e-128  438.5   0.2   1.8   1   0   0   1   1   1   1 Cluster: Orf1ab polyprotein
+UniRef100_A3EXH3        -          protease_protein     -           9.6e-129  439.8   0.2  2.4e-128  438.5   0.2   1.8   1   0   0   1   1   1   1 Cluster: Orf1ab polyprotein
+UniRef100_E0ZN43        -          protease_protein     -           3.4e-128  438.0   0.2  9.1e-128  436.6   0.2   1.8   1   0   0   1   1   1   1 Cluster: Orf1ab polyprotein
+UniRef100_E5D099        -          protease_protein     -           4.9e-125  427.6   0.0    1e-124  426.6   0.0   1.6   1   0   0   1   1   1   1 Cluster: Polyprotein 1a
+UniRef100_E5D098        -          protease_protein     -           8.2e-125  426.9   0.0  1.9e-124  425.7   0.0   1.7   1   0   0   1   1   1   1 Cluster: Polyprotein 1ab
+UniRef100_B3TD60        -          protease_protein     -           2.8e-124  425.2   0.6  5.8e-124  424.1   0.6   1.6   1   0   0   1   1   1   1 Cluster: Polyprotein 1a
+UniRef100_B3TD59        -          protease_protein     -             5e-124  424.3   0.6  1.1e-123  423.2   0.6   1.6   1   0   0   1   1   1   1 Cluster: Polyprotein 1ab
+UniRef100_B2BW32        -          protease_protein     -             8e-120  410.5   0.7  1.4e-119  409.7   0.7   1.4   1   0   0   1   1   1   1 Cluster: ORF 1a polyprotein
+UniRef100_B2BW31        -          protease_protein     -           1.5e-119  409.7   0.7  2.6e-119  408.8   0.7   1.5   1   0   0   1   1   1   1 Cluster: ORF 1ab polyprotein
+UniRef100_H9BQX7        -          protease_protein     -           3.8e-116  398.5   4.3  7.9e-116  397.4   4.3   1.6   1   0   0   1   1   1   1 Cluster: Replicase polyprotein
+UniRef100_H9BQY4        -          protease_protein     -           3.8e-116  398.5   4.3  7.9e-116  397.4   4.3   1.6   1   0   0   1   1   1   1 Cluster: Replicase polyprotein
+UniRef100_H9BQZ9        -          protease_protein     -           4.2e-115  395.0   4.0  8.7e-115  394.0   4.0   1.6   1   0   0   1   1   1   1 Cluster: Replicase polyprotein
+UniRef100_H9BR24        -          protease_protein     -           2.3e-113  389.3   0.8  6.1e-113  387.9   0.8   1.8   1   0   0   1   1   1   1 Cluster: Replicase polyprotein
+UniRef100_B6VDW8        -          protease_protein     -           1.3e-112  386.9   2.8  1.3e-112  386.9   2.8   2.0   2   0   0   2   2   1   1 Cluster: Orf1ab polyprotein
+UniRef100_B6VDV9        -          protease_protein     -           2.1e-112  386.2   2.6  2.1e-112  386.2   2.6   1.9   2   0   0   2   2   1   1 Cluster: Orf1ab polyprotein
+UniRef100_H9BQZ1        -          protease_protein     -           4.2e-112  385.2   4.6  4.2e-112  385.2   4.6   2.0   2   0   0   2   2   1   1 Cluster: Replicase polyprotein
+UniRef100_B6VDX7        -          protease_protein     -           4.8e-112  385.0   4.3  1.4e-111  383.4   4.3   1.9   1   0   0   1   1   1   1 Cluster: Orf1ab polyprotein
+UniRef100_H9BR07        -          protease_protein     -           5.9e-112  384.7   3.2  1.3e-111  383.6   3.2   1.6   1   0   0   1   1   1   1 Cluster: Replicase polyprotein
+UniRef100_B6VDY6        -          protease_protein     -           2.2e-111  382.8   4.0    5e-111  381.6   4.0   1.7   1   0   0   1   1   1   1 Cluster: Orf1ab polyprotein
+UniRef100_H9BR34        -          protease_protein     -           3.1e-110  379.0   2.2  3.1e-110  379.0   2.2   2.3   2   0   0   2   2   1   1 Cluster: Replicase polyprotein
+UniRef100_H9BR16        -          protease_protein     -           1.7e-106  366.7   0.9  4.4e-106  365.4   0.9   1.8   1   0   0   1   1   1   1 Cluster: Replicase polyprotein
+UniRef100_Q6Q3Q4        -          protease_protein     -            9.6e-63  223.1   0.6   1.1e-62  222.9   0.6   1.0   1   0   0   1   1   1   1 Cluster: Main protease (Fragment)
+UniRef100_Q6Q3Q9        -          protease_protein     -            1.6e-62  222.3   1.0   1.8e-62  222.2   1.0   1.0   1   0   0   1   1   1   1 Cluster: Main protease (Fragment)
+UniRef100_Q6Q3Q6        -          protease_protein     -            1.8e-62  222.2   0.5     2e-62  222.0   0.5   1.0   1   0   0   1   1   1   1 Cluster: Main protease (Fragment)
+UniRef100_Q6Q3Q5        -          protease_protein     -            1.9e-62  222.1   0.5   2.1e-62  221.9   0.5   1.0   1   0   0   1   1   1   1 Cluster: Main protease (Fragment)
+UniRef100_Q6TN37        -          protease_protein     -            2.3e-62  221.9   0.5   2.5e-62  221.7   0.5   1.0   1   0   0   1   1   1   1 Cluster: Main protease (Fragment)
+UniRef100_Q6Q3R0        -          protease_protein     -            2.4e-62  221.8   0.8   2.6e-62  221.6   0.8   1.0   1   0   0   1   1   1   1 Cluster: Main protease (Fragment)
+UniRef100_Q6Q3Q8        -          protease_protein     -            3.1e-62  221.4   0.8   3.5e-62  221.2   0.8   1.0   1   0   0   1   1   1   1 Cluster: Main protease (Fragment)
+UniRef100_Q6Q3R2        -          protease_protein     -            1.3e-61  219.3   0.9   1.4e-61  219.2   0.9   1.0   1   0   0   1   1   1   1 Cluster: Main protease (Fragment)
+UniRef100_U3PTI6        -          protease_protein     -            2.8e-06   37.7   0.0   5.6e-06   36.7   0.0   1.5   1   0   0   1   1   1   1 Cluster: Replicase polyprotein 1ab (Fragment)
+UniRef100_U3PTI2        -          protease_protein     -            2.8e-06   37.6   0.0   5.6e-06   36.7   0.0   1.5   1   0   0   1   1   1   1 Cluster: Replicase polyprotein 1ab (Fragment)
+#
+# Program:         jackhmmer
+# Version:         3.4 (Aug 2023)
+# Pipeline mode:   SEARCH
+# Query file:      data/pssm_pipeline/query.fasta
+# Target file:     /home/ec2-user/marginal-value-pathogen-data-v1/data/snapshots/uniref100_2014_01.fasta
+# Option settings: jackhmmer -N 5 -A data/pssm_pipeline/msa_raw.sto --tblout data/pssm_pipeline/msa_raw_hits.tbl --noali -T 30.6 --domT 30.6 --incT 30.6 --incdomT 30.6 --cpu 4 data/pssm_pipeline/query.fasta /home/ec2-user/marginal-value-pathogen-data-v1/data/snapshots/uniref100_2014_01.fasta 
+# Current dir:     /home/ec2-user/marginal-value-pathogen-data-v1/data/sweep/protease/2014
+# Date:            Wed Aug 19 12:57:08 2026
+# [ok]

@@ -8,6 +8,7 @@ next to the README. Re-run any time `data/sweep_results.csv` changes:
     python scripts/sweep/plot.py
 """
 
+import os
 from pathlib import Path
 
 import matplotlib
@@ -17,7 +18,17 @@ import pandas as pd
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 IN_CSV = REPO_ROOT / "data" / "sweep_results.csv"
-OUT_PNG = REPO_ROOT / "pssm_accuracy_vs_snapshot_year.png"
+
+# Same PROTEIN_CONFIG env var used to select a protein everywhere else in the
+# pipeline (default config/spike.yaml) -- its filename stem picks which
+# protein's rows to plot and matches the sandbox naming under $SWEEP_ROOT.
+PROTEIN = Path(os.environ.get("PROTEIN_CONFIG", "config/spike.yaml")).stem
+# Spike keeps the original, un-prefixed filename the README already links to;
+# any other protein gets its own file so the two don't overwrite each other.
+OUT_PNG = REPO_ROOT / (
+    "pssm_accuracy_vs_snapshot_year.png" if PROTEIN == "spike"
+    else f"{PROTEIN}_accuracy_vs_snapshot_year.png"
+)
 
 # Tier A (2010-2018) was searched annually; Tier B (2020-2026) picks up
 # biennially after a redownload/rerun -- same pipeline, same bit-score threshold
@@ -63,7 +74,9 @@ def plot_by_assay(ax, df):
 
 def main():
     df = pd.read_csv(IN_CSV)
-    df = df[df["status"] == "DONE"].sort_values("year")
+    df = df[(df["status"] == "DONE") & (df["protein"] == PROTEIN)].sort_values("year")
+    if df.empty:
+        raise SystemExit(f"no DONE rows for protein={PROTEIN!r} in {IN_CSV}")
 
     fig, ax = plt.subplots(figsize=(8, 5))
 
@@ -79,7 +92,10 @@ def main():
     ax.tick_params(axis="x", rotation=0)
     ax.set_xlabel("UniRef100 snapshot year")
     ax.set_ylabel("Spearman's ρ (PSSM vs. DMS)")
-    ax.set_title("PSSM accuracy vs. UniRef100 snapshot year, 2010–2026")
+    title = "PSSM accuracy vs. UniRef100 snapshot year, 2010–2026"
+    if PROTEIN != "spike":
+        title = f"{PROTEIN}: {title}"
+    ax.set_title(title)
     ax.spines[["top", "right"]].set_visible(False)
     ax.grid(axis="y", color="#e1e0d9", linewidth=1, zorder=0)
     ax.set_axisbelow(True)
