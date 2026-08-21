@@ -17,6 +17,13 @@ data/*.xml.gz
 # Pipeline scratch/checkpoint dir -- regenerable output of steps 00-06, not source
 data/pssm_pipeline/
 
+# Threshold-sweep cells (data/sweep/<protein>/<year>_t<thr>): keep the small JSON
+# metas + STATUS (enough to rebuild sweep_results.csv and audit provenance), drop
+# the heavy regenerable binaries (msa_raw.sto, *.npy, *.tbl, predictions/scatter).
+# STATUS sits at the run-dir level, outside pssm_pipeline, so it stays tracked.
+data/sweep/*/*_t*/data/pssm_pipeline/*
+!data/sweep/*/*_t*/data/pssm_pipeline/*.json
+
 # Python
 __pycache__/
 *.pyc
