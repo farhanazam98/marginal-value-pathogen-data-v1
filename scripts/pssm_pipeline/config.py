@@ -45,9 +45,15 @@ def load_config(path=None):
     # threshold through this function, overriding it here keeps the search and the
     # reuse check consistent: a run built at a different threshold fails the
     # fingerprint and rebuilds. Unset -> unchanged behavior (year sweep, manual runs).
+    # Treat empty/whitespace as unset (a common leftover `export BITSCORE_PER_RESIDUE=`
+    # must not crash every step, and a plain year sweep must keep the YAML value),
+    # and fail loudly on a non-numeric value instead of an opaque float() traceback.
     override = os.environ.get("BITSCORE_PER_RESIDUE")
-    if override is not None:
-        cfg["bitscore_per_residue"] = float(override)
+    if override is not None and override.strip():
+        try:
+            cfg["bitscore_per_residue"] = float(override)
+        except ValueError:
+            raise SystemExit(f"BITSCORE_PER_RESIDUE must be numeric, got: {override!r}")
     return cfg
 
 
