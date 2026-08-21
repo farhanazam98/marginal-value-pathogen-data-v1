@@ -6,7 +6,8 @@ A research project measuring whether PSSM mutation-effect prediction accuracy
 (Spearman rho vs. a DMS assay) changes as UniRef100 database snapshots grow
 2010→2026, accounting for sequence diversity (e.g Neff@90%ID). It is a
 minimal reimplementation of the alignment-based half of the EVEREST pipeline
-(Gurev/Youssef/Marks, bioRxiv 2025.08.04.668549). Two proteins are currently
+(Gurev/Youssef/Marks, bioRxiv 2025.08.04.668549; local copy at
+`docs/EVEREST.pdf`). Two proteins are currently
 swept: SARS-CoV-2 Spike (vs. Starr 2020 DMS) and SARS-CoV-2 main protease
 (vs. Flynn fitness DMS) — see Current status below.
 
@@ -279,8 +280,8 @@ rather than assuming another machine's state.
   rho); columns documented in `data/sweep_results_dictionary.md`. Produced by
   `scripts/sweep/collect.py`, not hand-edited.
 - `calibration.csv` — timed measurements (wall/CPU/RSS/throughput) from
-  early conversion and search calibration runs; referenced by the README's
-  "Compute breakdown" section, not consumed by any script at run time.
+  early conversion and search calibration runs; findings drawn from it are
+  in CLAUDE.md's Gotchas section, not consumed by any script at run time.
 
 ## Current status
 
@@ -373,6 +374,10 @@ disk, for whichever protein is under study.
 > running TODO list in this file.
 
 ## Key methodology to preserve when modifying the pipeline
+
+These choices follow the EVEREST paper (`docs/EVEREST.pdf`); where a design
+decision isn't pinned down below, default to whatever EVEREST does rather
+than inventing a new approach, and note it here if you deviate.
 
 - **Bit-score thresholds, not e-values**, for the jackhmmer search: e-value
   cutoffs would silently tighten as later-year snapshots grow, while

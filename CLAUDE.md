@@ -36,6 +36,13 @@ why. Walk through the change in plain terms and wait for a response — an
 absent objection is not confirmation. This applies to documentation and
 written explanations as much as to code.
 
+**Match EVEREST's methodology when changing the pipeline.** This project
+reimplements the alignment-based half of EVEREST (Gurev/Youssef/Marks,
+bioRxiv 2025.08.04.668549; local copy `docs/EVEREST.pdf`). When a design
+choice isn't already pinned down by README's "Key methodology to preserve"
+section, default to whatever EVEREST does rather than inventing a new
+approach, and add it to that section if you deviate.
+
 ## Pipeline mechanics
 
 - Per-protein settings (protein, bit-score threshold, DMS assays) are read
@@ -60,6 +67,17 @@ written explanations as much as to code.
 - **jackhmmer doesn't parallelize past ~2 cores per job.** Don't increase
   `--cpu` to speed up a single search; get parallelism from running more
   concurrent jobs instead.
+- **Bit-score threshold changes are free.** In calibration, a 5x threshold
+  change (0.1 to 0.5 bits/residue) moved wall-clock time by only 2.5% — the
+  full database scan happens regardless of threshold, so tuning it per
+  protein, or running the threshold sweep, costs nothing extra. Memory is
+  similarly a non-issue at every stage (peak RSS stayed under 150 MB
+  regardless of database size).
+- **Storage throughput, not CPU, is the EC2 risk.** Search is I/O-bound at
+  ~385 MB/s per job in calibration, above the default gp3 EBS baseline
+  (125 MB/s) — a year's FASTA needs to be page-cached or on local NVMe, or
+  search runs roughly 3x slower than measured. See `calibration.csv` for the
+  raw numbers behind these three.
 
 ## Verifying changes
 
