@@ -3,9 +3,9 @@
 # steps 05/06 score every assay listed here against the one PSSM built for
 # this protein.
 name: SARS2_Mpro
-query_fasta: data/protease_protein.fasta
+query_fasta: data/proteins/protease_protein.fasta
 bitscore_per_residue: 0.1   # per-protein jackhmmer inclusion cutoff, bits/residue
 assays:
   - id: flynn_fitness
-    csv: data/SARS2_MRPO_Flynn_dms.csv
+    csv: data/dms/SARS2_MRPO_Flynn_dms.csv
     label: Flynn 2020 fitness

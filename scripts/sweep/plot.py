@@ -2,8 +2,8 @@
 """Plot the headline rho-vs-snapshot-year curve from `data/sweep_results.csv`.
 
 Reads the collected sweep table (`scripts/sweep/collect.py` produces it) and
-renders the trend as a PNG at the repo root, so it's the first thing visible
-next to the README. Re-run any time `data/sweep_results.csv` changes:
+renders the trend as a PNG under `plots/`, linked from the README. Re-run any
+time `data/sweep_results.csv` changes:
 
     python scripts/sweep/plot.py
 """
@@ -29,7 +29,7 @@ from config import load_config  # noqa: E402
 PROTEIN = Path(os.environ.get("PROTEIN_CONFIG", "config/spike.yaml")).stem
 # Spike keeps the original, un-prefixed filename the README already links to;
 # any other protein gets its own file so the two don't overwrite each other.
-OUT_PNG = REPO_ROOT / (
+OUT_PNG = REPO_ROOT / "plots" / (
     "pssm_accuracy_vs_snapshot_year.png" if PROTEIN == "spike"
     else f"{PROTEIN}_accuracy_vs_snapshot_year.png"
 )
