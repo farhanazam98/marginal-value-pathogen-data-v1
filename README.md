@@ -152,6 +152,39 @@ snapshot on disk. Changing the query or threshold fails that check and rebuilds.
 `data/sweep_results_dictionary.md`) from whatever checkpoints exist under
 `$SWEEP_ROOT`, so it's safe to run mid-sweep or after a crash.
 
+## Running the bit-score threshold sweep
+
+The year sweep holds the bit-score threshold fixed at the config's
+`bitscore_per_residue`. To instead vary it — running a 2D `(year × threshold)`
+grid to see whether a stricter or looser threshold recovers the DMS-correlation
+signal the year sweep found declining then plateauing — use
+`scripts/sweep/run_threshold_sweep.sh`:
+
+```bash
+scripts/sweep/run_threshold_sweep.sh -j 6 -t "0.1 0.2 0.3 0.4 0.5" 2010 2011 ... 2026
+python scripts/sweep/collect.py
+```
+
+It's a thin wrapper over `run_sweep.sh`: for each threshold it sets the
+`BITSCORE_PER_RESIDUE` env override (read by `config.load_config()`, so both the
+jackhmmer search and the PSSM-reuse fingerprint honor it) and runs a year sweep
+whose cells are tagged `<year>_t<thr>` (e.g. `2018_t0.2`). Each cell gets its own
+sandbox `data/sweep/<protein>/<year>_t<thr>` and merges into the same
+`sweep_results.csv`, with its threshold already in the
+`bitscore_per_residue`/`threshold_bits` columns. Thresholds run **sequentially**
+(the per-protein PID lock forbids concurrent sweeps under one root); years run
+**concurrently** within a threshold. Include the config baseline (0.3 for spike)
+in the list so its `_t0.3` cells re-derive — and, since the pipeline is
+deterministic, validate against — the plain year sweep. Do **not** set
+`SWEEP_ROOT`: every cell must land in the default `data/sweep` root so
+`collect.py` can rebuild one merged table (collecting from a root holding only
+some cells silently truncates the CSV — its only tell is the `Wrote … (N rows)`
+count).
+
+`plot.py` stays the single-threshold rho-vs-year curve — it plots only the
+config baseline threshold — so the threshold-vs-rho comparison is a separate
+visualization, not this figure.
+
 ## Data acquisition (UniRef100 snapshots)
 
 `scripts/download_uniref100.py` fetches one year's UniRef100 FASTA at a time:
@@ -224,10 +257,13 @@ rather than assuming another machine's state.
   steps 00–06 when run by hand from the repo root; steps 05–06 write one set per
   assay (`predictions_<id>.csv`, `scatter_<id>.png`, …). Regenerate by rerunning
   the relevant script.
-- `data/sweep/<year>/` — per-year sweep sandboxes, each a self-contained pipeline
-  working dir (its own `data/pssm_pipeline/` plus input symlinks). Tracked in git
-  as the analysis record of the completed 2010–2026 sweep; not regenerated on
-  machines missing snapshots. See Running the sweep across years.
+- `data/sweep/<protein>/<cell>/` — per-cell sweep sandboxes (a `<cell>` is a year
+  for the year sweep, or `<year>_t<thr>` for a threshold-sweep cell), each a
+  self-contained pipeline working dir (its own `data/pssm_pipeline/` plus input
+  symlinks). Only the small JSON metas + `STATUS` are tracked in git — enough for
+  `collect.py` to rebuild `sweep_results.csv` and to audit provenance; the heavy
+  regenerable binaries (`msa_raw.sto`, `*.npy`, `*.tbl`, `predictions_*.csv`,
+  `scatter_*.png`) are gitignored. See Running the sweep across years.
 - `data/snapshots/` — gitignored multi-GB UniRef100 FASTA snapshots (one per
   acquired year) plus `.stats.json` sidecars; typically a symlink to
   scratch/NVMe, not committed or kept on the root volume.

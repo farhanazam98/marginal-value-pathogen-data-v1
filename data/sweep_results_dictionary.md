@@ -59,7 +59,7 @@ No biology background assumed.
 | Column | Meaning |
 |---|---|
 | `protein` | Which protein this row's PSSM was built for, from the sandbox path (`<protein>/<year>`). The protein config's filename stem (e.g. `spike`). |
-| `tag` | Run directory name under the sweep root. Equals the year. |
+| `tag` | Run directory name under the sweep root. Equals the year for a plain year-sweep cell, or `<year>_t<thr>` for a threshold-sweep cell (e.g. `2018_t0.2`); the `bitscore_per_residue` column is the source of truth for the threshold. |
 | `dms_id` | Which DMS assay this row scores (e.g. `starr_binding`, `starr_expression`), from the protein config. The one column that distinguishes multiple rows of the same year. |
 | `year` | UniRef100 release year (the January release, `uniref100_<year>_01`). |
 | `snapshot_bytes`, `snapshot_gb` | Size of the FASTA actually searched. |
@@ -68,9 +68,9 @@ No biology background assumed.
 ### Search (step 01, jackhmmer)
 | Column | Meaning |
 |---|---|
-| `bitscore_per_residue` | Inclusion threshold in bits per residue. **0.3 for every row** — held constant by design. |
+| `bitscore_per_residue` | Inclusion threshold in bits per residue. 0.3 for the year sweep; the threshold sweep (`run_threshold_sweep.sh`) varies it per cell, so it takes several values across a threshold grid. The source of truth for a row's threshold. |
 | `query_length` | 1273 (full-length Spike, precursor numbering). Constant. |
-| `threshold_bits` | `bitscore_per_residue × query_length` = 381.9. Constant. A raw bit score, not an E-value, so the cutoff does not silently tighten as snapshots grow. |
+| `threshold_bits` | `bitscore_per_residue × query_length` (e.g. 381.9 at 0.3, 254.6 at 0.2). A raw bit score, not an E-value, so the cutoff does not silently tighten as snapshots grow. |
 | `jackhmmer_elapsed_s` | Wall-clock seconds. **Not a clean benchmark** — runs were executed six-at-a-time on a 16-vCPU box (measured contention inflation: 1.80×), and concurrency thinned as short years finished. Do not quote as a per-year compute cost; `README.md` has isolated measurements. |
 | `jackhmmer_rounds` | Iterations used (cap is 5). |
 | `jackhmmer_converged` | True only if a round added exactly 0 new targets. Commonly false at the 5-round cap while oscillating around ~1 new target; not a failure. |
