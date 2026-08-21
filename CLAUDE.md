@@ -56,6 +56,12 @@ on disk. The protein may not stay the current one in the repo (Spike).
   a per-protein PID lock — so proteins no longer overwrite each other and can
   sweep concurrently (README's "Running the sweep"). Scaling to many proteins is
   the planned point to switch to a single manifest CSV instead of one YAML each.
+- The bit-score threshold can now be swept too: `scripts/sweep/run_threshold_sweep.sh`
+  walks a `(year × threshold)` grid via a `BITSCORE_PER_RESIDUE` env override
+  (honored in `config.load_config()`, so the search and the reuse fingerprint both
+  see it), tagging cells `<year>_t<thr>` so they coexist in one `sweep_results.csv`.
+  Only JSON metas + `STATUS` are committed per cell (heavy binaries gitignored for
+  every sweep cell). See README's "Running the bit-score threshold sweep".
 
 **Progress:**
 - `run_tier_b_download.sh` downloads and parses each year with independently-

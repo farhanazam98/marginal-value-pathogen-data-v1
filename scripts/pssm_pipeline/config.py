@@ -38,6 +38,22 @@ def load_config(path=None):
         if "id" not in a or "csv" not in a:
             raise SystemExit(f"{path}: each assay needs an 'id' and a 'csv'")
         a.setdefault("label", a["id"])
+
+    # Opt-in override of the bit-score threshold without editing the YAML, used
+    # by the threshold sweep (scripts/sweep/run_threshold_sweep.sh). Because both
+    # the jackhmmer search and the PSSM-reuse fingerprint (matches_build) read the
+    # threshold through this function, overriding it here keeps the search and the
+    # reuse check consistent: a run built at a different threshold fails the
+    # fingerprint and rebuilds. Unset -> unchanged behavior (year sweep, manual runs).
+    # Treat empty/whitespace as unset (a common leftover `export BITSCORE_PER_RESIDUE=`
+    # must not crash every step, and a plain year sweep must keep the YAML value),
+    # and fail loudly on a non-numeric value instead of an opaque float() traceback.
+    override = os.environ.get("BITSCORE_PER_RESIDUE")
+    if override is not None and override.strip():
+        try:
+            cfg["bitscore_per_residue"] = float(override)
+        except ValueError:
+            raise SystemExit(f"BITSCORE_PER_RESIDUE must be numeric, got: {override!r}")
     return cfg
 
 
