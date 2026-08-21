@@ -80,11 +80,11 @@ selected with the `PROTEIN_CONFIG` env var (default `config/spike.yaml`):
 
 ```yaml
 name: SARS2_Spike
-query_fasta: data/protein.fasta
+query_fasta: data/proteins/protein.fasta
 bitscore_per_residue: 0.3
 assays:
-  - {id: starr_binding,    csv: data/SARS2_RBD_Starr_binding_dms.csv,  label: Starr 2020 ACE2 binding}
-  - {id: starr_expression, csv: data/SARS2_RBD_Starr_expression.csv,   label: Starr 2020 RBD expression}
+  - {id: starr_binding,    csv: data/dms/SARS2_RBD_Starr_binding_dms.csv,  label: Starr 2020 ACE2 binding}
+  - {id: starr_expression, csv: data/dms/SARS2_RBD_Starr_expression.csv,   label: Starr 2020 RBD expression}
 ```
 
 Steps 00 and 01 read the query sequence and the jackhmmer threshold from it;
@@ -252,12 +252,16 @@ rather than assuming another machine's state.
 - `config/*.yaml` — one per-protein config each (query FASTA, bit-score
   threshold, DMS assay list); `config/spike.yaml` is the default. Selected by
   `PROTEIN_CONFIG`; see Configuring which protein. Tracked in git.
-- `data/protein.fasta` — query: full-length SARS-CoV-2 Spike (1273 aa),
-  precursor numbering. Tracked in git (small, canonical input).
-- `data/SARS2_RBD_Starr_binding_dms.csv`, `data/SARS2_RBD_Starr_expression.csv`
-  — the two Starr 2020 DMS assays (ACE2 binding and RBD expression, RBD
-  positions 331–531), both in the same numbering as the query — no coordinate
-  offset needed anywhere in the pipeline.
+- `data/proteins/` — one query FASTA per protein, named by a config's
+  `query_fasta`. `protein.fasta` is full-length SARS-CoV-2 Spike (1273 aa,
+  precursor numbering); `protease_protein.fasta` is SARS-CoV-2 Mpro (306 aa).
+  Tracked in git (small, canonical inputs).
+- `data/dms/` — one CSV per DMS assay named in a config's `assays` list.
+  `SARS2_RBD_Starr_binding_dms.csv` and `SARS2_RBD_Starr_expression.csv` are
+  the two Starr 2020 Spike assays (ACE2 binding and RBD expression, RBD
+  positions 331–531); `SARS2_MRPO_Flynn_dms.csv` is the protease fitness
+  assay. Each uses the same residue numbering as its own query — no
+  coordinate offset needed anywhere in the pipeline.
 - `data/pssm_pipeline/` — gitignored scratch/checkpoint dir written by pipeline
   steps 00–06 when run by hand from the repo root; steps 05–06 write one set per
   assay (`predictions_<id>.csv`, `scatter_<id>.png`, …). Regenerate by rerunning
@@ -302,11 +306,11 @@ disk, for whichever protein is under study.
   `config/spike.yaml`). See "Configuring which protein" above.
 - Two proteins are configured and fully swept:
   - **Spike** (`config/spike.yaml`) — SARS-CoV-2 Spike, full-length precursor,
-    1273 aa (`data/protein.fasta`, header still generic `>my_protein`).
+    1273 aa (`data/proteins/protein.fasta`, header still generic `>my_protein`).
     Bit-score threshold `0.3` bits/residue. DMS assays: both Starr 2020
     assays, `starr_binding` and `starr_expression`.
   - **Main protease (Mpro)** (`config/protease.yaml`) — SARS-CoV-2 Mpro,
-    306 aa (`data/protease_protein.fasta`, header still generic
+    306 aa (`data/proteins/protease_protein.fasta`, header still generic
     `>protease_protein`). Bit-score threshold `0.1` bits/residue (the
     EVcouplings/Hopf/EVEREST convention). DMS assay: `flynn_fitness`.
   - Spike's `0.3` threshold was originally picked by maximizing rho on Spike
