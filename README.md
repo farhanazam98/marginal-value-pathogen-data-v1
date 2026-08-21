@@ -3,20 +3,24 @@
 ## Project
 
 A research project measuring whether PSSM mutation-effect prediction accuracy
-(Spearman rho vs. Starr 2020 DMS) change as UniRef100 database snapshots grow
+(Spearman rho vs. a DMS assay) changes as UniRef100 database snapshots grow
 2010→2026, accounting for sequence diversity (e.g Neff@90%ID). It is a
 minimal reimplementation of the alignment-based half of the EVEREST pipeline
-(Gurev/Youssef/Marks, bioRxiv 2025.08.04.668549).
+(Gurev/Youssef/Marks, bioRxiv 2025.08.04.668549). Two proteins are currently
+swept: SARS-CoV-2 Spike (vs. Starr 2020 DMS) and SARS-CoV-2 main protease
+(vs. Flynn fitness DMS) — see Current status below.
 
 ## Results
 
 ![PSSM accuracy vs. UniRef100 snapshot year, 2010-2026](pssm_accuracy_vs_snapshot_year.png)
+![Protease PSSM accuracy vs. UniRef100 snapshot year, 2010-2026](protease_accuracy_vs_snapshot_year.png)
 
-Accuracy (Spearman's rho) drops as the database grows through 2018, then
-holds roughly flat through 2026 rather than continuing to decline. Source
+Spike's accuracy (Spearman's rho) drops as the database grows through 2018,
+then holds roughly flat through 2026; protease's does not decline at all —
+see Current status → Findings below for the numbers and caveats. Source
 data: `data/sweep_results.csv` (dictionary in
-`data/sweep_results_dictionary.md`); regenerate the plot with
-`python scripts/sweep/plot.py`.
+`data/sweep_results_dictionary.md`); regenerate a plot with
+`PROTEIN_CONFIG=config/<name>.yaml python scripts/sweep/plot.py`.
 
 ## Setup and environment
 
@@ -270,13 +274,103 @@ rather than assuming another machine's state.
 - `data/uniprotref_yearly_archive_sizes.csv` — combined UniRef50+90+100
   archive size per year, used for both the growth plot and
   `download_uniref100.py`'s integrity checks (expected cluster counts).
-- `data/sweep_results.csv` — one row per (sweep-driver run, DMS assay), keyed
-  by a `dms_id` column; all metrics from every pipeline step (not just rho);
-  columns documented in `data/sweep_results_dictionary.md`. Produced by
+- `data/sweep_results.csv` — one row per (protein, year, DMS assay), keyed
+  by `(protein, tag, dms_id)`; all metrics from every pipeline step (not just
+  rho); columns documented in `data/sweep_results_dictionary.md`. Produced by
   `scripts/sweep/collect.py`, not hand-edited.
 - `calibration.csv` — timed measurements (wall/CPU/RSS/throughput) from
   early conversion and search calibration runs; referenced by the README's
   "Compute breakdown" section, not consumed by any script at run time.
+
+## Current status
+
+**Goal:** get a curve of PSSM's mutation-effect-prediction performance versus
+database snapshot year, using whichever UniRef100 snapshots are currently on
+disk, for whichever protein is under study.
+
+### Active configuration (as of 2026-08-20)
+
+- Protein, bit-score threshold, and DMS assays are read from a per-protein
+  config file, selected by the `PROTEIN_CONFIG` env var (default
+  `config/spike.yaml`). See "Configuring which protein" above.
+- Two proteins are configured and fully swept:
+  - **Spike** (`config/spike.yaml`) — SARS-CoV-2 Spike, full-length precursor,
+    1273 aa (`data/protein.fasta`, header still generic `>my_protein`).
+    Bit-score threshold `0.3` bits/residue. DMS assays: both Starr 2020
+    assays, `starr_binding` and `starr_expression`.
+  - **Main protease (Mpro)** (`config/protease.yaml`) — SARS-CoV-2 Mpro,
+    306 aa (`data/protease_protein.fasta`, header still generic
+    `>protease_protein`). Bit-score threshold `0.1` bits/residue (the
+    EVcouplings/Hopf/EVEREST convention). DMS assay: `flynn_fitness`.
+  - Spike's `0.3` threshold was originally picked by maximizing rho on Spike
+    itself — validation leakage. Protease instead uses the literature
+    convention (`0.1`) rather than being re-tuned the same way, so the two
+    proteins are not running under the same threshold. Spike's config hasn't
+    been changed to match, so any cross-protein comparison below is
+    confounded by threshold as well as by protein identity. A
+    `(year × threshold)` grid driver now exists to probe this directly — see
+    "Running the bit-score threshold sweep" above — but no cells have been
+    run with it yet.
+
+### Progress
+
+- **Spike sweep complete** for all 13 years of the locked set (2010–2018,
+  2020, 2022, 2024, 2026), both assays — 26 rows in `data/sweep_results.csv`.
+- **Protease sweep complete** for the same 13 years, single assay — 13 rows.
+- Sandboxes live under `data/sweep/<protein>/<year>/` (see Data layout
+  above); only their JSON metas + `STATUS` are tracked in git, which is
+  enough to rebuild `data/sweep_results.csv` and audit provenance, but not to
+  regenerate the actual alignments/PSSMs/predictions without rerunning
+  against the snapshots.
+
+### Findings
+
+- **Spike: rho declines, then plateaus, as the snapshot grows.** For
+  `starr_binding`, rho falls from 0.175 (2010, 4.1 GB) to 0.100 (2018,
+  58.8 GB), then holds flat at roughly 0.10–0.12 across all four later years
+  (2020–2026, up to 219 GB) — more homologs, never better agreement with the
+  DMS data. `starr_expression` traces the same shape at a persistently
+  higher baseline (0.248 → 0.172, then ~0.17–0.20).
+  - Endpoint 95% bootstrap CIs for `starr_binding` are disjoint (2010
+    [0.142, 0.208] vs 2018 [0.065, 0.133]), so the 2010→2018 decline is real;
+    2016 breaks the trend upward, and the post-2018 years all overlap each
+    other, so the plateau is genuinely flat rather than a smooth curve.
+  - Alignment depth (`Neff_over_L`, homologs-per-column corrected for
+    near-duplicates) climbs monotonically the whole time (0.25 → 1.89) and
+    only crosses EVEREST's own depth-adequacy floor of 1.0 in 2020 — every
+    Tier A year (2010–2018) would fail that check, which limits how much
+    weight the absolute rho values in that range can bear.
+  - `imputed_frac` (share of DMS variants whose alignment column got
+    dropped, so they receive a constant fill value instead of a real
+    prediction) swings 0.16–0.42 across years, tracking `L_final`
+    (816–879 surviving columns out of 1273).
+  - `jackhmmer_converged` is `False` for 5 of the 13 years (2010, 2011,
+    2013, 2024, 2026) — the 5-round search cap was reached while still
+    finding roughly one new hit per round, not a failure.
+
+- **Protease: rho is much higher, and does not decline.** `flynn_fitness`
+  rho starts at 0.541 (2010) and drifts up to 0.572 (2024) / 0.567 (2026) —
+  the opposite direction from Spike. The drift is shallow and the CIs
+  mostly overlap (2010 [0.523, 0.559] vs 2024 [0.554, 0.589] overlap only
+  slightly), so this is best read as "no decline," not a confirmed increase.
+  - `jackhmmer` converges cleanly in every one of the 13 years, unlike
+    Spike.
+  - `imputed_frac` stays near zero throughout (0–0.013): `L_final` sits at
+    302–306 of the protein's 306 columns every year, so almost nothing ever
+    gets dropped from the alignment.
+  - `Neff_over_L` only crosses the depth floor in 2022, yet the pre-2022,
+    depth-inadequate years still produce rho on par with the rest of the
+    series — unlike Spike, where crossing the floor lines up with the point
+    rho stopped declining.
+  - Because protease differs from Spike in both bit-score threshold and
+    protein identity (much shorter, more conserved), this contrast is
+    suggestive rather than a controlled comparison — it doesn't by itself
+    say whether the threshold or the protein explains the different
+    behavior.
+
+> Update this section as status changes; keep CLAUDE.md pointing here rather
+> than duplicating it. Completed work items live in git history, not as a
+> running TODO list in this file.
 
 ## Key methodology to preserve when modifying the pipeline
 
