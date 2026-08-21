@@ -9,6 +9,7 @@ next to the README. Re-run any time `data/sweep_results.csv` changes:
 """
 
 import os
+import sys
 from pathlib import Path
 
 import matplotlib
@@ -18,6 +19,9 @@ import pandas as pd
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 IN_CSV = REPO_ROOT / "data" / "sweep_results.csv"
+
+sys.path.insert(0, str(REPO_ROOT / "scripts" / "pssm_pipeline"))
+from config import load_config  # noqa: E402
 
 # Same PROTEIN_CONFIG env var used to select a protein everywhere else in the
 # pipeline (default config/spike.yaml) -- its filename stem picks which
@@ -49,10 +53,21 @@ def plot_by_assay(ax, df, label):
 
 
 def main():
+    # This is the rho-vs-year curve at ONE threshold, so it must select a single
+    # threshold or the threshold sweep's <year>_t<thr> rows give several rho points
+    # per year and the line doubles back. Plot the active config's baseline
+    # threshold (the _t0.3 column for spike); the threshold-vs-rho comparison is a
+    # separate visualization. Read the baseline from the YAML, ignoring any stray
+    # BITSCORE_PER_RESIDUE override so plotting isn't re-thresholded by a leftover.
+    os.environ.pop("BITSCORE_PER_RESIDUE", None)
+    baseline = load_config()["bitscore_per_residue"]
+
     df = pd.read_csv(IN_CSV)
-    df = df[(df["status"] == "DONE") & (df["protein"] == PROTEIN)].sort_values("year")
+    df = df[(df["status"] == "DONE") & (df["protein"] == PROTEIN)
+            & ((df["bitscore_per_residue"] - baseline).abs() < 1e-9)].sort_values("year")
     if df.empty:
-        raise SystemExit(f"no DONE rows for protein={PROTEIN!r} in {IN_CSV}")
+        raise SystemExit(
+            f"no DONE rows for protein={PROTEIN!r} at bitscore_per_residue={baseline} in {IN_CSV}")
 
     fig, ax = plt.subplots(figsize=(8, 5))
 
