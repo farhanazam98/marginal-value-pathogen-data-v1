@@ -17,8 +17,9 @@
 # Do NOT set SWEEP_ROOT: every cell must land in run_sweep.sh's default
 # data/sweep root so collect.py can rebuild one merged sweep_results.csv.
 #
-# Usage: run_threshold_sweep.sh [-j N] -t "0.1 0.2 0.4 0.5" <year> [<year> ...]
-#   -t "..."  space-separated bit-score-per-residue thresholds (required)
+# Usage: run_threshold_sweep.sh [-j N] -t "0.1 0.2 0.3 0.4 0.5" <year> [<year> ...]
+#   -t "..."  space-separated bit-score-per-residue thresholds (required). Include
+#             0.3 (the config baseline) so the _t0.3 cells re-derive the year sweep.
 #   -j N      max concurrent pipelines per threshold (default 6; passed to run_sweep.sh)
 #
 # Runs in the foreground; launch it detached (setsid nohup ... &) to survive the
@@ -29,7 +30,7 @@ DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 JOBS=6
 THRESHOLDS=""
-usage() { echo 'usage: run_threshold_sweep.sh [-j N] -t "0.1 0.2 0.4 0.5" <year> [<year> ...]' >&2; exit 2; }
+usage() { echo 'usage: run_threshold_sweep.sh [-j N] -t "0.1 0.2 0.3 0.4 0.5" <year> [<year> ...]' >&2; exit 2; }
 
 while getopts ":j:t:" opt; do
   case "$opt" in
