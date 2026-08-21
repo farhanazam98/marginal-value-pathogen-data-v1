@@ -5,10 +5,11 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Project
 
 See `README.md` for setup, the PSSM pipeline (steps, dependency chain, how to
-run them), data acquisition, data layout, and the methodology invariants to
-preserve when modifying the pipeline. Keep the two in sync when either
-changes — don't duplicate README content here; add to it only what a human
-README wouldn't carry (agent-facing notes, in-flight state).
+run them), data acquisition, data layout, current status (active config,
+sweep progress, findings), and the methodology invariants to preserve when
+modifying the pipeline. Keep the two in sync when either changes — don't
+duplicate README content here; add to it only what a human README wouldn't
+carry (agent-facing notes, in-flight state).
 
 ## Working conventions
 
@@ -20,7 +21,8 @@ look for it and link to it from elsewhere.
 
 **Docs describe current state, not history.** Don't reference old or removed
 behavior ("no longer a constant", "used to use X") — describe what the code
-does now. Git history carries the before.
+does now. Git history and GitHub issues carry the before; don't keep a
+running changelog or strikethrough TODO list in this file or the README.
 
 **Explain esoteric concepts in plain terms.** Assume the reader has no strong
 biology background. Domain jargon (PSSM, MSA, `Neff`, bit-score threshold,
@@ -34,91 +36,39 @@ why. Walk through the change in plain terms and wait for a response — an
 absent objection is not confirmation. This applies to documentation and
 written explanations as much as to code.
 
-## Current status
+## Pipeline mechanics
 
-**Goal:** get a curve of PSSM's mutation-effect-prediction performance versus
-database snapshot year, using whichever UniRef100 snapshots we currently have
-on disk. The protein may not stay the current one in the repo (Spike).
+- Per-protein settings (protein, bit-score threshold, DMS assays) are read
+  from a config file selected via the `PROTEIN_CONFIG` env var (default
+  `config/spike.yaml`) — see README's "Configuring which protein" for the
+  currently active config.
+- Steps 05/06 fan out over every DMS assay listed in the active config,
+  producing one row per `(protein, year, assay)` in `data/sweep_results.csv`,
+  keyed by `(protein, tag, dms_id)`.
+- Sandboxes are keyed by `(protein, year)` at `$SWEEP_ROOT/<protein>/<year>`,
+  each with a per-protein PID lock, so different proteins can sweep
+  concurrently but a given `(protein, year)` pair cannot run twice at once.
+- The bit-score threshold can be swept too, independent of the per-config
+  default: `scripts/sweep/run_threshold_sweep.sh` walks a `(year × threshold)`
+  grid via a `BITSCORE_PER_RESIDUE` env override (honored in
+  `config.load_config()`, so the search and the reuse fingerprint both see
+  it), tagging cells `<year>_t<thr>` so they coexist in one
+  `sweep_results.csv` — see README's "Running the bit-score threshold sweep".
 
-**Configuration (as of 2026-08-16):**
-- Protein, bit-score threshold, and DMS assays are now read from a per-protein
-  config file (`config/spike.yaml`), selected by the `PROTEIN_CONFIG` env var
-  (default `config/spike.yaml`). See README's "Configuring which protein".
-- Protein: SARS-CoV-2 Spike, full-length precursor, 1273 aa
-  (`data/protein.fasta`, header still generic `>my_protein`).
-- Bit-score threshold: `bitscore_per_residue: 0.3` in the config, not varied
-  per year.
-- DMS assays: both Starr 2020 assays — `starr_binding` and `starr_expression`.
-  Steps 05/06 fan out over them, so a sweep now yields one row per
-  (protein, year, assay) in `data/sweep_results.csv` (keyed by
-  `(protein, tag, dms_id)`).
-- Sandboxes are keyed by (protein, year) — `$SWEEP_ROOT/<protein>/<year>`, with
-  a per-protein PID lock — so proteins no longer overwrite each other and can
-  sweep concurrently (README's "Running the sweep"). Scaling to many proteins is
-  the planned point to switch to a single manifest CSV instead of one YAML each.
-- The bit-score threshold can now be swept too: `scripts/sweep/run_threshold_sweep.sh`
-  walks a `(year × threshold)` grid via a `BITSCORE_PER_RESIDUE` env override
-  (honored in `config.load_config()`, so the search and the reuse fingerprint both
-  see it), tagging cells `<year>_t<thr>` so they coexist in one `sweep_results.csv`.
-  Only JSON metas + `STATUS` are committed per cell (heavy binaries gitignored for
-  every sweep cell). See README's "Running the bit-score threshold sweep".
+## Gotchas
 
-**Progress:**
-- `run_tier_b_download.sh` downloads and parses each year with independently-
-  sized worker pools — see README's Data acquisition section.
-- **Tier A sweep complete** (2011-2018 run 2026-08-10; 2010 from an earlier
-  probe). 9/9 years DONE, no errors. Per-year results in
-  `data/sweep_results.csv`, logs in `logs/sweep/`, driver in `scripts/sweep/`
-  (see README's "Running the sweep across years").
-- **Tier B download complete** (2026-08-13, all 4 years: 2020/2022/2024/2026,
-  ~621 GB). Zero length mismatches, same integrity check as Tier A. All 13
-  years of the locked set are now on disk.
-- **Tier B sweep complete** (2026-08-14, all 4 years: 2020/2022/2024/2026).
-  4/4 DONE.
+- **jackhmmer doesn't parallelize past ~2 cores per job.** Don't increase
+  `--cpu` to speed up a single search; get parallelism from running more
+  concurrent jobs instead.
 
-**Findings:**
-- **rho declines then plateaus as the snapshot grows**: 0.175 (2010,
-  4.1 GB) falls to 0.100 (2018, 58.8 GB), then holds flat at ~0.10-0.12
-  across all four Tier B years (2020-2026, up to 219 GB), while alignment
-  depth climbs monotonically the whole way (Neff 213 to 1664). More
-  homologs, never better DMS correlation: marginal value is negative
-  2010→2018, then zero.
-  - Endpoint CIs are disjoint (2010 [0.142, 0.208] vs 2018 [0.065, 0.133]),
-    so the 2010→2018 decline is real, but adjacent years overlap and 2016
-    breaks the trend upward — a trend, not a smooth curve. The Tier B
-    points all sit inside each other's CIs, so the plateau is genuinely
-    flat, not a second trend.
-  - 2024 and 2026 did not converge within jackhmmer's 5 rounds
-    (`jackhmmer_converged=False`).
-  - `imputed_frac` swings 0.16-0.42 across years. Imputed variants all
-    take one constant value, so they enter the Spearman as a tied block
-    carrying no rank information. The fraction is set by `L_final`
-    (872-879 in the low-imputation years, 816-844 in the high ones).
+## Verifying changes
 
-**Open TODOs:**
-1. ~~Separate the parsing component from the download script.~~ Done — see
-   Progress above.
-2. ~~Repoint `data/snapshots` at the new EBS volume and redownload Tier A
-   there.~~ Done — symlinks to `/data/snapshots`, all 9 years (2010-2018,
-   ~188 GB) redownloaded 2026-08-12/13, stats show no length mismatches.
-   See `CLAUDE.local.md`.
-3. ~~Rerun the pipeline after the previous step and reproduce results from
-   before.~~ Done 2026-08-13 — all 9 years (2010-2018) re-run against the
-   redownloaded snapshots; every value in `data/sweep_results.csv` matches
-   the 2026-08-10 run exactly (including `spearman_rho` for all nine years)
-   except wall-clock timing, confirming the pipeline is deterministic and
-   the rho-decline finding isn't an artifact of one run.
-4. ~~Run the sweep against the 4 Tier B years (2020/2022/2024/2026).~~ Done
-   2026-08-14 — 4/4 DONE, full 2010-2026 curve now in
-   `data/sweep_results.csv`.
-5. Diagnose the rho decline: run
-  `scripts/diagnostics/rbd_gap_diagnostic.py` against each year's
-  `msa_raw.sto` to check whether later, larger snapshots pull in more
-  divergent homologs that gap out specifically in the RBD (positions
-  361-413) — which would explain the 50%-gap-column filter dropping more
-  of the RBD as snapshots grow, one candidate mechanism for the decline
-  alongside the imputed_frac caveat above.
-6. Add the alignment-threshold heuristic from the EVEREST paper.
+After any change to the scoring pipeline (steps 04–06), re-run the sandbox
+for a single already-completed year (e.g. 2018) and confirm `spearman_rho`
+in `data/sweep_results.csv` matches the last-committed value for that
+`(protein, year, assay)` row to 3 decimal places. A changed value means the
+change altered scoring behavior, not just style — flag it before continuing
+rather than assuming it's an improvement.
 
 This repo is checked out on two machines (a local Mac and an EC2 instance),
 each with its own downloaded snapshots and `data/snapshots` layout —
