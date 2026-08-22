@@ -1,0 +1,8 @@
+{
+  "tag": "2026_t0.5",
+  "year": 2026,
+  "snapshot": "/home/ec2-user/marginal-value-pathogen-data-v1/data/snapshots/uniref100_2026_01.fasta",
+  "snapshot_bytes": 218561697876,
+  "protein_config": "config/spike.yaml",
+  "started": "2026-08-21T21:50:04+0000"
+}
