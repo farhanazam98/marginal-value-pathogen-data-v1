@@ -1,0 +1,8 @@
+{
+  "tag": "2014_t0.1",
+  "year": 2014,
+  "snapshot": "/home/ec2-user/marginal-value-pathogen-data-v1/data/snapshots/uniref100_2014_01.fasta",
+  "snapshot_bytes": 14387857648,
+  "protein_config": "config/spike.yaml",
+  "started": "2026-08-21T12:49:53+0000"
+}
