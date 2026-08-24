@@ -379,6 +379,11 @@ disk, for whichever protein is under study.
     say whether the threshold or the protein explains the different
     behavior.
 
+- **Bit-score threshold is not load-bearing for the Spike finding.** Across
+  {0.1–0.5} bits/residue the decline-then-plateau shape holds; only 0.5 raises
+  rho, and only by returning degenerate near-duplicate-only alignments that fail
+  the depth floor. See `plots/spike_threshold_sweep*.png`.
+
 > Update this section as status changes; keep CLAUDE.md pointing here rather
 > than duplicating it. Completed work items live in git history, not as a
 > running TODO list in this file.
@@ -397,6 +402,15 @@ than inventing a new approach, and note it here if you deviate.
   80%, because two sequences differing by 1% can already have meaningfully
   different fitness for this protein. Neff/L (effective sequences per column)
   is the depth-adequacy check against EVEREST's floor of 1.0.
+- **Alignment selection is DMS-blind and per protein** (EVEREST Methods A.6.1):
+  among alignments with Neff/L > 1, use the one with the highest *fraction* of
+  sequences within 90% identity of the query (`Neff@90%ID / Neff`). Never select
+  on rho (leakage), and don't gate selection on a `Neff@90%ID ≥ N` cutoff — that
+  is EVEREST's separate cross-protein *confidence* flag, not a selection rule.
+  Sweep the threshold per protein (the best alignment is protein-specific) and
+  **keep scoring every swept threshold, not just the selected one**: the
+  selection rule can pick a degenerate alignment (on Spike, 2026 selects 0.5 —
+  80% imputed, rho 0.03), and only the full set surfaces that.
 - **Column/sequence filtering in `02_clean_msa.py`** (drop columns >50% gaps,
   drop sequences <50% query coverage) is computed against the *original*
   query positions independently for both filters, not against each other's

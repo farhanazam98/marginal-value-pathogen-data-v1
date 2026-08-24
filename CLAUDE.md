@@ -61,6 +61,21 @@ approach, and add it to that section if you deviate.
   `config.load_config()`, so the search and the reuse fingerprint both see
   it), tagging cells `<year>_t<thr>` so they coexist in one
   `sweep_results.csv` — see README's "Running the bit-score threshold sweep".
+  Open items before running new proteins:
+  - **Reposition the swept threshold values.** EVEREST's own selections
+    (`priority-viruses/results/summary/ali_selection_summary.csv`, 45 DMS)
+    concentrate at the extremes: the stringent 0.5 wins ~37/44 on UniRef100
+    (highest fraction ≥90% ID), with a thin low-end tail (0.05/0.03) rescuing
+    depth-starved families; the evenly-spaced middle is never used (they don't
+    even test 0.2/0.4). So drop {0.2, 0.4} from our grid and add {0.05, 0.03} —
+    `{0.5, 0.3, 0.1, 0.05, 0.03}` covers the regime selection actually uses, or
+    consider just `{0.5, 0.1, 0.03}` (high / mid / low-depth) to sweep fewer.
+  - **Fix the reliability-cutoff misuse.** `03_weights.py`'s
+    `RELIABILITY_NEFF_THRESHOLD = 30` is labelled "the paper's reliability
+    threshold," but the paper calibrates that value — it isn't 30 — and Neff@90%ID
+    is a cross-protein *confidence* flag, not an alignment-*selection* gate (see
+    README's alignment-selection methodology note). Selection currently lives
+    only in `plot_threshold_sweep.py`; the scoring pipeline doesn't select yet.
 
 ## Gotchas
 

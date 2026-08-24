@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 """Plot the bit-score threshold sweep: rho vs. snapshot year, one line per threshold.
 
-Companion to `plot.py` (which draws the single-threshold headline curve). This
-figure overlays every swept bit-score threshold so the effect of hit stringency
-can be read off against database growth. Reads the same collected table and
-writes one PNG per protein under `plots/`:
+Companion to `plot.py` (which draws the single-threshold headline curve). Writes
+two PNGs per protein under `plots/`: `*_threshold_sweep.png` overlays every swept
+bit-score threshold so the effect of hit stringency can be read off against
+database growth, and `*_threshold_sweep_everest_pick.png` traces the single
+alignment EVEREST's DMS-blind rule would select each year. Run:
 
     python scripts/sweep/plot_threshold_sweep.py
 
@@ -27,7 +28,6 @@ REPO_ROOT = Path(__file__).resolve().parents[2]
 IN_CSV = REPO_ROOT / "data" / "sweep_results.csv"
 PROTEIN = Path(os.environ.get("PROTEIN_CONFIG", "config/spike.yaml")).stem
 OUT_PNG = REPO_ROOT / "plots" / f"{PROTEIN}_threshold_sweep.png"
-OUT_PNG_SELECTED = REPO_ROOT / "plots" / f"{PROTEIN}_threshold_sweep_everest_selected.png"
 OUT_PNG_PICK = REPO_ROOT / "plots" / f"{PROTEIN}_threshold_sweep_everest_pick.png"
 
 # Sequential (ColorBrewer Blues, darkened): threshold is ordinal, so a single-hue
@@ -59,38 +59,18 @@ def plot_assay(ax, sub, title):
     ax.set_axisbelow(True)
 
 
-def plot_assay_selected(ax, sub, title):
-    """Same rho-vs-year curves, but each point marked by whether EVEREST's
-    alignment-selection floor (Neff/L >= 1.0, `03_weights.py`) would have kept
-    it: filled = selected, hollow = rejected as too shallow. Lines are faded to
-    context so the selected/rejected split is what reads."""
-    for thr in sorted(sub["bitscore_per_residue"].unique()):
-        s = sub[sub["bitscore_per_residue"] == thr].sort_values("year")
-        color = THRESHOLD_COLORS.get(thr, "#888888")
-        ax.plot(s["year"], s["spearman_rho"], color=color, linewidth=1.5,
-                alpha=0.3, zorder=2, label=f"{thr:g} bits/res")
-        sel = s[s["clears_depth_floor"]]
-        rej = s[~s["clears_depth_floor"]]
-        ax.scatter(rej["year"], rej["spearman_rho"], s=30, facecolor="none",
-                   edgecolor=color, linewidth=1.2, alpha=0.6, zorder=3)
-        ax.scatter(sel["year"], sel["spearman_rho"], s=62, color=color,
-                   edgecolor="#1a1a1a", linewidth=1.3, zorder=4)
-    ax.set_title(title, fontsize=11)
-    ax.set_xlabel("UniRef100 snapshot year")
-    ax.set_xticks(sorted(sub["year"].unique()))
-    ax.tick_params(axis="x", rotation=45)
-    ax.spines[["top", "right"]].set_visible(False)
-    ax.grid(axis="y", color="#e1e0d9", linewidth=1, zorder=0)
-    ax.set_axisbelow(True)
-
-
 def everest_picks(sub):
-    """The single alignment EVEREST would run per year: among thresholds that
-    clear both quality gates (Neff/L >= 1.0 and Neff@90%ID >= 30), the deepest
-    (max Neff/L). DMS-blind -- the pick never looks at rho. Years where nothing
-    clears are simply absent (EVEREST would decline to model them)."""
-    elig = sub[sub["clears_depth_floor"] & sub["clears_reliability"]]
-    picks = [g.loc[g["Neff_over_L"].idxmax()] for _, g in elig.groupby("year")]
+    """The single alignment EVEREST would run per year, selected DMS-blind by the
+    paper's within-protein rule (Methods A.6.1): among alignments that clear the
+    depth floor (Neff/L > 1), the one with the highest *proportion* of sequences
+    within 90% identity of the query (prop90 = Neff@90%ID / Neff). The pick never
+    looks at rho. Note this is NOT max-depth: the paper falls back to max Neff/L
+    only for proteins where no alignment reaches the floor. The ``Neff@90%ID >= 30``
+    reliability bar is deliberately not applied here -- that is EVEREST's
+    cross-protein *confidence* flag, not part of within-protein selection. Years
+    where nothing clears the floor are absent (EVEREST would decline to model them)."""
+    elig = sub[sub["clears_depth_floor"]]
+    picks = [g.loc[g["prop90"].idxmax()] for _, g in elig.groupby("year")]
     return pd.DataFrame(picks).sort_values("year")
 
 
@@ -130,9 +110,13 @@ def _grid(df, assays, plot_fn):
 
 def main():
     df = pd.read_csv(IN_CSV)
-    df = df[(df["status"] == "DONE") & (df["protein"] == PROTEIN)]
+    df = df[(df["status"] == "DONE") & (df["protein"] == PROTEIN)].copy()
     if df.empty:
         raise SystemExit(f"no DONE rows for protein={PROTEIN!r} in {IN_CSV}")
+
+    # Alignment relevance: fraction of the alignment's effective sequences that
+    # sit within 90% identity of the query. EVEREST's within-protein selector.
+    df["prop90"] = df["Neff_at_90pct_identity"] / df["Neff"]
 
     assays = sorted(df["dms_id"].unique())
 
@@ -146,30 +130,9 @@ def main():
     fig.savefig(OUT_PNG, dpi=150)
     print(f"Wrote {OUT_PNG}")
 
-    # Figure 2: same curves, with EVEREST's selection floor applied.
-    fig, axes = _grid(df, assays, plot_assay_selected)
-    thr_handles = [Line2D([], [], color=THRESHOLD_COLORS[t], lw=2, label=f"{t:g} bits/res")
-                   for t in sorted(df["bitscore_per_residue"].unique())]
-    sel_handles = [
-        Line2D([], [], marker="o", linestyle="none", markersize=8, color="#555",
-               markeredgecolor="#1a1a1a", label="selected (Neff/L ≥ 1.0)"),
-        Line2D([], [], marker="o", linestyle="none", markersize=6, markerfacecolor="none",
-               markeredgecolor="#555", label="rejected (too shallow)"),
-    ]
-    leg1 = axes[-1].legend(handles=thr_handles, frameon=False, loc="upper left",
-                           bbox_to_anchor=(1.02, 1.0), title="bit-score threshold")
-    axes[-1].add_artist(leg1)
-    axes[-1].legend(handles=sel_handles, frameon=False, loc="upper left",
-                    bbox_to_anchor=(1.02, 0.42), title="EVEREST selection")
-    fig.suptitle(f"{PROTEIN}: which (year × threshold) alignments EVEREST would select",
-                 fontsize=13)
-    fig.tight_layout(rect=(0, 0, 0.9, 1))
-    fig.savefig(OUT_PNG_SELECTED, dpi=150)
-    print(f"Wrote {OUT_PNG_SELECTED}")
-
-    # Figure 3: the single alignment EVEREST would run per year (deepest that
-    # clears both gates), traced as one bold curve; thresholds still colour-code
-    # the markers so the shifting pick is visible.
+    # Figure 2: the single alignment EVEREST would select per year, traced as one
+    # bold curve; thresholds still colour-code the markers so the shifting pick is
+    # visible.
     fig, axes = plt.subplots(1, len(assays), figsize=(6.2 * len(assays), 5), sharey=True)
     axes = [axes] if len(assays) == 1 else axes
     for i, (ax, assay) in enumerate(zip(axes, assays)):
@@ -187,8 +150,9 @@ def main():
     axes[-1].add_artist(leg1)
     axes[-1].legend(handles=thr_handles, frameon=False, loc="upper left",
                     bbox_to_anchor=(1.02, 0.82), title="picked threshold")
-    fig.suptitle(f"{PROTEIN}: the alignment EVEREST would run each year "
-                 "(2010–2011 unmodellable)", fontsize=12.5)
+    fig.suptitle(f"{PROTEIN}: the alignment EVEREST would select each year "
+                 "— Neff/L > 1, then max fraction ≥90% ID (DMS-blind; "
+                 "2010–2011 unmodellable)", fontsize=11)
     fig.tight_layout(rect=(0, 0, 0.9, 1))
     fig.savefig(OUT_PNG_PICK, dpi=150)
     print(f"Wrote {OUT_PNG_PICK}")
