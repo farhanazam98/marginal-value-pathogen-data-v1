@@ -8,10 +8,10 @@ writes one PNG per protein under `plots/`:
 
     python scripts/sweep/plot_threshold_sweep.py
 
-Only the config baseline threshold has CI bands (baseline vs. the best-scoring
-threshold) so the "is the improvement real?" comparison stays legible instead of
-five overlapping bands. Anomalous cells are left in place -- a collapsed point is
-a validation finding, not noise to hide.
+Lines only, no CI bands: five overlapping bands turn the low-threshold cluster
+into an unreadable haze, so the bootstrap CIs live in `data/sweep_results.csv`
+instead. Anomalous cells are left in place -- a collapsed point is a validation
+finding, not noise to hide.
 """
 
 import os
@@ -40,14 +40,9 @@ THRESHOLD_COLORS = {
 
 def plot_assay(ax, sub, title):
     thresholds = sorted(sub["bitscore_per_residue"].unique())
-    baseline = min(thresholds, key=lambda t: abs(t - 0.3))  # config default for spike
-    best = max(thresholds)  # 0.5 is the standout column in the data
     for thr in thresholds:
         s = sub[sub["bitscore_per_residue"] == thr].sort_values("year")
         color = THRESHOLD_COLORS.get(thr, "#888888")
-        if thr in (baseline, best):
-            ax.fill_between(s["year"], s["bootstrap_ci_95_lo"], s["bootstrap_ci_95_hi"],
-                            color=color, alpha=0.15, linewidth=0, zorder=1)
         ax.plot(s["year"], s["spearman_rho"], color=color, linewidth=2, zorder=2,
                 label=f"{thr:g} bits/res")
         ax.scatter(s["year"], s["spearman_rho"], s=42, color=color,
@@ -74,11 +69,13 @@ def main():
     for ax, assay in zip(axes, assays):
         plot_assay(ax, df[df["dms_id"] == assay], assay)
     axes[0].set_ylabel("Spearman's ρ (PSSM vs. DMS)")
-    axes[-1].legend(frameon=False, loc="upper right", title="bit-score threshold")
+    # Legend outside the panels so it never sits on a line.
+    axes[-1].legend(frameon=False, loc="upper left", bbox_to_anchor=(1.02, 1.0),
+                    title="bit-score threshold")
 
     fig.suptitle(f"{PROTEIN}: PSSM accuracy vs. snapshot year, by bit-score threshold",
                  fontsize=13)
-    fig.tight_layout()
+    fig.tight_layout(rect=(0, 0, 0.9, 1))
     fig.savefig(OUT_PNG, dpi=150)
     print(f"Wrote {OUT_PNG}")
 
