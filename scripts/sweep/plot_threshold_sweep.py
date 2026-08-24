@@ -135,8 +135,8 @@ def main():
     # visible.
     fig, axes = plt.subplots(1, len(assays), figsize=(6.2 * len(assays), 5), sharey=True)
     axes = [axes] if len(assays) == 1 else axes
-    for i, (ax, assay) in enumerate(zip(axes, assays)):
-        plot_assay_pick(ax, df[df["dms_id"] == assay], assay, label_thr=(i == 0))
+    for ax, assay in zip(axes, assays):
+        plot_assay_pick(ax, df[df["dms_id"] == assay], assay, label_thr=True)
     axes[0].set_ylabel("Spearman's ρ (PSSM vs. DMS)")
     pick_handles = [Line2D([], [], color="#1a1a1a", lw=2.2, marker="o",
                            markeredgecolor="#1a1a1a", markerfacecolor="#888", markersize=8,

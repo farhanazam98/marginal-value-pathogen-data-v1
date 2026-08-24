@@ -70,12 +70,13 @@ approach, and add it to that section if you deviate.
     even test 0.2/0.4). So drop {0.2, 0.4} from our grid and add {0.05, 0.03} —
     `{0.5, 0.3, 0.1, 0.05, 0.03}` covers the regime selection actually uses, or
     consider just `{0.5, 0.1, 0.03}` (high / mid / low-depth) to sweep fewer.
-  - **Fix the reliability-cutoff misuse.** `03_weights.py`'s
-    `RELIABILITY_NEFF_THRESHOLD = 30` is labelled "the paper's reliability
-    threshold," but the paper calibrates that value — it isn't 30 — and Neff@90%ID
-    is a cross-protein *confidence* flag, not an alignment-*selection* gate (see
-    README's alignment-selection methodology note). Selection currently lives
-    only in `plot_threshold_sweep.py`; the scoring pipeline doesn't select yet.
+  - **No selection in the pipeline yet.** Alignment selection (Neff/L > 1, then
+    max fraction ≥90% ID) lives only in `plot_threshold_sweep.py`; the scoring
+    pipeline computes the inputs (`03_weights.py` emits `Neff` and
+    `Neff_at_90pct_identity`) but no step picks an alignment. Fold selection in
+    if a new protein needs an auto-picked alignment rather than a hand-set
+    threshold — and keep Neff@90%ID a *relevance/confidence* quantity, never a
+    hard gate.
 
 ## Gotchas
 

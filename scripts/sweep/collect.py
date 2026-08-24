@@ -61,7 +61,6 @@ SHARED_FIELDS = [
     ("Neff_over_L",             "weights_meta.json",     "depth_Neff_over_L"),
     ("clears_depth_floor",      "weights_meta.json",     "clears_depth_floor"),
     ("Neff_at_90pct_identity",  "weights_meta.json",     "Neff_at_90pct_identity"),
-    ("clears_reliability",      "weights_meta.json",     "clears_reliability_threshold"),
     ("n_singleton_sequences",   "weights_meta.json",     "n_singleton_sequences"),
 ]
 
