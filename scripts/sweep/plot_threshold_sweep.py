@@ -28,6 +28,7 @@ IN_CSV = REPO_ROOT / "data" / "sweep_results.csv"
 PROTEIN = Path(os.environ.get("PROTEIN_CONFIG", "config/spike.yaml")).stem
 OUT_PNG = REPO_ROOT / "plots" / f"{PROTEIN}_threshold_sweep.png"
 OUT_PNG_SELECTED = REPO_ROOT / "plots" / f"{PROTEIN}_threshold_sweep_everest_selected.png"
+OUT_PNG_PICK = REPO_ROOT / "plots" / f"{PROTEIN}_threshold_sweep_everest_pick.png"
 
 # Sequential (ColorBrewer Blues, darkened): threshold is ordinal, so a single-hue
 # ramp reads "looser -> stricter" as light -> dark. Keyed by bits/residue.
@@ -74,6 +75,40 @@ def plot_assay_selected(ax, sub, title):
                    edgecolor=color, linewidth=1.2, alpha=0.6, zorder=3)
         ax.scatter(sel["year"], sel["spearman_rho"], s=62, color=color,
                    edgecolor="#1a1a1a", linewidth=1.3, zorder=4)
+    ax.set_title(title, fontsize=11)
+    ax.set_xlabel("UniRef100 snapshot year")
+    ax.set_xticks(sorted(sub["year"].unique()))
+    ax.tick_params(axis="x", rotation=45)
+    ax.spines[["top", "right"]].set_visible(False)
+    ax.grid(axis="y", color="#e1e0d9", linewidth=1, zorder=0)
+    ax.set_axisbelow(True)
+
+
+def everest_picks(sub):
+    """The single alignment EVEREST would run per year: among thresholds that
+    clear both quality gates (Neff/L >= 1.0 and Neff@90%ID >= 30), the deepest
+    (max Neff/L). DMS-blind -- the pick never looks at rho. Years where nothing
+    clears are simply absent (EVEREST would decline to model them)."""
+    elig = sub[sub["clears_depth_floor"] & sub["clears_reliability"]]
+    picks = [g.loc[g["Neff_over_L"].idxmax()] for _, g in elig.groupby("year")]
+    return pd.DataFrame(picks).sort_values("year")
+
+
+def plot_assay_pick(ax, sub, title, label_thr=False):
+    for thr in sorted(sub["bitscore_per_residue"].unique()):
+        s = sub[sub["bitscore_per_residue"] == thr].sort_values("year")
+        ax.plot(s["year"], s["spearman_rho"], color=THRESHOLD_COLORS.get(thr, "#888"),
+                linewidth=1.2, alpha=0.22, zorder=2)
+    p = everest_picks(sub)
+    ax.plot(p["year"], p["spearman_rho"], color="#1a1a1a", linewidth=2.2, zorder=4)
+    for _, r in p.iterrows():
+        ax.scatter(r["year"], r["spearman_rho"], s=72,
+                   color=THRESHOLD_COLORS.get(r["bitscore_per_residue"], "#888"),
+                   edgecolor="#1a1a1a", linewidth=1.4, zorder=5)
+        if label_thr:
+            ax.annotate(f"{r['bitscore_per_residue']:g}", (r["year"], r["spearman_rho"]),
+                        textcoords="offset points", xytext=(0, 9), ha="center",
+                        fontsize=7.5, color="#444")
     ax.set_title(title, fontsize=11)
     ax.set_xlabel("UniRef100 snapshot year")
     ax.set_xticks(sorted(sub["year"].unique()))
@@ -131,6 +166,32 @@ def main():
     fig.tight_layout(rect=(0, 0, 0.9, 1))
     fig.savefig(OUT_PNG_SELECTED, dpi=150)
     print(f"Wrote {OUT_PNG_SELECTED}")
+
+    # Figure 3: the single alignment EVEREST would run per year (deepest that
+    # clears both gates), traced as one bold curve; thresholds still colour-code
+    # the markers so the shifting pick is visible.
+    fig, axes = plt.subplots(1, len(assays), figsize=(6.2 * len(assays), 5), sharey=True)
+    axes = [axes] if len(assays) == 1 else axes
+    for i, (ax, assay) in enumerate(zip(axes, assays)):
+        plot_assay_pick(ax, df[df["dms_id"] == assay], assay, label_thr=(i == 0))
+    axes[0].set_ylabel("Spearman's ρ (PSSM vs. DMS)")
+    pick_handles = [Line2D([], [], color="#1a1a1a", lw=2.2, marker="o",
+                           markeredgecolor="#1a1a1a", markerfacecolor="#888", markersize=8,
+                           label="EVEREST pick")]
+    thr_handles = [Line2D([], [], marker="o", linestyle="none", markersize=8,
+                          color=THRESHOLD_COLORS[t], markeredgecolor="#1a1a1a",
+                          label=f"{t:g} bits/res")
+                   for t in sorted(df["bitscore_per_residue"].unique())]
+    leg1 = axes[-1].legend(handles=pick_handles, frameon=False, loc="upper left",
+                           bbox_to_anchor=(1.02, 1.0))
+    axes[-1].add_artist(leg1)
+    axes[-1].legend(handles=thr_handles, frameon=False, loc="upper left",
+                    bbox_to_anchor=(1.02, 0.82), title="picked threshold")
+    fig.suptitle(f"{PROTEIN}: the alignment EVEREST would run each year "
+                 "(2010–2011 unmodellable)", fontsize=12.5)
+    fig.tight_layout(rect=(0, 0, 0.9, 1))
+    fig.savefig(OUT_PNG_PICK, dpi=150)
+    print(f"Wrote {OUT_PNG_PICK}")
 
 
 if __name__ == "__main__":
