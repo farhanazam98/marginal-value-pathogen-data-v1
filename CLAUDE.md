@@ -61,22 +61,13 @@ approach, and add it to that section if you deviate.
   `config.load_config()`, so the search and the reuse fingerprint both see
   it), tagging cells `<year>_t<thr>` so they coexist in one
   `sweep_results.csv` — see README's "Running the bit-score threshold sweep".
-  Open items before running new proteins:
-  - **Reposition the swept threshold values.** EVEREST's own selections
-    (`priority-viruses/results/summary/ali_selection_summary.csv`, 45 DMS)
-    concentrate at the extremes: the stringent 0.5 wins ~37/44 on UniRef100
-    (highest fraction ≥90% ID), with a thin low-end tail (0.05/0.03) rescuing
-    depth-starved families; the evenly-spaced middle is never used (they don't
-    even test 0.2/0.4). So drop {0.2, 0.4} from our grid and add {0.05, 0.03} —
-    `{0.5, 0.3, 0.1, 0.05, 0.03}` covers the regime selection actually uses, or
-    consider just `{0.5, 0.1, 0.03}` (high / mid / low-depth) to sweep fewer.
-  - **No selection in the pipeline yet.** Alignment selection (Neff/L > 1, then
-    max fraction ≥90% ID) lives only in `plot_threshold_sweep.py`; the scoring
-    pipeline computes the inputs (`03_weights.py` emits `Neff` and
-    `Neff_at_90pct_identity`) but no step picks an alignment. Fold selection in
-    if a new protein needs an auto-picked alignment rather than a hand-set
-    threshold — and keep Neff@90%ID a *relevance/confidence* quantity, never a
-    hard gate.
+  - **Grid coverage TODO.** Our grid {0.1–0.5} omits EVEREST's low end — they
+    sweep down to 0.03 ({0.5, 0.3, 0.1, 0.05, 0.03, 0.01}), the regime a sparse
+    family may need to clear the depth floor. Worth adding {0.05, 0.03} before
+    running a new protein.
+  - Alignment selection (Neff/L > 1, then max fraction ≥90% ID) lives only in
+    `plot_threshold_sweep.py`; the scoring pipeline emits the inputs (`Neff`,
+    `Neff_at_90pct_identity`) but no step picks an alignment.
 
 ## Gotchas
 

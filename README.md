@@ -405,9 +405,9 @@ than inventing a new approach, and note it here if you deviate.
 - **Alignment selection is DMS-blind and per protein** (EVEREST Methods A.6.1):
   among alignments with Neff/L > 1, use the one with the highest *fraction* of
   sequences within 90% identity of the query (`Neff@90%ID / Neff`). Never select
-  on rho (leakage), and don't gate selection on a `Neff@90%ID ≥ N` cutoff — that
-  is EVEREST's separate cross-protein *confidence* flag, not a selection rule.
-  Sweep the threshold per protein (the best alignment is protein-specific) and
+  on rho — using the DMS you're predicting to choose the pipeline is validation
+  leakage. Sweep the threshold per protein (the best alignment is
+  protein-specific) and
   **keep scoring every swept threshold, not just the selected one**: the
   selection rule can pick a degenerate alignment (on Spike, 2026 selects 0.5 —
   80% imputed, rho 0.03), and only the full set surfaces that.
