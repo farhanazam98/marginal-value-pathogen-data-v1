@@ -91,8 +91,7 @@ No biology background assumed.
 | `Neff` | Effective sequence count: sum of weights, where each sequence's weight is 1/(size of its ≥99%-identity cluster). Corrects for databases oversampling intensively-sequenced lineages. |
 | `Neff_over_L` | `Neff / L_final`. The standard alignment-depth statistic. |
 | `clears_depth_floor` | Whether `Neff_over_L ≥ 1.0`, EVEREST's selection threshold. **False for every year** — under EVEREST's own heuristic these alignments would not be selected for downstream modeling, which limits how much weight the absolute rho values can bear. |
-| `Neff_at_90pct_identity` | Reliability metric from Methods A.6.1; paper's threshold is 30. |
-| `clears_reliability` | Whether that threshold is met. |
+| `Neff_at_90pct_identity` | Relevance metric from Methods A.6.1: effective count of sequences within 90% identity of the query. Its share of `Neff` (`Neff_at_90pct_identity / Neff`) is EVEREST's within-protein alignment-selection signal. |
 | `n_singleton_sequences` | Sequences in a cluster of one — a redundancy indicator. |
 
 ### Scoring (step 05)

@@ -1,0 +1,14 @@
+{
+  "n_dms_variants": 3802,
+  "n_prediction_rows": 3802,
+  "n_joined": 3802,
+  "n_dropped_from_dms": 0,
+  "n_dropped_from_predictions": 0,
+  "spearman_rho": 0.06531225174167599,
+  "spearman_pvalue": 5.573984121715951e-05,
+  "bootstrap_n": 10000,
+  "bootstrap_ci_95_lo": 0.03212301285130546,
+  "bootstrap_ci_95_hi": 0.09867181529538074,
+  "spearman_rho_excluding_imputed": 0.10647804599460105,
+  "n_excluding_imputed": 2002
+}

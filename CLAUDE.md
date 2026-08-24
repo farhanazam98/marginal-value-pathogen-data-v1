@@ -61,6 +61,13 @@ approach, and add it to that section if you deviate.
   `config.load_config()`, so the search and the reuse fingerprint both see
   it), tagging cells `<year>_t<thr>` so they coexist in one
   `sweep_results.csv` — see README's "Running the bit-score threshold sweep".
+  - **Grid coverage TODO.** Our grid {0.1–0.5} omits EVEREST's low end — they
+    sweep down to 0.03 ({0.5, 0.3, 0.1, 0.05, 0.03, 0.01}), the regime a sparse
+    family may need to clear the depth floor. Worth adding {0.05, 0.03} before
+    running a new protein.
+  - Alignment selection (Neff/L > 1, then max fraction ≥90% ID) lives only in
+    `plot_threshold_sweep.py`; the scoring pipeline emits the inputs (`Neff`,
+    `Neff_at_90pct_identity`) but no step picks an alignment.
 
 ## Gotchas
 

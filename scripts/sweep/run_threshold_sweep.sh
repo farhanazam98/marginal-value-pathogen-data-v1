@@ -20,6 +20,8 @@
 # Usage: run_threshold_sweep.sh [-j N] -t "0.1 0.2 0.3 0.4 0.5" <year> [<year> ...]
 #   -t "..."  space-separated bit-score-per-residue thresholds (required). Include
 #             0.3 (the config baseline) so the _t0.3 cells re-derive the year sweep.
+#             TODO: our grid omits EVEREST's low end (they sweep down to 0.03);
+#             consider adding {0.05 0.03} for a new protein. See CLAUDE.md.
 #   -j N      max concurrent pipelines per threshold (default 6; passed to run_sweep.sh)
 #
 # Runs in the foreground; launch it detached (setsid nohup ... &) to survive the
