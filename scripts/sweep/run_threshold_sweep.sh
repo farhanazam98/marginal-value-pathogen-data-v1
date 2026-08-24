@@ -20,6 +20,8 @@
 # Usage: run_threshold_sweep.sh [-j N] -t "0.1 0.2 0.3 0.4 0.5" <year> [<year> ...]
 #   -t "..."  space-separated bit-score-per-residue thresholds (required). Include
 #             0.3 (the config baseline) so the _t0.3 cells re-derive the year sweep.
+#             TODO: reposition the grid toward the values EVEREST actually selects
+#             — {0.5 0.3 0.1 0.05 0.03} (or {0.5 0.1 0.03}); see CLAUDE.md.
 #   -j N      max concurrent pipelines per threshold (default 6; passed to run_sweep.sh)
 #
 # Runs in the foreground; launch it detached (setsid nohup ... &) to survive the
