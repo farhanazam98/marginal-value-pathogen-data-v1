@@ -17,11 +17,15 @@
 # Do NOT set SWEEP_ROOT: every cell must land in run_sweep.sh's default
 # data/sweep root so collect.py can rebuild one merged sweep_results.csv.
 #
-# Usage: run_threshold_sweep.sh [-j N] -t "0.1 0.2 0.3 0.4 0.5" <year> [<year> ...]
-#   -t "..."  space-separated bit-score-per-residue thresholds (required). Include
-#             0.3 (the config baseline) so the _t0.3 cells re-derive the year sweep.
-#             TODO: our grid omits EVEREST's low end (they sweep down to 0.03);
-#             consider adding {0.05 0.03} for a new protein. See CLAUDE.md.
+# Usage: run_threshold_sweep.sh [-j N] [-t "0.01 0.03 0.05 0.1 0.3 0.5"] <year> [<year> ...]
+#   -t "..."  space-separated bit-score-per-residue thresholds. Optional: the
+#             default is EVEREST's exact grid (Methods A.6.1), which includes the
+#             config baseline 0.3 (so its _t0.3 cell re-derives the plain year
+#             sweep) and the low end where a sparse family clears the Neff/L depth
+#             floor. COST: the default runs 6 thresholds SEQUENTIALLY (the PID
+#             lock forbids concurrent sweeps), so an ordinary run is ~6x a single
+#             year sweep -- pass -t to narrow it. NOTE this is 6 independent DB
+#             scans; the "threshold changes are free" gotcha is per-search only.
 #   -j N      max concurrent pipelines per threshold (default 6; passed to run_sweep.sh)
 #
 # Runs in the foreground; launch it detached (setsid nohup ... &) to survive the
@@ -31,8 +35,8 @@ set -euo pipefail
 DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 JOBS=6
-THRESHOLDS=""
-usage() { echo 'usage: run_threshold_sweep.sh [-j N] -t "0.1 0.2 0.3 0.4 0.5" <year> [<year> ...]' >&2; exit 2; }
+THRESHOLDS="0.01 0.03 0.05 0.1 0.3 0.5"   # EVEREST-exact default grid; -t overrides
+usage() { echo 'usage: run_threshold_sweep.sh [-j N] [-t "0.01 0.03 0.05 0.1 0.3 0.5"] <year> [<year> ...]' >&2; exit 2; }
 
 while getopts ":j:t:" opt; do
   case "$opt" in
@@ -43,7 +47,7 @@ while getopts ":j:t:" opt; do
 done
 shift $((OPTIND - 1))
 
-[ -n "$THRESHOLDS" ] && [ "$#" -gt 0 ] || usage
+[ -n "$THRESHOLDS" ] && [ "$#" -gt 0 ] || usage   # default is non-empty; rejects only an explicit -t ""
 
 for thr in $THRESHOLDS; do
   specs=()

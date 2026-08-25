@@ -166,21 +166,30 @@ signal the year sweep found declining then plateauing — use
 `scripts/sweep/run_threshold_sweep.sh`:
 
 ```bash
-scripts/sweep/run_threshold_sweep.sh -j 6 -t "0.1 0.2 0.3 0.4 0.5" 2010 2011 ... 2026
+scripts/sweep/run_threshold_sweep.sh -j 6 2010 2011 ... 2026
 python scripts/sweep/collect.py
 ```
+
+With no `-t`, it sweeps EVEREST's exact grid `{0.01 0.03 0.05 0.1 0.3 0.5}` by
+default; pass `-t "..."` to narrow it. **The default runs 6 thresholds
+sequentially** (the per-protein PID lock forbids concurrent sweeps under one
+root), so an ordinary run is **~6× a single year sweep** — these are 6
+independent full-database scans, not one scan reused (the "threshold changes are
+free" note applies per search, not across the grid). Narrow with `-t` when you
+don't need the full grid.
 
 It's a thin wrapper over `run_sweep.sh`: for each threshold it sets the
 `BITSCORE_PER_RESIDUE` env override (read by `config.load_config()`, so both the
 jackhmmer search and the PSSM-reuse fingerprint honor it) and runs a year sweep
-whose cells are tagged `<year>_t<thr>` (e.g. `2018_t0.2`). Each cell gets its own
+whose cells are tagged `<year>_t<thr>` (e.g. `2018_t0.05`). Each cell gets its own
 sandbox `data/sweep/<protein>/<year>_t<thr>` and merges into the same
 `sweep_results.csv`, with its threshold already in the
 `bitscore_per_residue`/`threshold_bits` columns. Thresholds run **sequentially**
 (the per-protein PID lock forbids concurrent sweeps under one root); years run
-**concurrently** within a threshold. Include the config baseline (0.3 for spike)
-in the list so its `_t0.3` cells re-derive — and, since the pipeline is
-deterministic, validate against — the plain year sweep. Do **not** set
+**concurrently** within a threshold. The default grid already includes the config
+baseline (0.3 for spike), so its `_t0.3` cells re-derive — and, since the pipeline
+is deterministic, validate against — the plain year sweep; keep 0.3 in any `-t`
+you pass to preserve that check. Do **not** set
 `SWEEP_ROOT`: every cell must land in the default `data/sweep` root so
 `collect.py` can rebuild one merged table (collecting from a root holding only
 some cells silently truncates the CSV — its only tell is the `Wrote … (N rows)`
