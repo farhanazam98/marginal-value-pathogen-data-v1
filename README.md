@@ -367,17 +367,62 @@ disk, for whichever protein is under study.
     assays, `starr_binding` and `starr_expression`.
   - **Main protease (Mpro)** (`config/protease.yaml`) — SARS-CoV-2 Mpro,
     306 aa (`data/proteins/protease_protein.fasta`, header still generic
-    `>protease_protein`). Bit-score threshold `0.1` bits/residue (the
-    EVcouplings/Hopf/EVEREST convention). DMS assay: `flynn_fitness`.
+    `>protease_protein`). Bit-score threshold `0.1` bits/residue — one of the
+    six values in EVEREST's swept grid (0.01–0.5), used as protease's
+    single-threshold baseline, not a tuned or canonical value. DMS assay:
+    `flynn_fitness`.
   - Spike's `0.3` threshold was originally picked by maximizing rho on Spike
-    itself — validation leakage. Protease instead uses the literature
-    convention (`0.1`) rather than being re-tuned the same way, so the two
-    proteins are not running under the same threshold. Spike's config hasn't
-    been changed to match, so any cross-protein comparison below is
-    confounded by threshold as well as by protein identity. A
-    `(year × threshold)` grid driver now exists to probe this directly — see
-    "Running the bit-score threshold sweep" above — but no cells have been
-    run with it yet.
+    itself — validation leakage. Protease instead runs at a fixed `0.1`
+    baseline (one of EVEREST's six swept thresholds) rather than being rho-tuned
+    the way Spike's `0.3` was. Spike has since been run across the full
+    `(year × threshold)` grid, and threshold turns out not to be load-bearing
+    for its finding (see Findings) — but protease has only ever run at its
+    single `0.1` point, so the Spike-vs-protease contrast is still confounded
+    by threshold as well as by protein identity. The final round closes this:
+    protease is re-swept across the same grid (alongside the new proteins
+    below), so the two can be compared at matched thresholds. See "Running the
+    bit-score threshold sweep" above.
+
+### Final-round proteins (configured, sweep pending)
+
+Four more proteins are configured for the final round, picked to span the range
+of how much each virus's sequence data has grown and diversified since 2010 — so
+the rho-vs-year shape can be read against a control and a hypervariable case, not
+just one virus. Each has a `config/<name>.yaml`, a query FASTA, and its EVEREST
+DMS CSV(s) committed, and none has been swept yet. Run each on its own
+snapshot-bearing machine through the full threshold grid (see "Running proteins
+across separate machines").
+
+| Virus | Protein | Config | DMS (EVEREST) | aa | Role |
+|-------|---------|--------|---------------|----|------|
+| Influenza A H1N1 | Hemagglutinin (H1 HA) | `flu_h1_ha` | `IAV_H1_HA_Doud`, `IAV_H1_HA_Wu` | 565 | influenza; two labs share one PSSM |
+| HIV-1 (BG505) | Envelope (Env) | `hiv_env` | `HIV1_BG505_ENV_Haddox` | 860 | HIV |
+| AAV2 | Capsid (VP1) | `aav2_capsid` | `AAV2_CAPSD_Sinai` | 735 | control virus |
+| Dengue | Polyprotein region (POLG) | `dengue_polg` | `DENV_POLG_Suphatrakul` | 900 | priority arbovirus |
+
+What each protein is, in plain terms:
+
+- **Flu hemagglutinin** — the surface knob the flu virus uses to enter cells and
+  the main target of flu antibodies (the reason the shot is updated yearly). Doud
+  2016 and Wu 2014 independently scanned the same H1, so their two assays share
+  one PSSM and give a built-in reliability check at no extra search cost.
+- **HIV envelope** — the surface protein HIV uses to enter immune cells; one of
+  the fastest-mutating proteins known, constantly reshaping to dodge immunity.
+- **AAV2 capsid** — the outer protein shell of a small, slowly-evolving virus
+  repurposed as a gene-therapy delivery vehicle; the "little has changed" control.
+- **Dengue polyprotein** — a segment of the single large protein dengue makes and
+  cleaves apart; carries core machinery the virus uses to copy itself. Dengue is a
+  mosquito-borne WHO-priority virus.
+
+Each config's `bitscore_per_residue` is set to `0.1` as a baseline, but the final
+round runs the **full `(year × threshold)` grid** via `run_threshold_sweep.sh`
+(see "Running the bit-score threshold sweep"), which overrides that per-config
+value. EVEREST has no single canonical threshold — it generates alignments at all
+six length-normalized bit scores `{0.01, 0.03, 0.05, 0.1, 0.3, 0.5}` and selects
+one per protein (see "Key methodology to preserve") — so the `0.1` in each config
+only sets what a plain single-threshold run or the baseline plot would use. Each
+DMS shares its query's numbering: every variant's wild-type residue matches the
+query, so no coordinate offset is needed.
 
 ### Progress
 
