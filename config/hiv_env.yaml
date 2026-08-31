@@ -1,0 +1,11 @@
+# Per-protein pipeline config. Selected by the PROTEIN_CONFIG env var
+# (default: config/spike.yaml). Steps 00/01 read the query and threshold;
+# steps 05/06 score every assay listed here against the one PSSM built for
+# this protein.
+name: HIV1_BG505_Env
+query_fasta: data/proteins/hiv_env.fasta
+bitscore_per_residue: 0.1   # baseline value; the final round sweeps EVEREST's full grid {0.01-0.5}
+assays:
+  - id: haddox_fitness
+    csv: data/dms/HIV1_BG505_ENV_Haddox_dms.csv
+    label: Haddox 2018 Env fitness (BG505)
