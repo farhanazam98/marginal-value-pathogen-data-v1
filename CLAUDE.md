@@ -92,7 +92,7 @@ machines" is the durable source of truth.
   the plan.
 
 Build order once the proteins are finalized:
-1. Commit each protein's `config/<protein>.yaml`, query FASTA, and DMS CSV.
+1. ~~Commit each protein's `config/<protein>.yaml`, query FASTA, and DMS CSV.~~
 2. Bake one snapshot image per protein (correct years, non-zero on disk).
 3. Put git push creds (deploy key/PAT) on the worker image.
 4. Stand up the orchestrator (repo + `boto3` + `systemd` unit; instance role
