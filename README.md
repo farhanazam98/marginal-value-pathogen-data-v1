@@ -199,6 +199,53 @@ count).
 config baseline threshold — so the threshold-vs-rho comparison is a separate
 visualization, not this figure.
 
+## Running proteins across separate machines
+
+To sweep several proteins at once, give each protein its own machine and its
+own git branch, then combine at the end. The results stay separable because
+everything a run writes is already keyed by protein — sandboxes at
+`data/sweep/<protein>/`, the per-protein PID lock, `logs/`, and the per-protein
+plot. The one file that is *not* per-protein is `data/sweep_results.csv`, so
+the whole workflow rests on one rule: **leave that file alone on the
+per-protein machines and rebuild it once, at the end.**
+
+Per protein, on its own machine (an image/clone that already carries the repo
+and this protein's snapshots — see Data acquisition below):
+
+```bash
+git checkout main && git pull            # pick up any newly-committed protein configs
+git checkout -b sweep/<protein>
+PROTEIN_CONFIG=config/<protein>.yaml scripts/sweep/run_threshold_sweep.sh -j 6 \
+  2010 2011 2012 2013 2014 2015 2016 2017 2018 2020 2022 2024 2026
+git add data/sweep/<protein>             # commit only this protein's metas + STATUS
+git commit -m "Sweep <protein> across the threshold grid"
+git push -u origin sweep/<protein>
+```
+
+Do **not** run `collect.py` or `plot.py` on these machines. `collect.py` would
+rewrite the tracked `data/sweep_results.csv` in the working tree, and if that
+rewrite reached the branch, merging two proteins' branches would collide on it —
+the same reason "Running the sweep across years" gives for regenerating the
+headline artifacts only on the full-snapshot machine. Confirm nothing staged it
+before pushing (`git status` should not list `data/sweep_results.csv`).
+
+Combine once, on the machine with the full snapshot set (so `db_n_seqs`/
+`db_n_residues` fill from its `.stats.json` sidecars), after merging every branch:
+
+```bash
+git checkout main
+git merge sweep/<A> sweep/<B> sweep/<C>  # disjoint meta dirs, no conflict
+python scripts/sweep/collect.py          # rebuild the full CSV from every protein's metas
+for p in <A> <B> <C>; do PROTEIN_CONFIG=config/$p.yaml python scripts/sweep/plot.py; done
+git add data/sweep_results.csv plots/ && git commit -m "Combine protein sweeps"
+```
+
+A new protein needs its `config/<protein>.yaml`, query FASTA, and DMS CSV
+committed before launch (see Configuring which protein). Only the multi-GB
+snapshots are per-machine; on an image-cloned instance they ride along on the
+cloned volume, but confirm they are present and non-zero before launching (a
+missing or empty snapshot fails the run rather than silently producing nothing).
+
 ## Data acquisition (UniRef100 snapshots)
 
 `scripts/download_uniref100.py` fetches one year's UniRef100 FASTA at a time:

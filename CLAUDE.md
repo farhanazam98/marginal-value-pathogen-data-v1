@@ -72,6 +72,12 @@ approach, and add it to that section if you deviate.
 
 ## Gotchas
 
+- **Never run `collect.py` or commit `data/sweep_results.csv` on a per-protein
+  sweep branch.** That CSV is the one artifact not partitioned by protein, so a
+  regenerated copy on the branch makes two proteins' branches collide on merge.
+  Commit only `data/sweep/<protein>` metas; rebuild the CSV once at combine, on
+  the full-snapshot machine — see README's "Running proteins across separate
+  machines".
 - **jackhmmer doesn't parallelize past ~2 cores per job.** Don't increase
   `--cpu` to speed up a single search; get parallelism from running more
   concurrent jobs instead.
