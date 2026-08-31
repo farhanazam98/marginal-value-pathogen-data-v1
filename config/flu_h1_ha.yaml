@@ -1,0 +1,16 @@
+# Per-protein pipeline config. Selected by the PROTEIN_CONFIG env var
+# (default: config/spike.yaml). Steps 00/01 read the query and threshold;
+# steps 05/06 score every assay listed here against the one PSSM built for
+# this protein.
+name: IAV_H1_HA
+query_fasta: data/proteins/flu_h1_ha.fasta
+bitscore_per_residue: 0.1   # baseline value; the final round sweeps EVEREST's full grid {0.01-0.5}
+assays:
+  # Doud 2016 and Wu 2014 measured the same A/WSN/1933 H1 HA, so their DMS
+  # share this single query without a coordinate offset (WT verified identical).
+  - id: doud_fitness
+    csv: data/dms/IAV_H1_HA_Doud_dms.csv
+    label: Doud 2016 HA fitness
+  - id: wu_fitness
+    csv: data/dms/IAV_H1_HA_Wu_dms.csv
+    label: Wu 2014 HA fitness
