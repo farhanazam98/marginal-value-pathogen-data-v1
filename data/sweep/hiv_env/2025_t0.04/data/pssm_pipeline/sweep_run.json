@@ -1,0 +1,8 @@
+{
+  "tag": "2025_t0.04",
+  "year": 2025,
+  "snapshot": "/home/ec2-user/marginal-value-pathogen-data-v1/data/snapshots/uniref100_2025_01.fasta",
+  "snapshot_bytes": 205602905135,
+  "protein_config": "config/hiv_env.yaml",
+  "started": "2026-09-02T08:00:31+0000"
+}
