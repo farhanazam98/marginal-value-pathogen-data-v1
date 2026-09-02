@@ -1,0 +1,8 @@
+{
+  "tag": "2022_t0.3",
+  "year": 2022,
+  "snapshot": "/home/ec2-user/marginal-value-pathogen-data-v1/data/snapshots/uniref100_2022_01.fasta",
+  "snapshot_bytes": 132765626704,
+  "protein_config": "config/dengue_polg.yaml",
+  "started": "2026-09-02T14:20:57+0000"
+}
