@@ -1,0 +1,8 @@
+{
+  "tag": "2024_t0.5",
+  "year": 2024,
+  "snapshot": "/home/ec2-user/marginal-value-pathogen-data-v1/data/snapshots/uniref100_2024_01.fasta",
+  "snapshot_bytes": 175787678944,
+  "protein_config": "config/flu_h1_ha.yaml",
+  "started": "2026-09-03T02:19:44+0000"
+}

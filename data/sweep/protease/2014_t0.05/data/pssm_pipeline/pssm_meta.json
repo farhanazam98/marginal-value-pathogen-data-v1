@@ -1,0 +1,11 @@
+{
+  "alphabet_aa_only": "ACDEFGHIKLMNPQRSTVWY",
+  "pseudocount": 1.0,
+  "L": 102,
+  "row_sums_ok": true,
+  "n_query_gaps": 0,
+  "frac_columns_wt_not_top": 0.8235294117647058,
+  "entropy_bits_min": 0.8830245104685956,
+  "entropy_bits_max": 4.02373390165406,
+  "entropy_bits_mean": 2.943198959599268
+}
