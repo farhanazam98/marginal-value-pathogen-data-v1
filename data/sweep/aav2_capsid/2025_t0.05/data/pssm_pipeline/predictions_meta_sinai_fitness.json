@@ -1,0 +1,10 @@
+{
+  "n_variants": 532,
+  "n_scored_directly": 0,
+  "n_imputed": 532,
+  "imputed_value": NaN,
+  "wt_wt_all_zero": true,
+  "frac_negative_scores_non_imputed": NaN,
+  "predicted_score_mean": NaN,
+  "predicted_score_std": NaN
+}

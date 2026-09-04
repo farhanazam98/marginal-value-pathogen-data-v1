@@ -1,0 +1,13 @@
+{
+  "theta": 0.01,
+  "identity_cutoff": 0.99,
+  "N": 3237,
+  "L": 519,
+  "Neff": 1046.5184501884498,
+  "depth_Neff_over_L": 2.016413198821676,
+  "depth_floor": 1.0,
+  "clears_depth_floor": true,
+  "reliability_id_cutoff": 0.9,
+  "Neff_at_90pct_identity": 351.5939149726388,
+  "n_singleton_sequences": 783
+}

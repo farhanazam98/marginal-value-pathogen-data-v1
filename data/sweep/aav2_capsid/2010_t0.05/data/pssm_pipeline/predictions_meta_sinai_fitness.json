@@ -1,0 +1,10 @@
+{
+  "n_variants": 532,
+  "n_scored_directly": 456,
+  "n_imputed": 76,
+  "imputed_value": -2.797993415380229,
+  "wt_wt_all_zero": true,
+  "frac_negative_scores_non_imputed": 0.9495614035087719,
+  "predicted_score_mean": -2.7979934153802293,
+  "predicted_score_std": 1.553922934135447
+}

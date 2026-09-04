@@ -1,0 +1,8 @@
+{
+  "tag": "2017_t0.05",
+  "year": 2017,
+  "snapshot": "/home/ec2-user/marginal-value-pathogen-data-v1/data/snapshots/uniref100_2017_01.fasta",
+  "snapshot_bytes": 41916375057,
+  "protein_config": "config/aav2_capsid.yaml",
+  "started": "2026-09-02T23:50:24+0000"
+}
