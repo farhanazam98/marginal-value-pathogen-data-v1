@@ -352,6 +352,24 @@ overrides it.
   rho, and only by returning degenerate near-duplicate-only alignments that fail
   the depth floor. See `plots/spike_threshold_sweep*.png`.
 
+- **DMS-blind alignment selection (A.6.1) picks 0.1 bits/res for 2012–2024, 0.5
+  for 2026.** `Neff@90%ID / Neff` (the query-restricted 99%-weighted count;
+  `03_weights.py`) selects the 0.1-threshold alignment as having the highest
+  fraction of sequences within 90% identity of the query for all modellable years
+  through 2024. For 2026, the strictest threshold (0.5) has the highest prop90 by
+  this metric — but it produces a degenerate alignment (high imputed fraction, rho
+  ≈ 0.03), exactly the case the "keep scoring every swept threshold" rule is meant
+  to catch. The per-year selection table below uses the current (query-specific)
+  metric; a prior global implementation had picked 0.3 for 2020–2026 instead:
+
+  | year | selected threshold | binding ρ | expression ρ | prior threshold | prior binding ρ | prior expression ρ |
+  |------|--------------------|-----------|--------------|-----------------|-----------------|---------------------|
+  | 2012–2018 | 0.1 | 0.109–0.142 | 0.204–0.227 | 0.1 | (same) | (same) |
+  | 2020 | 0.1 | 0.128 | 0.220 | 0.3 | 0.123 | 0.190 |
+  | 2022 | 0.1 | 0.099 | 0.194 | 0.3 | 0.106 | 0.189 |
+  | 2024 | 0.1 | 0.097 | 0.202 | 0.3 | 0.107 | 0.199 |
+  | 2026 | 0.5 | 0.026 | 0.056 | 0.3 | 0.110 | 0.196 |
+
 > Update this section as status changes; keep CLAUDE.md pointing here rather than
 > duplicating it. Completed work lives in git history, not a TODO list here.
 
