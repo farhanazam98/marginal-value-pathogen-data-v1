@@ -25,7 +25,7 @@
   "bitscore_per_residue": 0.3,
   "query_length": 1273,
   "threshold_bits": 381.9,
-  "elapsed_seconds": 5632.4,
+  "elapsed_seconds": 5597.1,
   "n_hits": 3870,
   "n_alignment_rows": 3873,
   "rounds": 5,

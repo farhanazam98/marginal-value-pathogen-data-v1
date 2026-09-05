@@ -19,13 +19,13 @@
     "data/pssm_pipeline/msa_raw_hits.tbl",
     "--noali",
     "data/pssm_pipeline/query.fasta",
-    "data/uniref100_2010.fasta"
+    "/home/ec2-user/marginal-value-pathogen-data-v1/data/snapshots/uniref100_2017_01.fasta"
   ],
-  "database": "data/uniref100_2010.fasta",
+  "database": "/home/ec2-user/marginal-value-pathogen-data-v1/data/snapshots/uniref100_2017_01.fasta",
   "bitscore_per_residue": 0.3,
   "query_length": 1273,
   "threshold_bits": 381.9,
-  "elapsed_seconds": 6061.6,
+  "elapsed_seconds": 2492.4,
   "n_hits": 2283,
   "n_alignment_rows": 2284,
   "rounds": 5,
