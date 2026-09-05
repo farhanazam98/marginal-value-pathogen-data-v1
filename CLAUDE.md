@@ -65,7 +65,11 @@ approach, and add it to that section if you deviate.
     {0.01, 0.03, 0.05, 0.1, 0.3, 0.5} by default (the low end is the regime a
     sparse family needs to clear the depth floor). This makes an ordinary run 6
     sequential DB scans (~6× a single year sweep, since the PID lock serializes
-    thresholds); pass `-t` to narrow it.
+    thresholds); pass `-t` to narrow it. In practice the lowest thresholds can
+    be dropped per protein when those scans exceed the wall-clock budget on the
+    larger snapshots (cf. EVEREST.pdf), so a protein's swept grid may be a
+    subset of this — e.g. flu ran {0.05, 0.1, 0.3, 0.5}, dengue
+    {0.03, 0.04, 0.05, 0.1, 0.3, 0.5}.
   - Alignment selection (Neff/L > 1, then max fraction ≥90% ID) lives only in
     `plot_threshold_sweep.py`; the scoring pipeline emits the inputs (`Neff`,
     `Neff_at_90pct_identity`) but no step picks an alignment.

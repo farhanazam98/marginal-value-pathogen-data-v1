@@ -298,7 +298,8 @@ snapshot-bearing machine through the full threshold grid.
 
 Each config's `bitscore_per_residue` is `0.1` as a baseline, but the final round
 runs the full `(year × threshold)` grid via `run_threshold_sweep.sh`, which
-overrides it.
+overrides it. These runs also carry a 2025 UniRef100 snapshot (14 years, not
+13), added as a direct comparison point to EVEREST's 2025 publication.
 
 ### Progress
 
