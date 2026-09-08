@@ -33,6 +33,10 @@ OUT_PNG_PICK = REPO_ROOT / "plots" / f"{PROTEIN}_threshold_sweep_everest_pick.pn
 # Sequential (ColorBrewer Blues, darkened): threshold is ordinal, so a single-hue
 # ramp reads "looser -> stricter" as light -> dark. Keyed by bits/residue.
 THRESHOLD_COLORS = {
+    0.01: "#f7fbff",
+    0.03: "#deebf7",
+    0.04: "#c6dbef",
+    0.05: "#b3d3e8",
     0.1: "#9ecae1",
     0.2: "#6baed6",
     0.3: "#4292c6",
@@ -142,7 +146,7 @@ def main():
                            markeredgecolor="#1a1a1a", markerfacecolor="#888", markersize=8,
                            label="EVEREST pick")]
     thr_handles = [Line2D([], [], marker="o", linestyle="none", markersize=8,
-                          color=THRESHOLD_COLORS[t], markeredgecolor="#1a1a1a",
+                          color=THRESHOLD_COLORS.get(t, "#888888"), markeredgecolor="#1a1a1a",
                           label=f"{t:g} bits/res")
                    for t in sorted(df["bitscore_per_residue"].unique())]
     leg1 = axes[-1].legend(handles=pick_handles, frameon=False, loc="upper left",

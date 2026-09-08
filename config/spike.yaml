@@ -3,7 +3,7 @@
 # steps 05/06 score every assay listed here against the one PSSM built for
 # this protein.
 name: SARS2_Spike
-query_fasta: data/proteins/protein.fasta
+query_fasta: data/proteins/spike.fasta
 bitscore_per_residue: 0.3   # per-protein jackhmmer inclusion cutoff, bits/residue
 assays:
   # Both Starr 2020 assays use full-Spike numbering, so they share this

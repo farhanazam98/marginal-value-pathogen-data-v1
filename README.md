@@ -6,18 +6,18 @@ A research project measuring whether PSSM mutation-effect prediction accuracy
 (Spearman rho vs. a DMS assay) changes as UniRef100 database snapshots grow
 2010→2026, accounting for sequence diversity (e.g. Neff@90%ID). It is a minimal
 reimplementation of the alignment-based half of the EVEREST pipeline
-(Gurev/Youssef/Marks, bioRxiv 2025.08.04.668549; local copy `docs/EVEREST.pdf`).
-Two proteins are swept so far: SARS-CoV-2 Spike (vs. Starr 2020 DMS) and
-SARS-CoV-2 main protease (vs. Flynn fitness DMS) — see Current status.
+(Gurev/Youssef/Marks, bioRxiv 2025.08.04.668549,
+<https://doi.org/10.1101/2025.08.04.668549>). Five proteins are swept: SARS-CoV-2
+Spike and main protease, influenza H1 HA, HIV-1 Env, and dengue POLG — see
+Current status.
 
 ## Results
 
 ![PSSM accuracy vs. UniRef100 snapshot year, 2010-2026](plots/pssm_accuracy_vs_snapshot_year.png)
 ![Protease PSSM accuracy vs. UniRef100 snapshot year, 2010-2026](plots/protease_accuracy_vs_snapshot_year.png)
 
-Spike's accuracy (Spearman's rho) drops as the database grows through 2018, then
-holds roughly flat through 2026; protease's does not decline at all — see
-Current status → Findings for the numbers and caveats. Source data:
+Each curve is one protein's Spearman rho against its DMS assay at the config
+baseline threshold, across UniRef100 snapshots 2010–2026. Source data:
 `data/sweep_results.csv` (columns documented in
 `data/sweep_results_dictionary.md`); regenerate a plot with
 `PROTEIN_CONFIG=config/<name>.yaml python scripts/sweep/plot.py`.
@@ -72,7 +72,7 @@ with `PROTEIN_CONFIG` (default `config/spike.yaml`):
 
 ```yaml
 name: SARS2_Spike
-query_fasta: data/proteins/protein.fasta
+query_fasta: data/proteins/spike.fasta
 bitscore_per_residue: 0.3
 assays:
   - {id: starr_binding,    csv: data/dms/SARS2_RBD_Starr_binding_dms.csv, label: Starr 2020 ACE2 binding}
@@ -142,9 +142,9 @@ With no `-t` it sweeps EVEREST's grid `{0.01 0.03 0.05 0.1 0.3 0.5}`; pass
 `-t "..."` to narrow it. Thresholds run **sequentially** (the per-protein PID
 lock forbids concurrent sweeps under one root), years concurrently within a
 threshold, so the full grid is ~6× a single year sweep — six independent
-database scans, not one reused. The default grid includes the spike baseline
-0.3, whose `_t0.3` cells re-derive and (the pipeline being deterministic)
-validate the plain year sweep; keep 0.3 in any `-t` to preserve that check. Do
+database scans, not one reused. Every cell is named `<year>_t<thr>`, a protein's
+baseline threshold included, so a grid is self-describing: reading a cell never
+depends on knowing which config default was active when it ran. Do
 **not** set `SWEEP_ROOT` — every cell must land in the default `data/sweep` root
 or `collect.py` silently truncates the merged table (its only tell is the
 `Wrote … (N rows)` count).
@@ -232,30 +232,33 @@ are on disk differs per machine and isn't committed; check `ls data/snapshots`.
 
 - `config/*.yaml` — per-protein configs (query FASTA, threshold, assay list);
   `config/spike.yaml` is the default, selected by `PROTEIN_CONFIG`. Tracked.
-- `data/proteins/` — one query FASTA per protein (`protein.fasta` = full-length
-  Spike, 1273 aa; `protease_protein.fasta` = Mpro, 306 aa). Tracked.
-- `data/dms/` — one CSV per assay: `SARS2_RBD_Starr_binding_dms.csv` and
-  `SARS2_RBD_Starr_expression.csv` (Starr 2020 Spike, RBD positions 331–531);
-  `SARS2_MRPO_Flynn_dms.csv` (protease fitness). Each shares its query's
-  numbering. Tracked.
+- `data/proteins/` — one query FASTA per protein: `spike.fasta` (full-length
+  Spike, 1273 aa), `protease_protein.fasta` (Mpro, 306 aa), `flu_h1_ha.fasta`,
+  `hiv_env.fasta`, `dengue_polg.fasta`. Tracked.
+- `data/dms/` — one CSV per assay, each sharing its query's residue numbering:
+  `SARS2_RBD_Starr_binding_dms.csv` and `SARS2_RBD_Starr_expression.csv` (Starr
+  2020 Spike, RBD positions 331–531), `SARS2_MRPO_Flynn_dms.csv` (protease
+  fitness), `IAV_H1_HA_Doud_dms.csv` and `IAV_H1_HA_Wu_dms.csv`,
+  `HIV1_BG505_ENV_Haddox_dms.csv`, `DENV_POLG_Suphatrakul_dms.csv`. Tracked.
 - `data/pssm_pipeline/` — gitignored checkpoint dir for a by-hand pipeline run
   from the repo root; steps 05–06 write one set per assay.
-- `data/sweep/<protein>/<cell>/` — per-cell sweep sandboxes (`<cell>` is a year,
-  or `<year>_t<thr>`), each a self-contained pipeline working dir. Only the JSON
+- `data/sweep/<protein>/<year>_t<thr>/` — per-cell sweep sandboxes, one per
+  (year, threshold), each a self-contained pipeline working dir. Only the JSON
   metas + `STATUS` are tracked — enough for `collect.py` to rebuild
   `sweep_results.csv`; the heavy binaries are gitignored.
 - `data/snapshots/` — gitignored multi-GB UniRef100 FASTA snapshots plus
   `.stats.json` sidecars; usually a symlink to scratch/NVMe.
 - `data/uniprotref_yearly_archive_sizes.csv` — combined UniRef50+90+100 archive
-  size per year; feeds the growth plot and `download_uniref100.py`'s expected
-  cluster counts.
+  size per year. A pipeline *input*, not a derived artifact: `download_uniref100.py`
+  reads it from this path for its expected cluster counts.
 - `data/sweep_results.csv` — one row per `(protein, year, assay)`, keyed by
   `(protein, tag, dms_id)`, carrying every step's metrics; columns in
   `data/sweep_results_dictionary.md`. Produced by `collect.py`, not hand-edited.
 - `plots/` — tracked PNGs linked from this README, regenerated by `plot.py` (one
-  per `PROTEIN_CONFIG`). `expression_vs_binding.png` is a standalone figure, not
-  produced by any current script.
-- `calibration.csv` — timed measurements from early calibration runs; the
+  per `PROTEIN_CONFIG`). `expression_vs_binding.png` and
+  `uniprotref_archive_growth.png` are standalone figures, not produced by any
+  current script.
+- `docs/calibration.csv` — timed measurements from early calibration runs; the
   findings drawn from it live in CLAUDE.md's Gotchas, not read by any script.
 
 ## Current status
@@ -263,120 +266,64 @@ are on disk differs per machine and isn't committed; check `ls data/snapshots`.
 **Goal:** a curve of PSSM mutation-effect-prediction accuracy versus database
 snapshot year, for whichever protein is under study.
 
-### Configured proteins
+### Proteins
 
 Per-protein settings are read from the `PROTEIN_CONFIG` config (see Configuring
-which protein). Two proteins are fully swept:
+which protein). Five proteins are swept, picked to span how much each virus's
+sequence data has grown since 2010 — so the rho-vs-year shape can be read against
+a slow-evolving control and a hypervariable case, not just one virus.
 
-- **Spike** (`config/spike.yaml`) — SARS-CoV-2 Spike, 1273 aa. Threshold `0.3`
-  bits/residue. Assays: `starr_binding`, `starr_expression` (both Starr 2020).
-- **Protease / Mpro** (`config/protease.yaml`) — SARS-CoV-2 Mpro, 306 aa.
-  Threshold `0.1` bits/residue. Assay: `flynn_fitness`.
+| Virus | Protein | Config | DMS assay id(s) | aa | Swept thresholds (bits/residue) |
+|-------|---------|--------|-----------------|----|---------------------------------|
+| SARS-CoV-2 | Spike | `spike` | `starr_binding`, `starr_expression` | 1273 | 0.1, 0.2, 0.3, 0.4, 0.5 |
+| SARS-CoV-2 | Main protease (Mpro) | `protease` | `flynn_fitness` | 306 | 0.03, 0.04, 0.05, 0.1, 0.3, 0.5 |
+| Influenza A H1N1 | Hemagglutinin (H1 HA) | `flu_h1_ha` | `doud_fitness`, `wu_fitness` | 565 | 0.05, 0.1, 0.3, 0.5 |
+| HIV-1 (BG505) | Envelope (Env) | `hiv_env` | `haddox_fitness` | 860 | 0.03, 0.04, 0.05, 0.1, 0.3, 0.5 |
+| Dengue | Polyprotein region (POLG) | `dengue_polg` | `suphatrakul_fitness` | 900 | 0.03, 0.04, 0.05, 0.1, 0.3, 0.5 |
 
-Spike's `0.3` was picked by maximizing rho on Spike itself — validation leakage.
-Protease runs at a fixed `0.1` baseline (one of EVEREST's six swept thresholds),
-not rho-tuned. Spike has since run the full `(year × threshold)` grid and
-threshold turns out not to matter for its finding (see Findings), but protease
-has only run at `0.1`, so the Spike-vs-protease contrast is still confounded by
-threshold as well as protein identity. The final round re-sweeps protease across
-the same grid to close this.
+Each config's `bitscore_per_residue` is only a baseline for a single-threshold
+run; `run_threshold_sweep.sh` overrides it, so the swept grid above is what the
+committed cells actually contain. The grids are not identical across proteins:
+Spike's brackets its own `0.3` baseline, while the others track EVEREST's grid
+without the loosest thresholds, whose searches exceed the wall-clock budget on
+the bigger snapshots.
 
-### Final-round proteins (configured, sweep pending)
+Spike's `0.3` baseline comes from maximizing rho on Spike itself, which is
+validation leakage; it serves only as the config default for a single-threshold
+run. No tuned threshold is load-bearing, because results are reported across
+every swept threshold. Where a best-performing threshold is singled out, it is
+chosen using the DMS itself and so is a theoretical upper bound on what
+threshold choice could buy, not a value the pipeline reaches unaided.
 
-Four more proteins, picked to span how much each virus's sequence data has grown
-since 2010 — so the rho-vs-year shape can be read against a slow-evolving control
-and a hypervariable case, not just one virus. Each has a config, query FASTA, and
-EVEREST DMS CSV(s) committed; none is swept. Run each on its own
-snapshot-bearing machine through the full threshold grid.
-
-| Virus | Protein | Config | DMS (EVEREST) | aa | Role |
-|-------|---------|--------|---------------|----|------|
-| Influenza A H1N1 | Hemagglutinin (H1 HA) | `flu_h1_ha` | `IAV_H1_HA_Doud`, `IAV_H1_HA_Wu` | 565 | influenza; two labs share one PSSM |
-| HIV-1 (BG505) | Envelope (Env) | `hiv_env` | `HIV1_BG505_ENV_Haddox` | 860 | HIV |
-| AAV2 | Capsid (VP1) | `aav2_capsid` | `AAV2_CAPSD_Sinai` | 735 | control virus |
-| Dengue | Polyprotein region (POLG) | `dengue_polg` | `DENV_POLG_Suphatrakul` | 900 | priority arbovirus |
-
-Each config's `bitscore_per_residue` is `0.1` as a baseline, but the final round
-runs the full `(year × threshold)` grid via `run_threshold_sweep.sh`, which
-overrides it. These runs also carry a 2025 UniRef100 snapshot (14 years, not
-13), added as a direct comparison point to EVEREST's 2025 publication.
+**Snapshot years.** Spike ran 13 years (2010–2018, 2020, 2022, 2024, 2026). The
+other four ran those plus a 2025 snapshot — 14 years — added as a direct
+comparison point to EVEREST's 2025 publication.
 
 ### Progress
 
-- **Spike sweep complete**: 13 years (2010–2018, 2020, 2022, 2024, 2026), both
-  assays — 26 rows in `data/sweep_results.csv`.
-- **Protease sweep complete**: the same 13 years, one assay — 13 rows.
-- Sandboxes live under `data/sweep/<protein>/<year>/`; only the JSON metas +
-  `STATUS` are tracked, enough to rebuild the CSV but not to regenerate
-  alignments/PSSMs without rerunning against the snapshots.
+Sandboxes live under `data/sweep/<protein>/<year>_t<thr>/`; only the JSON metas +
+`STATUS` are tracked, enough to rebuild the CSV but not to regenerate
+alignments/PSSMs without rerunning against the snapshots. 373 cells, 494 rows in
+`data/sweep_results.csv` (a row per cell per assay).
 
-### Findings
+| Protein | Cells | Rows | Completed | Notes |
+|---|---|---|---|---|
+| `spike` | 65 | 130 | all | 13 years × 5 thresholds, 2 assays |
+| `flu_h1_ha` | 56 | 112 | all | 14 years × 4 thresholds, 2 assays |
+| `dengue_polg` | 84 | 84 | all | 14 years × 6 thresholds |
+| `protease` | 84 | 84 | 71 of 84 | 13 cells failed at step 03/04, scattered across the loosest thresholds (0.03–0.05) in later years |
+| `hiv_env` | 84 | 84 | 54 of 84 | every post-2018 year (2020, 2022, 2024, 2025, 2026) failed at step 03 at all six thresholds; 2010–2018 is complete |
 
-- **Spike: rho declines, then plateaus, as the snapshot grows.** For
-  `starr_binding`, rho falls from 0.175 (2010, 4.1 GB) to 0.100 (2018, 58.8 GB),
-  then holds at ~0.10–0.12 across 2020–2026 (up to 219 GB) — more homologs, never
-  better agreement with the DMS data. `starr_expression` traces the same shape at
-  a higher baseline (0.248 → 0.172, then ~0.17–0.20).
-  - Endpoint 95% bootstrap CIs for `starr_binding` are disjoint (2010
-    [0.142, 0.208] vs 2018 [0.065, 0.133]), so the 2010→2018 decline is real;
-    2016 breaks the trend upward, and the post-2018 years all overlap, so the
-    plateau is genuinely flat rather than a smooth curve.
-  - Alignment depth `Neff_over_L` (homologs per column, corrected for
-    near-duplicates) climbs monotonically (0.25 → 1.89) and only crosses
-    EVEREST's depth-adequacy floor of 1.0 in 2020 — every 2010–2018 year would
-    fail that check, which limits how much the absolute rho values in that range
-    can bear.
-  - `imputed_frac` (share of DMS variants whose alignment column got dropped, so
-    they get a constant fill instead of a real prediction) swings 0.16–0.42,
-    tracking `L_final` (816–879 of 1273 columns surviving).
-  - `jackhmmer_converged` is `False` for 5 of the 13 years (2010, 2011, 2013,
-    2024, 2026) — the 5-round cap was hit while still finding ~one new hit per
-    round, not a failure.
-
-- **Protease: rho is much higher, and does not decline.** `flynn_fitness` rho
-  starts at 0.541 (2010) and drifts up to 0.572 (2024) / 0.567 (2026) — the
-  opposite direction from Spike. The drift is shallow and the CIs mostly overlap,
-  so read it as "no decline," not a confirmed increase.
-  - `jackhmmer` converges cleanly in every one of the 13 years, unlike Spike.
-  - `imputed_frac` stays near zero (0–0.013): `L_final` is 302–306 of the
-    protein's 306 columns every year.
-  - `Neff_over_L` only crosses the depth floor in 2022, yet the earlier
-    depth-inadequate years still give rho on par with the rest — unlike Spike,
-    where crossing the floor lines up with the point rho stopped declining.
-  - Protease differs from Spike in both bit-score threshold and protein identity
-    (shorter, more conserved), so this contrast is suggestive rather than
-    controlled — it doesn't say whether the threshold or the protein explains the
-    difference.
-
-- **Bit-score threshold is not load-bearing for the Spike finding.** Across
-  {0.1–0.5} bits/residue the decline-then-plateau shape holds; only 0.5 raises
-  rho, and only by returning degenerate near-duplicate-only alignments that fail
-  the depth floor. See `plots/spike_threshold_sweep*.png`.
-
-- **DMS-blind alignment selection (A.6.1) picks 0.1 bits/res for 2012–2024, 0.5
-  for 2026.** `Neff@90%ID / Neff` (the query-restricted 99%-weighted count;
-  `03_weights.py`) selects the 0.1-threshold alignment as having the highest
-  fraction of sequences within 90% identity of the query for all modellable years
-  through 2024. For 2026, the strictest threshold (0.5) has the highest prop90 by
-  this metric — but it produces a degenerate alignment (high imputed fraction, rho
-  ≈ 0.03), exactly the case the "keep scoring every swept threshold" rule is meant
-  to catch. The per-year selection table below uses the current (query-specific)
-  metric; a prior global implementation had picked 0.3 for 2020–2026 instead:
-
-  | year | selected threshold | binding ρ | expression ρ | prior threshold | prior binding ρ | prior expression ρ |
-  |------|--------------------|-----------|--------------|-----------------|-----------------|---------------------|
-  | 2012–2018 | 0.1 | 0.109–0.142 | 0.204–0.227 | 0.1 | (same) | (same) |
-  | 2020 | 0.1 | 0.128 | 0.220 | 0.3 | 0.123 | 0.190 |
-  | 2022 | 0.1 | 0.099 | 0.194 | 0.3 | 0.106 | 0.189 |
-  | 2024 | 0.1 | 0.097 | 0.202 | 0.3 | 0.107 | 0.199 |
-  | 2026 | 0.5 | 0.026 | 0.056 | 0.3 | 0.110 | 0.196 |
+Failed cells keep a `STATUS` of `FAILED:<step>` and appear in the CSV with their
+completed columns filled and the rest blank, so they are visible rather than
+silently missing. They are not re-run yet.
 
 > Update this section as status changes; keep CLAUDE.md pointing here rather than
 > duplicating it. Completed work lives in git history, not a TODO list here.
 
 ## Key methodology to preserve when modifying the pipeline
 
-These choices follow the EVEREST paper (`docs/EVEREST.pdf`); where a decision
+These choices follow the EVEREST paper ([bioRxiv 2025.08.04.668549](https://doi.org/10.1101/2025.08.04.668549)); where a decision
 isn't pinned down below, default to whatever EVEREST does and note any deviation
 here.
 
@@ -387,14 +334,6 @@ here.
   because two sequences differing by 1% can already have meaningfully different
   fitness for this protein. Neff/L (effective sequences per column) is the
   depth-adequacy check against EVEREST's floor of 1.0.
-- **Alignment selection is DMS-blind and per protein** (EVEREST Methods A.6.1):
-  among alignments with Neff/L > 1, use the one with the highest *fraction* of
-  sequences within 90% identity of the query (`Neff@90%ID / Neff`). Never select
-  on rho — using the DMS you're predicting to choose the pipeline is validation
-  leakage. Sweep the threshold per protein and **keep scoring every swept
-  threshold, not just the selected one**: the selection rule can pick a
-  degenerate alignment (on Spike, 2026 selects 0.5 — 80% imputed, rho 0.03), and
-  only the full set surfaces that.
 - **Column/sequence filtering in `02_clean_msa.py`** (drop columns >50% gaps,
   drop sequences <50% query coverage) is computed against the *original* query
   positions independently for both filters, not against each other's output —
