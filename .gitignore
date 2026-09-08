@@ -10,7 +10,7 @@ data/snapshots/**
 *.zip
 
 # UniRef100 snapshots: multi-GB, rebuildable from the XML archive
-# (deliberately NOT a blanket *.fasta -- data/protein.fasta is tracked)
+# (deliberately NOT a blanket *.fasta -- data/proteins/*.fasta are tracked)
 data/uniref100_*.fasta
 data/*.xml.gz
 

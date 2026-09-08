@@ -77,38 +77,6 @@ that section if you deviate.
     `plot_threshold_sweep.py`; the scoring pipeline emits the inputs (`Neff`,
     `Neff_at_90pct_identity`) but no step picks an alignment.
 
-## Orchestration across instances (planned, not yet built)
-
-The following section outlines a persistent orchestrator for running this
-pipeline across different EC2 instances. It adds no new results store: the
-per-protein-branch workflow in README's "Running proteins across separate
-machines" is the durable source of truth.
-
-- **Orchestrator** — a tiny always-on instance running one `boto3` loop under
-  `systemd`. Per protein it provisions a worker, polls the git remote for that
-  protein's branch to reach `STATUS=DONE`, then terminates the worker. Control
-  is via the EC2 API, never SSH; state reloads on restart, so a reboot or
-  network blip recovers on the next tick.
-- **Worker** — launched via EC2 user data (a boot script, so the job is detached
-  from any login). It runs the sweep, commits only `data/sweep/<protein>`, and
-  pushes `sweep/<protein>` — that push, carrying the metas + `STATUS`, is the
-  DONE signal. On failure it pushes `STATUS` and is left running for inspection.
-- **Workers are provisioned fresh**, so each must boot from an image/EBS
-  snapshot already carrying that protein's UniRef100 years. Baking those images
-  is the one real up-front cost; downloading at boot is the slow fallback, not
-  the plan.
-
-Build order once the proteins are finalized:
-1. Bake one snapshot image per protein (correct years, non-zero on disk).
-2. Put git push creds (deploy key/PAT) on the worker image.
-3. Stand up the orchestrator (repo + `boto3` + `systemd` unit; instance role
-   with `RunInstances`/`TerminateInstances`).
-4. Validate the worker path with the cheap single-year check in "Verifying
-   changes" (re-run 2018, confirm `spearman_rho` to 3 dp) — not a full ~2-day
-   dry-run, which burns wall-time for no extra assurance.
-5. Launch the workers in parallel; when every branch is DONE, merge + collect +
-   plot once on the full-snapshot machine (README's combine step).
-
 ## Gotchas
 
 - **Never run `collect.py` or commit `data/sweep_results.csv` on a per-protein

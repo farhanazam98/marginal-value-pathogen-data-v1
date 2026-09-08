@@ -73,7 +73,7 @@ with `PROTEIN_CONFIG` (default `config/spike.yaml`):
 
 ```yaml
 name: SARS2_Spike
-query_fasta: data/proteins/protein.fasta
+query_fasta: data/proteins/spike.fasta
 bitscore_per_residue: 0.3
 assays:
   - {id: starr_binding,    csv: data/dms/SARS2_RBD_Starr_binding_dms.csv, label: Starr 2020 ACE2 binding}
@@ -233,7 +233,7 @@ are on disk differs per machine and isn't committed; check `ls data/snapshots`.
 
 - `config/*.yaml` — per-protein configs (query FASTA, threshold, assay list);
   `config/spike.yaml` is the default, selected by `PROTEIN_CONFIG`. Tracked.
-- `data/proteins/` — one query FASTA per protein: `protein.fasta` (full-length
+- `data/proteins/` — one query FASTA per protein: `spike.fasta` (full-length
   Spike, 1273 aa), `protease_protein.fasta` (Mpro, 306 aa), `flu_h1_ha.fasta`,
   `hiv_env.fasta`, `dengue_polg.fasta`. Tracked.
 - `data/dms/` — one CSV per assay, each sharing its query's residue numbering:
@@ -251,8 +251,7 @@ are on disk differs per machine and isn't committed; check `ls data/snapshots`.
   `.stats.json` sidecars; usually a symlink to scratch/NVMe.
 - `data/uniprotref_yearly_archive_sizes.csv` — combined UniRef50+90+100 archive
   size per year. A pipeline *input*, not a derived artifact: `download_uniref100.py`
-  reads it from this path for its expected cluster counts, so it stays under
-  `data/` while the figure drawn from it lives in `plots/`.
+  reads it from this path for its expected cluster counts.
 - `data/sweep_results.csv` — one row per `(protein, year, assay)`, keyed by
   `(protein, tag, dms_id)`, carrying every step's metrics; columns in
   `data/sweep_results_dictionary.md`. Produced by `collect.py`, not hand-edited.
