@@ -102,19 +102,22 @@ that section if you deviate.
 
 ## Known issues and decisions
 
-- **`prop_90` selects on the wrong quantity — not being fixed.** It should mean
-  "fraction of the alignment within 90% identity *of the query*" (the query row
-  of the identity matrix) but computes how self-redundant the alignment is with
-  itself, which favours small, collapsed, near-duplicate alignments. Sites:
-  `03_weights.py:70-96`, `plot_threshold_sweep.py:119` (the ratio) and `:73`
-  (`idxmax` over it).
-  **Decision:** don't repair the selector. Report every swept threshold, and mark
-  the best-performing cell per `(protein, year)`. That cell is an *oracle* — it
-  is picked using the DMS being predicted, so it is a theoretical upper bound on
-  what threshold choice could buy, not a score the pipeline can reach on its own.
-  Always label it as a ceiling; it is defensible as a bound and indefensible as a
-  result. Any "more data doesn't help" framing waits on this all-threshold
-  analysis.
+- **`Neff_at_90pct_identity` is computed two different ways across the table, so
+  the pipeline needs re-running.** `03_weights.py` derives it the way EVEREST
+  Methods A.6.1 specifies: the 99% weights summed over sequences within 90%
+  identity of the query row. Only spike's 65 cells have been re-run against that
+  code. The other 308 (flu_h1_ha 56, hiv_env 84, dengue_polg 84, protease 84)
+  carry values from an earlier all-pairs formulation that measured internal
+  redundancy rather than proximity to the query. The column is therefore not
+  comparable across proteins, and anything derived from it — alignment selection
+  included — holds only for spike. Re-running step 03 per cell is enough: it
+  needs the stored arrays, not a fresh jackhmmer scan, and scoring (04–06) is
+  unaffected.
+  Report every swept threshold rather than a single selected one, and where a
+  best-performing cell is marked, label it an oracle — it is chosen using the DMS
+  being predicted, so it bounds what threshold choice could buy rather than
+  reporting what the pipeline achieves. Any "more data doesn't help" framing
+  waits on the re-run.
 
 - **Every tracked symlink under `data/sweep` is an absolute EC2 path** — 1622 of
   them, all `/home/ec2-user/...`, so they dangle on any clone. Sandbox

@@ -67,15 +67,14 @@ def main():
     largest_clusters = sorted(set(cluster_size.tolist()), reverse=True)[:5]
     print(f"5 largest cluster sizes observed: {largest_clusters}")
 
-    # --- Relevance metric (Methods A.6.1): Neff @ 90% identity ---
-    # The effective count of sequences within 90% identity of the query. Its
-    # share of total Neff (Neff@90%ID / Neff) is EVEREST's within-protein
-    # alignment-selection signal; see scripts/sweep/plot_threshold_sweep.py.
-    cutoff_90 = RELIABILITY_ID_CUTOFF
-    in_cluster_90 = identity >= cutoff_90
-    cluster_size_90 = in_cluster_90.sum(axis=1)
-    weights_90 = 1.0 / cluster_size_90
-    Neff_90 = weights_90.sum()
+    # --- Relevance metric (EVEREST Methods A.6.1): Neff @ 90% identity ---
+    # Sum of 99%-clustering weights (π_i = 1/S_i) restricted to sequences
+    # within 90% identity of the QUERY ROW specifically. Its share of total
+    # Neff (Neff@90%ID / Neff) is EVEREST's within-protein alignment-selection
+    # signal; see scripts/sweep/plot_threshold_sweep.py.
+    query_idx = meta["query_row_index_in_final_matrix"]
+    near_query = identity[query_idx] >= RELIABILITY_ID_CUTOFF   # includes query itself
+    Neff_90 = float(weights[near_query].sum())
 
     print(f"\n--- Relevance metric: Neff @ {RELIABILITY_ID_CUTOFF:.0%} identity ---")
     print(f"Neff @ 90% ID = {Neff_90:.2f}")

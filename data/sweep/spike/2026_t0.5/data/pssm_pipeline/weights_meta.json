@@ -8,8 +8,6 @@
   "depth_floor": 1.0,
   "clears_depth_floor": true,
   "reliability_id_cutoff": 0.9,
-  "Neff_at_90pct_identity": 141.22799407639835,
-  "reliability_neff_threshold": 30,
-  "clears_reliability_threshold": true,
+  "Neff_at_90pct_identity": 93.07676109350675,
   "n_singleton_sequences": 585
 }
