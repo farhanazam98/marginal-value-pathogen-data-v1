@@ -38,10 +38,11 @@ written explanations as much as to code.
 
 **Match EVEREST's methodology when changing the pipeline.** This project
 reimplements the alignment-based half of EVEREST (Gurev/Youssef/Marks,
-bioRxiv 2025.08.04.668549; local copy `docs/EVEREST.pdf`). When a design
-choice isn't already pinned down by README's "Key methodology to preserve"
-section, default to whatever EVEREST does rather than inventing a new
-approach, and add it to that section if you deviate.
+bioRxiv 2025.08.04.668549, <https://doi.org/10.1101/2025.08.04.668549>). When a
+design choice isn't
+already pinned down by README's "Key methodology to preserve" section, default
+to whatever EVEREST does rather than inventing a new approach, and add it to
+that section if you deviate.
 
 ## Pipeline mechanics
 
@@ -52,9 +53,10 @@ approach, and add it to that section if you deviate.
 - Steps 05/06 fan out over every DMS assay listed in the active config,
   producing one row per `(protein, year, assay)` in `data/sweep_results.csv`,
   keyed by `(protein, tag, dms_id)`.
-- Sandboxes are keyed by `(protein, year)` at `$SWEEP_ROOT/<protein>/<year>`,
+- Sandboxes are keyed by `(protein, cell)` at `$SWEEP_ROOT/<protein>/<cell>`,
   each with a per-protein PID lock, so different proteins can sweep
-  concurrently but a given `(protein, year)` pair cannot run twice at once.
+  concurrently but a given cell cannot run twice at once. Every cell is named
+  `<year>_t<thr>`, so a cell's threshold is readable from its name.
 - The bit-score threshold can be swept too, independent of the per-config
   default: `scripts/sweep/run_threshold_sweep.sh` walks a `(year × threshold)`
   grid via a `BITSCORE_PER_RESIDUE` env override (honored in
@@ -67,8 +69,9 @@ approach, and add it to that section if you deviate.
     sequential DB scans (~6× a single year sweep, since the PID lock serializes
     thresholds); pass `-t` to narrow it. In practice the lowest thresholds can
     be dropped per protein when those scans exceed the wall-clock budget on the
-    larger snapshots (cf. EVEREST.pdf), so a protein's swept grid may be a
-    subset of this — e.g. flu ran {0.05, 0.1, 0.3, 0.5}, dengue
+    larger snapshots, so a protein's swept grid is often a subset. The grids
+    actually committed are: spike {0.1, 0.2, 0.3, 0.4, 0.5}; flu_h1_ha
+    {0.05, 0.1, 0.3, 0.5}; hiv_env, dengue_polg and protease
     {0.03, 0.04, 0.05, 0.1, 0.3, 0.5}.
   - Alignment selection (Neff/L > 1, then max fraction ≥90% ID) lives only in
     `plot_threshold_sweep.py`; the scoring pipeline emits the inputs (`Neff`,
@@ -96,15 +99,14 @@ machines" is the durable source of truth.
   the plan.
 
 Build order once the proteins are finalized:
-1. ~~Commit each protein's `config/<protein>.yaml`, query FASTA, and DMS CSV.~~
-2. Bake one snapshot image per protein (correct years, non-zero on disk).
-3. Put git push creds (deploy key/PAT) on the worker image.
-4. Stand up the orchestrator (repo + `boto3` + `systemd` unit; instance role
+1. Bake one snapshot image per protein (correct years, non-zero on disk).
+2. Put git push creds (deploy key/PAT) on the worker image.
+3. Stand up the orchestrator (repo + `boto3` + `systemd` unit; instance role
    with `RunInstances`/`TerminateInstances`).
-5. Validate the worker path with the cheap single-year check in "Verifying
+4. Validate the worker path with the cheap single-year check in "Verifying
    changes" (re-run 2018, confirm `spearman_rho` to 3 dp) — not a full ~2-day
    dry-run, which burns wall-time for no extra assurance.
-6. Launch all four in parallel; when every branch is DONE, merge + collect +
+5. Launch the workers in parallel; when every branch is DONE, merge + collect +
    plot once on the full-snapshot machine (README's combine step).
 
 ## Gotchas
@@ -127,8 +129,37 @@ Build order once the proteins are finalized:
 - **Storage throughput, not CPU, is the EC2 risk.** Search is I/O-bound at
   ~385 MB/s per job in calibration, above the default gp3 EBS baseline
   (125 MB/s) — a year's FASTA needs to be page-cached or on local NVMe, or
-  search runs roughly 3x slower than measured. See `calibration.csv` for the
+  search runs roughly 3x slower than measured. See `docs/calibration.csv` for the
   raw numbers behind these three.
+
+## Known issues and decisions
+
+- **`prop_90` selects on the wrong quantity — not being fixed.** It should mean
+  "fraction of the alignment within 90% identity *of the query*" (the query row
+  of the identity matrix) but computes how self-redundant the alignment is with
+  itself, which favours small, collapsed, near-duplicate alignments. Sites:
+  `03_weights.py:70-96`, `plot_threshold_sweep.py:119` (the ratio) and `:73`
+  (`idxmax` over it).
+  **Decision:** don't repair the selector. Report every swept threshold, and mark
+  the best-performing cell per `(protein, year)`. That cell is an *oracle* — it
+  is picked using the DMS being predicted, so it is a theoretical upper bound on
+  what threshold choice could buy, not a score the pipeline can reach on its own.
+  Always label it as a ceiling; it is defensible as a bound and indefensible as a
+  result. Any "more data doesn't help" framing waits on this all-threshold
+  analysis.
+
+- **Every tracked symlink under `data/sweep` is an absolute EC2 path** — 1622 of
+  them, all `/home/ec2-user/...`, so they dangle on any clone. Sandbox
+  scaffolding, not results: `collect.py` reads only the JSON metas and `STATUS`.
+  Fix: stop tracking them, or emit them relative in `run_year.sh`.
+
+- **Open decision: how to make the year axis consistent.** Spike ran 13 years;
+  the other four ran 14, having added a 2025 snapshot as an EVEREST comparison
+  point. So no figure can currently put all five on one axis without a caveat.
+  The options, none picked yet: drop the 2025 cells and standardise on the
+  shared 13 years (2010–2018, 2020, 2022, 2024, 2026); sweep spike's 2025 to
+  bring it up to 14; or keep the asymmetry and state which axis every figure
+  uses. Decide before any cross-protein figure ships.
 
 ## Verifying changes
 
