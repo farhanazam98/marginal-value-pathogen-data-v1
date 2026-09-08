@@ -6,7 +6,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 See `README.md` for setup, the PSSM pipeline (steps, dependency chain, how to
 run them), data acquisition, data layout, current status (active config,
-sweep progress, findings), and the methodology invariants to preserve when
+sweep progress), and the methodology invariants to preserve when
 modifying the pipeline. Keep the two in sync when either changes — don't
 duplicate README content here; add to it only what a human README wouldn't
 carry (agent-facing notes, in-flight state).

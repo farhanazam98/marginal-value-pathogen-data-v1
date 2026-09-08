@@ -16,9 +16,8 @@ Current status.
 ![PSSM accuracy vs. UniRef100 snapshot year, 2010-2026](plots/pssm_accuracy_vs_snapshot_year.png)
 ![Protease PSSM accuracy vs. UniRef100 snapshot year, 2010-2026](plots/protease_accuracy_vs_snapshot_year.png)
 
-Spike's accuracy (Spearman's rho) drops as the database grows through 2018, then
-holds roughly flat through 2026; protease's does not decline at all — see
-Current status → Findings for the numbers and caveats. Source data:
+Each curve is one protein's Spearman rho against its DMS assay at the config
+baseline threshold, across UniRef100 snapshots 2010–2026. Source data:
 `data/sweep_results.csv` (columns documented in
 `data/sweep_results_dictionary.md`); regenerate a plot with
 `PROTEIN_CONFIG=config/<name>.yaml python scripts/sweep/plot.py`.
@@ -318,49 +317,6 @@ alignments/PSSMs without rerunning against the snapshots. 373 cells, 494 rows in
 Failed cells keep a `STATUS` of `FAILED:<step>` and appear in the CSV with their
 completed columns filled and the rest blank, so they are visible rather than
 silently missing. They are not re-run yet.
-
-### Findings
-
-- **Spike: rho declines, then plateaus, as the snapshot grows.** For
-  `starr_binding`, rho falls from 0.175 (2010, 4.1 GB) to 0.100 (2018, 58.8 GB),
-  then holds at ~0.10–0.12 across 2020–2026 (up to 219 GB) — more homologs, never
-  better agreement with the DMS data. `starr_expression` traces the same shape at
-  a higher baseline (0.248 → 0.172, then ~0.17–0.20).
-  - Endpoint 95% bootstrap CIs for `starr_binding` are disjoint (2010
-    [0.142, 0.208] vs 2018 [0.065, 0.133]), so the 2010→2018 decline is real;
-    2016 breaks the trend upward, and the post-2018 years all overlap, so the
-    plateau is genuinely flat rather than a smooth curve.
-  - Alignment depth `Neff_over_L` (homologs per column, corrected for
-    near-duplicates) climbs monotonically (0.25 → 1.89) and only crosses
-    EVEREST's depth-adequacy floor of 1.0 in 2020 — every 2010–2018 year would
-    fail that check, which limits how much the absolute rho values in that range
-    can bear.
-  - `imputed_frac` (share of DMS variants whose alignment column got dropped, so
-    they get a constant fill instead of a real prediction) swings 0.16–0.42,
-    tracking `L_final` (816–879 of 1273 columns surviving).
-  - `jackhmmer_converged` is `False` for 5 of the 13 years (2010, 2011, 2013,
-    2024, 2026) — the 5-round cap was hit while still finding ~one new hit per
-    round, not a failure.
-
-- **Protease: rho is much higher, and does not decline.** `flynn_fitness` rho
-  starts at 0.541 (2010) and drifts up to 0.572 (2024) / 0.567 (2026) — the
-  opposite direction from Spike. The drift is shallow and the CIs mostly overlap,
-  so read it as "no decline," not a confirmed increase.
-  - `jackhmmer` converges cleanly in every one of the 14 years, unlike Spike.
-  - `imputed_frac` stays near zero (0–0.013): `L_final` is 302–306 of the
-    protein's 306 columns every year.
-  - `Neff_over_L` only crosses the depth floor in 2022, yet the earlier
-    depth-inadequate years still give rho on par with the rest — unlike Spike,
-    where crossing the floor lines up with the point rho stopped declining.
-  - Protease differs from Spike in both bit-score threshold and protein identity
-    (shorter, more conserved), so this contrast is suggestive rather than
-    controlled — it doesn't say whether the threshold or the protein explains the
-    difference.
-
-- **Bit-score threshold is not load-bearing for the Spike finding.** Across
-  {0.1–0.5} bits/residue the decline-then-plateau shape holds; only 0.5 raises
-  rho, and only by returning degenerate near-duplicate-only alignments that fail
-  the depth floor. See `plots/spike_threshold_sweep*.png`.
 
 > Update this section as status changes; keep CLAUDE.md pointing here rather than
 > duplicating it. Completed work lives in git history, not a TODO list here.
