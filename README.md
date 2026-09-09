@@ -4,12 +4,10 @@
 
 A research project measuring whether PSSM mutation-effect prediction accuracy
 (Spearman rho vs. a DMS assay) changes as UniRef100 database snapshots grow
-2010→2026, accounting for sequence diversity (e.g. Neff@90%ID). It is a minimal
-reimplementation of the alignment-based half of the EVEREST pipeline
-(Gurev/Youssef/Marks, bioRxiv 2025.08.04.668549,
+2010→2026. It is a minimal reimplementation of the alignment-based half of the 
+EVEREST pipeline (Gurev/Youssef/Marks, bioRxiv 2025.08.04.668549,
 <https://doi.org/10.1101/2025.08.04.668549>). Five proteins are swept: SARS-CoV-2
-Spike and main protease, influenza H1 HA, HIV-1 Env, and dengue POLG — see
-Current status.
+Spike and main protease, influenza H1 HA, HIV-1 Env, and dengue POLG . 
 
 ## Results
 
